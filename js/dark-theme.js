@@ -4,6 +4,38 @@
  */
 
 // ===================================
+// ハンバーガーメニュー
+// ===================================
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navItems = document.getElementById('navItems');
+    
+    if (hamburgerMenu && navItems) {
+        hamburgerMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navItems.classList.toggle('active');
+        });
+        
+        // メニューリンクをクリックしたら閉じる
+        const navLinks = navItems.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                navItems.classList.remove('active');
+            });
+        });
+        
+        // 外側をクリックしたら閉じる
+        document.addEventListener('click', function(event) {
+            if (!hamburgerMenu.contains(event.target) && !navItems.contains(event.target)) {
+                hamburgerMenu.classList.remove('active');
+                navItems.classList.remove('active');
+            }
+        });
+    }
+});
+
+// ===================================
 // WebGL背景実装
 // ===================================
 class WebGLBackground {
@@ -373,7 +405,7 @@ class Card3D {
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
     // WebGL背景
-    if (document.getElementById('webgl-canvas')) {
+    if (document.getElementById('webgl-canvas') && window.innerWidth > 768) {
         new WebGLBackground();
     }
     

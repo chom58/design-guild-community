@@ -1561,11 +1561,79 @@ body {
 }
 
 /* ===================================
+   ハンバーガーメニュー
+   =================================== */
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--text-primary);
+    margin: 5px 0;
+    transition: var(--transition-smooth);
+    border-radius: 3px;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ===================================
    レスポンシブ対応
    =================================== */
 @media (max-width: 768px) {
+    /* ナビゲーション */
+    .hamburger-menu {
+        display: block;
+    }
+    
+    .logo-neon svg {
+        width: 180px;
+        height: 45px;
+    }
+    
     .nav-items {
         display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 2rem;
+        border-bottom: 1px solid var(--bg-dark-tertiary);
+        z-index: 999;
+    }
+    
+    .nav-items.active {
+        display: flex;
+    }
+    
+    .nav-items li {
+        width: 100%;
+        text-align: center;
+        margin: 0.5rem 0;
+    }
+    
+    .nav-items .neon-button {
+        width: 100%;
     }
     
     .asymmetric-grid {
@@ -1636,5 +1704,146 @@ body {
     .form-group select,
     .form-group textarea {
         font-size: 16px; /* iOSのズームを防ぐ */
+    }
+    
+    /* ヒーローセクション */
+    .hero-collage {
+        height: 100vh;
+        min-height: 600px;
+    }
+    
+    .tagline-main {
+        font-size: clamp(2rem, 6vw, 3rem);
+    }
+    
+    .tagline-sub {
+        font-size: clamp(0.875rem, 2vw, 1.25rem);
+    }
+    
+    .collage-item {
+        opacity: 0.2;
+    }
+    
+    .collage-item-1 { width: 120px; height: 90px; }
+    .collage-item-2 { width: 100px; height: 130px; }
+    .collage-item-3 { width: 130px; height: 95px; }
+    .collage-item-4 { width: 90px; height: 110px; }
+    .collage-item-5 { width: 140px; height: 105px; }
+    
+    /* セクションタイトル */
+    .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+    
+    /* プロジェクトカード */
+    .project-cards {
+        padding: 1rem;
+        gap: 2rem;
+    }
+    
+    .project-card-3d {
+        height: 350px;
+    }
+    
+    /* コミュニティセクション */
+    .community-main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+    }
+    
+    .community-stats {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    
+    .stat-box {
+        padding: 1.5rem 1rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    /* イベントカード */
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /* フッター */
+    .footer-organizers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 職種タグ */
+    .profession-tags {
+        gap: 0.5rem;
+    }
+    
+    .profession-tag {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    /* CTAセクション */
+    .cta-title {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+    
+    .cta-description {
+        font-size: 1rem;
+    }
+    
+    /* WebGL背景を非表示 */
+    .webgl-background {
+        display: none;
+    }
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 0 3rem;
+    }
+    
+    .project-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .community-main {
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+}
+
+/* 小さいスマホ対応 */
+@media (max-width: 375px) {
+    .tagline-main {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .project-card-3d {
+        height: 300px;
+    }
+    
+    .card-face {
+        padding: 1.5rem;
+    }
+    
+    .community-main {
+        padding: 1.5rem;
     }
 }
