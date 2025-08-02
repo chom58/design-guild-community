@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Design Guild（デザインギルド）は、異分野クリエイターが混ざり合い、未知なる表現を生み出すコミュニティプラットフォーム。グラフィック、Web、ファッション、エンジニアリングなど多様な才能が集まり、新しい価値を創造します。">
+    <meta name="keywords" content="デザインギルド,Design Guild,クロスジャンル,コラボレーション,クリエイティブコミュニティ,異分野交流,デザイナー,エンジニア,アーティスト">
+    
+    <!-- OGP設定 -->
+    <meta property="og:title" content="Design Guild - 混ざる、生まれる、未知なる表現">
+    <meta property="og:description" content="異分野クリエイターが混ざり合い、新しい価値を創造するコミュニティプラットフォーム">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://design-guild.jp">
+    <meta property="og:image" content="https://design-guild.jp/images/ogp-image.png">
+    <meta property="og:site_name" content="Design Guild">
+    <meta property="og:locale" content="ja_JP">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Design Guild - 混ざる、生まれる、未知なる表現">
+    <meta name="twitter:description" content="異分野クリエイターが混ざり合い、新しい価値を創造するコミュニティプラットフォーム">
+    <meta name="twitter:image" content="https://design-guild.jp/images/ogp-image.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- 追加のメタ情報 -->
+    <meta name="theme-color" content="#0F172A">
+    <meta name="author" content="Design Guild">
+    <link rel="canonical" href="https://design-guild.jp">
+    
+    <title>Design Guild - 混ざる、生まれる、未知なる表現 | 異分野クリエイターコミュニティ</title>
+    
+    <!-- 可変フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+    
+    <!-- Three.js for WebGL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- WebGL背景 -->
+    <div class="webgl-background">
+        <canvas id="webgl-canvas"></canvas>
+    </div>
+
+    <!-- ナビゲーション -->
+    <nav class="nav-futuristic">
+        <div class="nav-container">
+            <a href="#" class="logo-neon">
+                <svg viewBox="0 0 280 50" width="280" height="50">
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- D -->
+                    <g transform="translate(10, 25)">
+                        <path d="M0,-20 L15,-20 Q25,-20 25,-10 L25,10 Q25,20 15,20 L0,20 Z M5,-15 L5,15 L15,15 Q20,15 20,10 L20,-10 Q20,-15 15,-15 Z" 
+                              fill="#F8FAFC" filter="url(#glow)"/>
+                    </g>
+                    <!-- design -->
+                    <text x="65" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="400" fill="#F8FAFC">design</text>
+                    <!-- guild -->
+                    <text x="140" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">guild</text>
+                    <!-- G -->
+                    <g transform="translate(250, 25)">
+                        <path d="M20,-10 Q20,-20 10,-20 L-10,-20 Q-20,-20 -20,-10 L-20,10 Q-20,20 -10,20 L10,20 Q20,20 20,10 L20,5 L5,5 L5,0 L15,0 L15,10 Q15,15 10,15 L-10,15 Q-15,15 -15,10 L-15,-10 Q-15,-15 -10,-15 L10,-15 Q15,-15 15,-10 Z" 
+                              fill="#F8FAFC" filter="url(#glow)"/>
+                    </g>
+                </svg>
+            </a>
+            <ul class="nav-items">
+                <li><a href="#about" class="nav-link">はじめに</a></li>
+                <li><a href="#events" class="nav-link">イベント</a></li>
+                <li><a href="#community" class="nav-link">コミュニティ</a></li>
+                <li><button class="neon-button" onclick="showJoinModal()"><span>参加する</span></button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション：生きたコラージュ -->
+    <section class="hero-collage">
+        <div class="collage-layer" data-depth="0.2">
+            <div class="collage-item collage-item-1" data-field="graphic">
+                <div class="collage-icon">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="200" height="150" fill="#1E293B"/>
+                        <g opacity="0.3">
+                            <line x1="0" y1="30" x2="200" y2="30" stroke="#334155" stroke-width="1"/>
+                            <line x1="0" y1="60" x2="200" y2="60" stroke="#334155" stroke-width="1"/>
+                            <line x1="0" y1="90" x2="200" y2="90" stroke="#334155" stroke-width="1"/>
+                            <line x1="0" y1="120" x2="200" y2="120" stroke="#334155" stroke-width="1"/>
+                            <line x1="40" y1="0" x2="40" y2="150" stroke="#334155" stroke-width="1"/>
+                            <line x1="80" y1="0" x2="80" y2="150" stroke="#334155" stroke-width="1"/>
+                            <line x1="120" y1="0" x2="120" y2="150" stroke="#334155" stroke-width="1"/>
+                            <line x1="160" y1="0" x2="160" y2="150" stroke="#334155" stroke-width="1"/>
+                        </g>
+                        <rect x="20" y="20" width="60" height="60" fill="#00D9FF"/>
+                        <circle cx="140" cy="50" r="30" fill="#FF006E"/>
+                        <polygon points="70,100 100,130 40,130" fill="#FFEE00"/>
+                        <text x="120" y="120" font-family="Arial" font-size="16" font-weight="bold" fill="#F8FAFC">DESIGN</text>
+                    </svg>
+                </div>
+                <div class="collage-label">グラフィックデザイン</div>
+            </div>
+            <div class="collage-item collage-item-2" data-field="interactive">
+                <div class="collage-icon">
+                    <svg viewBox="0 0 180 240" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="180" height="240" fill="#1E293B"/>
+                        <g opacity="0.8">
+                            <circle cx="30" cy="40" r="3" fill="#00D9FF"/>
+                            <circle cx="150" cy="60" r="2" fill="#FF006E"/>
+                            <circle cx="90" cy="100" r="4" fill="#FFEE00"/>
+                            <circle cx="60" cy="180" r="3" fill="#00D9FF"/>
+                            <circle cx="120" cy="200" r="2" fill="#FF006E"/>
+                            <circle cx="40" cy="120" r="3" fill="#FFEE00"/>
+                            <circle cx="140" cy="140" r="2" fill="#00D9FF"/>
+                        </g>
+                        <g opacity="0.3">
+                            <line x1="30" y1="40" x2="90" y2="100" stroke="#00D9FF" stroke-width="1"/>
+                            <line x1="90" y1="100" x2="120" y2="200" stroke="#00D9FF" stroke-width="1"/>
+                            <line x1="150" y1="60" x2="140" y2="140" stroke="#00D9FF" stroke-width="1"/>
+                        </g>
+                        <polygon points="90,120 100,140 92,135 85,145" fill="#F8FAFC"/>
+                    </svg>
+                </div>
+                <div class="collage-label">インタラクティブアート</div>
+            </div>
+            <div class="collage-item collage-item-3" data-field="fashion">
+                <div class="collage-icon">
+                    <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="220" height="160" fill="#1E293B"/>
+                        <!-- Tシャツ -->
+                        <g transform="translate(110, 80)">
+                            <!-- 本体 -->
+                            <path d="M-40,-40 L-40,-20 L-60,-10 L-60,10 L-50,10 L-50,50 L50,50 L50,10 L60,10 L60,-10 L40,-20 L40,-40 C40,-40 20,-45 0,-45 C-20,-45 -40,-40 -40,-40 Z" 
+                                  fill="#FF006E" stroke="#FF006E" stroke-width="2"/>
+                            <!-- 襟 -->
+                            <path d="M-20,-40 C-20,-35 -10,-33 0,-33 C10,-33 20,-35 20,-40" 
+                                  fill="none" stroke="#1E293B" stroke-width="3"/>
+                            <!-- デザインパターン -->
+                            <g opacity="0.8">
+                                <circle cx="0" cy="0" r="20" fill="none" stroke="#FFEE00" stroke-width="3"/>
+                                <line x1="-15" y1="0" x2="15" y2="0" stroke="#00D9FF" stroke-width="2"/>
+                                <line x1="0" y1="-15" x2="0" y2="15" stroke="#00D9FF" stroke-width="2"/>
+                            </g>
+                            <!-- ポケット -->
+                            <rect x="-35" y="-15" width="15" height="15" fill="none" stroke="#1E293B" stroke-width="2"/>
+                        </g>
+                        <!-- アクセサリー要素 -->
+                        <g opacity="0.6">
+                            <circle cx="40" cy="30" r="8" fill="#FFEE00"/>
+                            <circle cx="180" cy="130" r="6" fill="#00D9FF"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="collage-label">ファッションデザイン</div>
+            </div>
+            <div class="collage-item collage-item-4" data-field="data">
+                <div class="collage-icon">
+                    <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="160" height="200" fill="#1E293B"/>
+                        <g>
+                            <rect x="20" y="80" width="20" height="60" fill="#00D9FF"/>
+                            <rect x="50" y="55" width="20" height="85" fill="#FF006E"/>
+                            <rect x="80" y="100" width="20" height="40" fill="#FFEE00"/>
+                            <rect x="110" y="50" width="20" height="90" fill="#00D9FF"/>
+                            <rect x="140" y="70" width="20" height="70" fill="#FF006E"/>
+                        </g>
+                        <g stroke="#64748B" stroke-width="2" fill="none">
+                            <line x1="15" y1="140" x2="145" y2="140"/>
+                            <line x1="15" y1="140" x2="15" y2="20"/>
+                        </g>
+                        <g font-family="Arial" font-size="10" fill="#F8FAFC" text-anchor="middle">
+                            <text x="30" y="75">60</text>
+                            <text x="60" y="50">85</text>
+                            <text x="90" y="95">40</text>
+                            <text x="120" y="45">90</text>
+                            <text x="150" y="65">70</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="collage-label">データビジュアライゼーション</div>
+            </div>
+            <div class="collage-item collage-item-5" data-field="experimental">
+                <div class="collage-icon">
+                    <svg viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="240" height="180" fill="#1E293B"/>
+                        <g transform="translate(120,90)">
+                            <polygon points="60,0 30,52 -30,52 -60,0 -30,-52 30,-52" stroke="#00D9FF" stroke-width="3" fill="none"/>
+                            <polygon points="40,0 28,28 0,40 -28,28 -40,0 -28,-28 0,-40 28,-28" stroke="#FF006E" stroke-width="3" fill="none"/>
+                            <circle cx="0" cy="0" r="15" fill="#FFEE00"/>
+                        </g>
+                        <g fill="#64748B">
+                            <rect x="10" y="10" width="60" height="8"/>
+                            <rect x="10" y="25" width="80" height="8"/>
+                            <rect x="10" y="40" width="40" height="8"/>
+                        </g>
+                        <g fill="#00D9FF">
+                            <rect x="10" y="10" width="30" height="8"/>
+                            <rect x="10" y="25" width="50" height="8"/>
+                            <rect x="10" y="40" width="25" height="8"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="collage-label">実験的UI</div>
+            </div>
+        </div>
+        <div class="hero-tagline">
+            <h1 class="tagline-main variable-text scroll-morph">
+                <span class="tagline-line1">混ざる、生まれる、</span>
+                <span class="tagline-line2">未知なる表現</span>
+            </h1>
+            <p class="tagline-sub">異分野のクリエイターが出会い、新しい価値を創造する</p>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse-icon">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- はじめにセクション -->
+    <section class="manifest-section" id="about">
+        <div class="container">
+            <h2 class="section-title neon-text">こんなコラボが生まれたら</h2>
+            <div class="project-cards">
+                <div class="project-card-3d">
+                    <div class="card-inner">
+                        <div class="card-face card-front">
+                            <p class="collab-formula">
+                                グラフィックデザイナー
+                                <span class="collab-operator">×</span>
+                                エンジニア
+                                <span class="collab-result">= インタラクティブポスター</span>
+                            </p>
+                        </div>
+                        <div class="card-face card-back">
+                            <h3>動くポスターの未来</h3>
+                            <p>静的なグラフィックに命を吹き込み、見る人の動きに反応する新しい広告体験を想像してみませんか？</p>
+                            <div class="project-vision">
+                                <span class="vision-tag">💡 アイデア</span>
+                                <span class="vision-tag">🎆 未来の広告</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card-3d">
+                    <div class="card-inner">
+                        <div class="card-face card-front">
+                            <p class="collab-formula">
+                                ファッションデザイナー
+                                <span class="collab-operator">×</span>
+                                データサイエンティスト
+                                <span class="collab-result">= 感情反応する服</span>
+                            </p>
+                        </div>
+                        <div class="card-face card-back">
+                            <h3>感情を纏う服</h3>
+                            <p>バイタルデータと連動して色やパターンが変化する服。あなたの感情を表現する新しいファッションの形</p>
+                            <div class="project-vision">
+                                <span class="vision-tag">🌈 感情表現</span>
+                                <span class="vision-tag">👗 スマートウェア</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card-3d">
+                    <div class="card-inner">
+                        <div class="card-face card-front">
+                            <p class="collab-formula">
+                                マジシャン
+                                <span class="collab-operator">×</span>
+                                UXデザイナー
+                                <span class="collab-result">= 驚きのユーザー体験</span>
+                            </p>
+                        </div>
+                        <div class="card-face card-back">
+                            <h3>驚きのUI体験</h3>
+                            <p>マジックの「ミスディレクション」をUIに応用。ユーザーの予想を良い意味で裏切る、楽しい体験を</p>
+                            <div class="project-vision">
+                                <span class="vision-tag">✨ サプライズ</span>
+                                <span class="vision-tag">🎩 UXマジック</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- イベントセクション -->
+    <section class="events-section" id="events">
+        <div class="container">
+            <h2 class="section-title neon-text">アップカミングイベント</h2>
+            <div class="events-grid">
+                <div class="event-card" style="--event-color: var(--neon-cyan);">
+                    <div class="event-type">ワークショップ</div>
+                    <h3 class="event-title">リミックス・ワークショップ</h3>
+                    <p class="event-description">参加者が持ち寄った作品を他分野のクリエイターがリミックス。グラフィックをインタラクティブに、ファッションをデータビジュアライゼーションに。新しい表現の可能性を探ります。</p>
+                    <div class="event-features">
+                        <span class="feature">🔄 作品の相互リミックス</span>
+                        <span class="feature">✨ 異分野の視点</span>
+                    </div>
+                </div>
+                
+                <div class="event-card" style="--event-color: var(--neon-magenta);">
+                    <div class="event-type">ランチ会</div>
+                    <h3 class="event-title">クリエイティブ・ランチ会</h3>
+                    <p class="event-description">カジュアルなランチタイムに少人数で集まり、特定のテーマについてアイデア交換。「AIとクリエイティブ」「失敗から学んだこと」など、毎回異なるトピックで深い対話を。</p>
+                    <div class="event-features">
+                        <span class="feature">🍽️ リラックスした雰囲気</span>
+                        <span class="feature">💡 深いディスカッション</span>
+                    </div>
+                </div>
+                
+                <div class="event-card" style="--event-color: var(--neon-yellow);">
+                    <div class="event-type">プレゼン</div>
+                    <h3 class="event-title">ポートフォリオ・ナイト</h3>
+                    <p class="event-description">異分野のクリエイター8名が各5分で作品を紹介。プレゼン後は投票で「コラボしたい人」を選出し、マッチングを促進。作品を通じて相性を発見する夜。</p>
+                    <div class="event-features">
+                        <span class="feature">🎨 ライトニングトーク</span>
+                        <span class="feature">🤝 マッチング投票</span>
+                    </div>
+                </div>
+                
+                <div class="event-card" style="--event-color: var(--neon-green);">
+                    <div class="event-type">実験</div>
+                    <h3 class="event-title">実験室セッション</h3>
+                    <p class="event-description">「音×ビジュアル」「データ×ファッション」「マジック×UI」など、毎回異なる分野の組み合わせで実験的なワークショップを開催。未知の表現を一緒に探求しましょう。</p>
+                    <div class="event-features">
+                        <span class="feature">🧪 実験的アプローチ</span>
+                        <span class="feature">🎯 新しい組み合わせ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- クリエイターの交差点 -->
+    <section class="community-section" id="community">
+        <div class="container">
+            <h2 class="section-title neon-text">クリエイターの交差点</h2>
+            <div class="community-container">
+                <div class="community-main">
+                    <div class="community-content">
+                        <h3 class="highlight-title">多様な才能が集まっています</h3>
+                        <p class="highlight-description">グラフィックデザイナーからマジシャンまで、想像を超える多様な分野のクリエイターが集まり、新しい可能性を探求しています。</p>
+                        
+                        <div class="profession-showcase">
+                            <h4 class="showcase-title">参加者の多様な職種</h4>
+                            <div class="profession-tags">
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">グラフィックデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">エディトリアルデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">Webデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">UI/UXデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-magenta);">フロントエンドエンジニア</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-magenta);">バックエンドエンジニア</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-magenta);">AIエンジニア</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-yellow);">イラストレーター</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-yellow);">フォトグラファー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-yellow);">アーティスト</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-green);">映像ディレクター</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-green);">モーションデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">マジシャン</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">新規事業開発</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">プランナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">パッケージデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-cyan);">インダストリアルデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-yellow);">CGデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-magenta);">コンポーザー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-green);">アパレルデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-green);">テキスタイルデザイナー</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">美大生</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">服飾学生</span>
+                                <span class="profession-tag" style="--tag-color: var(--neon-purple);">美容学生</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="community-stats">
+                        <div class="stat-box">
+                            <div class="stat-number neon-text" data-count="36">0</div>
+                            <div class="stat-label">交流会参加者</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number neon-text" data-count="50">0</div>
+                            <div class="stat-label">ベータ版定員</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title variable-text">
+                    あなたの専門性が、<br>
+                    誰かの創造性と出会う場所
+                </h2>
+                <p class="cta-description">
+                    Design Guildは、異なる分野のプロフェッショナルが<br>
+                    境界を越えて協創する実験的プラットフォームです
+                </p>
+                <div class="cta-buttons">
+                    <button class="neon-button neon-button-primary" onclick="showJoinModal()"><span>参加する</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="footer-dark">
+        <div class="container">
+            <!-- 運営メンバー -->
+            <div class="footer-organizers">
+                <h3 class="footer-section-title">運営メンバー</h3>
+                <div class="footer-organizers-grid">
+                    <div class="footer-organizer" onclick="showOrganizerModal('chomu')">
+                        <img src="images/chomu.png" alt="ちょむ" class="footer-organizer-image">
+                        <div class="footer-organizer-info">
+                            <h4>ちょむ</h4>
+                            <p>クリエイターにやたらと縁がある人</p>
+                        </div>
+                    </div>
+                    <div class="footer-organizer" onclick="showOrganizerModal('nozawa')">
+                        <img src="images/nozawa.png" alt="野澤" class="footer-organizer-image">
+                        <div class="footer-organizer-info">
+                            <h4>野澤</h4>
+                            <p>雑誌の凄腕アートディレクター</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="footer-logo neon-text">DESIGN GUILD</h3>
+                    <p class="footer-tagline">混ざる、生まれる、未知なる表現</p>
+                </div>
+                <div class="footer-links">
+                    <h4>活動内容</h4>
+                    <ul>
+                        <li><a href="#about">はじめに</a></li>
+                        <li><a href="#events">イベント</a></li>
+                        <li><a href="#community">コミュニティ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>SNS</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>お問い合わせ</h4>
+                    <p>hello@design-guild.jp</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Design Guild. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 運営メンバーモーダル -->
+    <div id="organizerModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeOrganizerModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- 参加申し込みモーダル -->
+    <div id="joinModal" class="modal">
+        <div class="modal-content modal-form-content">
+            <span class="modal-close" onclick="closeJoinModal()">&times;</span>
+            <div class="join-form-container">
+                <h2 class="form-title">Design Guildに参加する</h2>
+                <p class="form-subtitle">異分野のクリエイターと出会い、新しい表現を創造しましょう</p>
+                
+                <form id="joinForm" class="join-form">
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profession">職種・専門分野 <span class="required">*</span></label>
+                        <select id="profession" name="profession" required>
+                            <option value="">選択してください</option>
+                            <option value="graphic-designer">グラフィックデザイナー</option>
+                            <option value="web-designer">Webデザイナー</option>
+                            <option value="ui-ux-designer">UI/UXデザイナー</option>
+                            <option value="frontend-engineer">フロントエンドエンジニア</option>
+                            <option value="backend-engineer">バックエンドエンジニア</option>
+                            <option value="ai-engineer">AIエンジニア</option>
+                            <option value="illustrator">イラストレーター</option>
+                            <option value="photographer">フォトグラファー</option>
+                            <option value="artist">アーティスト</option>
+                            <option value="video-director">映像ディレクター</option>
+                            <option value="motion-designer">モーションデザイナー</option>
+                            <option value="fashion-designer">ファッションデザイナー</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="otherProfessionGroup" style="display: none;">
+                        <label for="otherProfession">その他の職種</label>
+                        <input type="text" id="otherProfession" name="otherProfession">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">経験年数</label>
+                        <select id="experience" name="experience">
+                            <option value="">選択してください</option>
+                            <option value="0-1">1年未満</option>
+                            <option value="1-3">1〜3年</option>
+                            <option value="3-5">3〜5年</option>
+                            <option value="5-10">5〜10年</option>
+                            <option value="10+">10年以上</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">参加動機・期待すること <span class="required">*</span></label>
+                        <textarea id="motivation" name="motivation" rows="4" required placeholder="どんなコラボレーションに興味がありますか？"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="portfolio">ポートフォリオURL（任意）</label>
+                        <input type="url" id="portfolio" name="portfolio" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="newsletter" name="newsletter" checked>
+                            ニュースレターを受け取る
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">
+                            <span>参加申し込みを送信</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="formSuccess" class="form-success" style="display: none;">
+                    <div class="success-icon">✓</div>
+                    <h3>申し込みが完了しました！</h3>
+                    <p>ご登録いただいたメールアドレスに確認メールをお送りしました。</p>
+                    <button class="neon-button" onclick="closeJoinModal()">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/dark-theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Favicon Generator - Design Guild</title>
+    <style>
+        body {
+            background: #0F172A;
+            color: #F8FAFC;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #334155;
+            margin: 10px;
+            background: #0F172A;
+        }
+        button {
+            background: #00D9FF;
+            color: #0F172A;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #00B8E6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Design Guild - Favicon生成</h1>
+    
+    <div>
+        <h2>16x16 (favicon.ico用)</h2>
+        <canvas id="favicon16" width="16" height="16"></canvas>
+        <button onclick="download('favicon16', 'favicon-16.png')">Download 16x16</button>
+    </div>
+    
+    <div>
+        <h2>32x32 (favicon.ico用)</h2>
+        <canvas id="favicon32" width="32" height="32"></canvas>
+        <button onclick="download('favicon32', 'favicon-32.png')">Download 32x32</button>
+    </div>
+    
+    <div>
+        <h2>192x192 (Android用)</h2>
+        <canvas id="favicon192" width="192" height="192"></canvas>
+        <button onclick="download('favicon192', 'favicon-192.png')">Download 192x192</button>
+    </div>
+    
+    <div>
+        <h2>512x512 (PWA用)</h2>
+        <canvas id="favicon512" width="512" height="512"></canvas>
+        <button onclick="download('favicon512', 'favicon-512.png')">Download 512x512</button>
+    </div>
+
+    <script>
+        function drawFavicon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = '#0F172A';
+            ctx.fillRect(0, 0, size, size);
+            
+            // DとGの文字をシンプルに配置
+            ctx.fillStyle = '#00D9FF';
+            ctx.font = `bold ${size * 0.35}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // D
+            ctx.fillText('D', size * 0.3, size * 0.5);
+            
+            // G
+            ctx.fillText('G', size * 0.7, size * 0.5);
+            
+            // 小さいサイズの場合は線で繋ぐ
+            if (size >= 32) {
+                ctx.strokeStyle = '#00D9FF';
+                ctx.lineWidth = size * 0.03;
+                ctx.beginPath();
+                ctx.moveTo(size * 0.45, size * 0.5);
+                ctx.lineTo(size * 0.55, size * 0.5);
+                ctx.stroke();
+            }
+        }
+        
+        // 各サイズのfaviconを描画
+        drawFavicon('favicon16', 16);
+        drawFavicon('favicon32', 32);
+        drawFavicon('favicon192', 192);
+        drawFavicon('favicon512', 512);
+        
+        // ダウンロード機能
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>

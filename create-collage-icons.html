@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コラージュアイコン生成</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 20px;
+            background: #0F172A;
+            color: #F8FAFC;
+        }
+        .icon-container {
+            margin-bottom: 40px;
+            background: #1E293B;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #334155;
+            display: block;
+            margin: 10px 0;
+            background: #0F172A;
+        }
+        button {
+            background: #00D9FF;
+            color: #0F172A;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #00B8E6;
+        }
+        h2 {
+            color: #00D9FF;
+        }
+    </style>
+</head>
+<body>
+    <h1>デザインギルド - コラージュアイコン生成</h1>
+    
+    <div class="icon-container">
+        <h2>分野別アイコン（200x150）</h2>
+        <div class="icon-preview">
+            <canvas id="graphic" width="200" height="150"></canvas>
+            <button onclick="download('graphic', 'work-1.jpg')">グラフィックデザイン</button>
+        </div>
+        <div class="icon-preview">
+            <canvas id="interactive" width="180" height="240"></canvas>
+            <button onclick="download('interactive', 'work-2.jpg')">インタラクティブアート</button>
+        </div>
+        <div class="icon-preview">
+            <canvas id="fashion" width="220" height="160"></canvas>
+            <button onclick="download('fashion', 'work-3.jpg')">ファッションデザイン</button>
+        </div>
+        <div class="icon-preview">
+            <canvas id="data" width="160" height="200"></canvas>
+            <button onclick="download('data', 'work-4.jpg')">データビジュアライゼーション</button>
+        </div>
+        <div class="icon-preview">
+            <canvas id="experimental" width="240" height="180"></canvas>
+            <button onclick="download('experimental', 'work-5.jpg')">実験的UI</button>
+        </div>
+    </div>
+
+    <script>
+        // グラフィックデザイン
+        function drawGraphicDesign() {
+            const canvas = document.getElementById('graphic');
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(0, 0, 200, 150);
+            
+            // グリッド
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * 40, 0);
+                ctx.lineTo(i * 40, 150);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, i * 30);
+                ctx.lineTo(200, i * 30);
+                ctx.stroke();
+            }
+            
+            // シェイプ
+            ctx.fillStyle = '#00D9FF';
+            ctx.fillRect(20, 20, 60, 60);
+            
+            ctx.fillStyle = '#FF006E';
+            ctx.beginPath();
+            ctx.arc(140, 50, 30, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#FFEE00';
+            ctx.beginPath();
+            ctx.moveTo(70, 100);
+            ctx.lineTo(100, 130);
+            ctx.lineTo(40, 130);
+            ctx.closePath();
+            ctx.fill();
+            
+            // テキスト
+            ctx.font = 'bold 16px Arial';
+            ctx.fillStyle = '#F8FAFC';
+            ctx.fillText('DESIGN', 120, 120);
+        }
+        
+        // インタラクティブアート
+        function drawInteractiveArt() {
+            const canvas = document.getElementById('interactive');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(0, 0, 180, 240);
+            
+            // パーティクル
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * 180;
+                const y = Math.random() * 240;
+                const size = Math.random() * 4 + 1;
+                
+                ctx.fillStyle = i % 3 === 0 ? '#00D9FF' : i % 3 === 1 ? '#FF006E' : '#FFEE00';
+                ctx.globalAlpha = Math.random() * 0.8 + 0.2;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.globalAlpha = 1;
+            
+            // 接続線
+            ctx.strokeStyle = '#00D9FF';
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.3;
+            for (let i = 0; i < 10; i++) {
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * 180, Math.random() * 240);
+                ctx.lineTo(Math.random() * 180, Math.random() * 240);
+                ctx.stroke();
+            }
+            
+            ctx.globalAlpha = 1;
+            
+            // カーソルアイコン
+            ctx.fillStyle = '#F8FAFC';
+            ctx.beginPath();
+            ctx.moveTo(90, 120);
+            ctx.lineTo(100, 140);
+            ctx.lineTo(92, 135);
+            ctx.lineTo(85, 145);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // ファッションデザイン
+        function drawFashion() {
+            const canvas = document.getElementById('fashion');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(0, 0, 220, 160);
+            
+            // Tシャツを描画
+            ctx.save();
+            ctx.translate(110, 80);
+            
+            // Tシャツ本体
+            ctx.fillStyle = '#FF006E';
+            ctx.strokeStyle = '#FF006E';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            // 左袖
+            ctx.moveTo(-40, -40);
+            ctx.lineTo(-40, -20);
+            ctx.lineTo(-60, -10);
+            ctx.lineTo(-60, 10);
+            ctx.lineTo(-50, 10);
+            // 左側本体
+            ctx.lineTo(-50, 50);
+            // 下部
+            ctx.lineTo(50, 50);
+            // 右側本体
+            ctx.lineTo(50, 10);
+            ctx.lineTo(60, 10);
+            // 右袖
+            ctx.lineTo(60, -10);
+            ctx.lineTo(40, -20);
+            ctx.lineTo(40, -40);
+            // 襟
+            ctx.quadraticCurveTo(20, -45, 0, -45);
+            ctx.quadraticCurveTo(-20, -45, -40, -40);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            
+            // 襟のライン
+            ctx.strokeStyle = '#1E293B';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-20, -40);
+            ctx.quadraticCurveTo(-10, -33, 0, -33);
+            ctx.quadraticCurveTo(10, -33, 20, -40);
+            ctx.stroke();
+            
+            // デザインパターン（円と十字）
+            ctx.strokeStyle = '#FFEE00';
+            ctx.lineWidth = 3;
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.arc(0, 0, 20, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.strokeStyle = '#00D9FF';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-15, 0);
+            ctx.lineTo(15, 0);
+            ctx.moveTo(0, -15);
+            ctx.lineTo(0, 15);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+            
+            // ポケット
+            ctx.strokeStyle = '#1E293B';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(-35, -15, 15, 15);
+            
+            ctx.restore();
+            
+            // アクセサリー要素
+            ctx.globalAlpha = 0.6;
+            ctx.fillStyle = '#FFEE00';
+            ctx.beginPath();
+            ctx.arc(40, 30, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#00D9FF';
+            ctx.beginPath();
+            ctx.arc(180, 130, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+        
+        // データビジュアライゼーション
+        function drawDataViz() {
+            const canvas = document.getElementById('data');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(0, 0, 160, 200);
+            
+            // バーチャート
+            const data = [60, 85, 40, 90, 70];
+            const barWidth = 20;
+            const spacing = 10;
+            
+            data.forEach((value, index) => {
+                const height = (value / 100) * 120;
+                const x = 20 + index * (barWidth + spacing);
+                const y = 140 - height;
+                
+                ctx.fillStyle = index % 3 === 0 ? '#00D9FF' : index % 3 === 1 ? '#FF006E' : '#FFEE00';
+                ctx.fillRect(x, y, barWidth, height);
+                
+                // 数値
+                ctx.fillStyle = '#F8FAFC';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(value, x + barWidth / 2, y - 5);
+            });
+            
+            // 軸
+            ctx.strokeStyle = '#64748B';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(15, 140);
+            ctx.lineTo(145, 140);
+            ctx.moveTo(15, 140);
+            ctx.lineTo(15, 20);
+            ctx.stroke();
+        }
+        
+        // 実験的UI
+        function drawExperimentalUI() {
+            const canvas = document.getElementById('experimental');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = '#1E293B';
+            ctx.fillRect(0, 0, 240, 180);
+            
+            // モーフィングする図形
+            ctx.save();
+            ctx.translate(120, 90);
+            
+            // 外側の形
+            ctx.strokeStyle = '#00D9FF';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (i / 6) * Math.PI * 2;
+                const x = Math.cos(angle) * 60;
+                const y = Math.sin(angle) * 60;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            ctx.stroke();
+            
+            // 内側の形
+            ctx.strokeStyle = '#FF006E';
+            ctx.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const radius = i % 2 === 0 ? 40 : 25;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            ctx.stroke();
+            
+            // 中心の円
+            ctx.fillStyle = '#FFEE00';
+            ctx.beginPath();
+            ctx.arc(0, 0, 15, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+            
+            // UI要素
+            ctx.fillStyle = '#64748B';
+            ctx.fillRect(10, 10, 60, 8);
+            ctx.fillRect(10, 25, 80, 8);
+            ctx.fillRect(10, 40, 40, 8);
+            
+            ctx.fillStyle = '#00D9FF';
+            ctx.fillRect(10, 10, 30, 8);
+            ctx.fillRect(10, 25, 50, 8);
+            ctx.fillRect(10, 40, 25, 8);
+        }
+        
+        // 初期描画
+        drawGraphicDesign();
+        drawInteractiveArt();
+        drawFashion();
+        drawDataViz();
+        drawExperimentalUI();
+        
+        // ダウンロード機能
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>

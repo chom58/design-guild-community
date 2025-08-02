@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレースホルダー画像生成</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .canvas-container {
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            border: 1px solid #ddd;
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            background: #5B9BD5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #4A8BC5;
+        }
+    </style>
+</head>
+<body>
+    <h1>デザインギルド - プレースホルダー画像生成</h1>
+    
+    <div class="canvas-container">
+        <h2>OGP画像 (1200x630)</h2>
+        <canvas id="ogp" width="1200" height="630"></canvas>
+        <button onclick="download('ogp', 'ogp.jpg')">ダウンロード</button>
+    </div>
+    
+    <div class="canvas-container">
+        <h2>ソリューション画像 (600x400)</h2>
+        <canvas id="solution1" width="600" height="400"></canvas>
+        <button onclick="download('solution1', 'solution-1.jpg')">ダウンロード 1</button>
+        <canvas id="solution2" width="600" height="400"></canvas>
+        <button onclick="download('solution2', 'solution-2.jpg')">ダウンロード 2</button>
+        <canvas id="solution3" width="600" height="400"></canvas>
+        <button onclick="download('solution3', 'solution-3.jpg')">ダウンロード 3</button>
+    </div>
+    
+    <div class="canvas-container">
+        <h2>メンバー画像 (400x400)</h2>
+        <canvas id="member1" width="400" height="400"></canvas>
+        <button onclick="download('member1', 'member-1.jpg')">ダウンロード 1</button>
+        <canvas id="member2" width="400" height="400"></canvas>
+        <button onclick="download('member2', 'member-2.jpg')">ダウンロード 2</button>
+        <canvas id="member3" width="400" height="400"></canvas>
+        <button onclick="download('member3', 'member-3.jpg')">ダウンロード 3</button>
+    </div>
+
+    <script>
+        // OGP画像
+        const ogpCanvas = document.getElementById('ogp');
+        const ogpCtx = ogpCanvas.getContext('2d');
+        
+        // グラデーション背景
+        const gradient = ogpCtx.createLinearGradient(0, 0, 1200, 630);
+        gradient.addColorStop(0, '#5B9BD5');
+        gradient.addColorStop(1, '#4A8BC5');
+        ogpCtx.fillStyle = gradient;
+        ogpCtx.fillRect(0, 0, 1200, 630);
+        
+        // テキスト
+        ogpCtx.fillStyle = '#FFFFFF';
+        ogpCtx.font = 'bold 72px sans-serif';
+        ogpCtx.textAlign = 'center';
+        ogpCtx.fillText('デザインギルド', 600, 280);
+        ogpCtx.font = '36px sans-serif';
+        ogpCtx.fillText('デザインにもギルドがあったなら', 600, 350);
+        
+        // ソリューション画像
+        const solutionData = [
+            { id: 'solution1', title: 'リソースの共有', color: '#5B9BD5' },
+            { id: 'solution2', title: '専門性の補完', color: '#4A8BC5' },
+            { id: 'solution3', title: '知識の共有', color: '#7BB5E5' }
+        ];
+        
+        solutionData.forEach(data => {
+            const canvas = document.getElementById(data.id);
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = data.color;
+            ctx.fillRect(0, 0, 600, 400);
+            
+            // パターン
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 10; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * 60, 0);
+                ctx.lineTo(i * 60 + 30, 400);
+                ctx.stroke();
+            }
+            
+            // テキスト
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 48px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(data.title, 300, 220);
+        });
+        
+        // メンバー画像
+        const memberData = [
+            { id: 'member1', name: '田中デザイン', color: '#5B9BD5' },
+            { id: 'member2', name: 'Studio Suzuki', color: '#4A8BC5' },
+            { id: 'member3', name: '佐藤クリエイティブ', color: '#7BB5E5' }
+        ];
+        
+        memberData.forEach(data => {
+            const canvas = document.getElementById(data.id);
+            const ctx = canvas.getContext('2d');
+            
+            // 背景
+            ctx.fillStyle = '#F0F0F0';
+            ctx.fillRect(0, 0, 400, 400);
+            
+            // 円形
+            ctx.fillStyle = data.color;
+            ctx.beginPath();
+            ctx.arc(200, 200, 150, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // イニシャル
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 120px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(data.name.charAt(0), 200, 200);
+        });
+        
+        // ダウンロード機能
+        function download(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>
