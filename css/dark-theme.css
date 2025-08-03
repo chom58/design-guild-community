@@ -2800,8 +2800,56 @@ a:focus-visible {
 }
 
 .benefit-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.benefit-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon::before {
+    opacity: 0.2;
+}
+
+.benefit-icon svg {
+    width: 100%;
+    height: 100%;
+    color: var(--neon-cyan);
+    transition: transform 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon svg {
+    transform: scale(1.1);
+}
+
+.benefit-card:nth-child(2) .benefit-icon svg {
+    color: var(--neon-magenta);
+}
+
+.benefit-card:nth-child(3) .benefit-icon svg {
+    color: var(--neon-yellow);
+}
+
+.benefit-card:nth-child(4) .benefit-icon svg {
+    color: var(--neon-green);
 }
 
 .benefit-card h4 {
