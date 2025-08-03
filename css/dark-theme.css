@@ -2772,140 +2772,11 @@ a:focus-visible {
 }
 
 /* ===================================
-   参加後のビジョンセクション
+   メリットセクション
    =================================== */
-.vision-section {
+.benefits-section {
     padding: 5rem 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.vision-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 10% 20%, rgba(0, 217, 255, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 40%);
-    pointer-events: none;
-}
-
-/* タイムライン */
-.vision-timeline {
-    position: relative;
-    padding: 2rem 0;
-    margin-bottom: 4rem;
-}
-
-.vision-timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
-    transform: translateX(-50%);
-}
-
-.timeline-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4rem;
-    position: relative;
-}
-
-.timeline-item:nth-child(even) {
-    flex-direction: row-reverse;
-}
-
-.timeline-marker {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 100px;
-    background: var(--bg-dark);
-    border: 2px solid var(--neon-cyan);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-}
-
-.timeline-marker span {
-    font-weight: 600;
-    color: var(--neon-cyan);
-    text-align: center;
-    font-size: 0.875rem;
-}
-
-.timeline-content {
-    width: 45%;
     background: var(--bg-dark-secondary);
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid var(--bg-dark-tertiary);
-    transition: all 0.3s ease;
-}
-
-.timeline-content:hover {
-    transform: translateY(-5px);
-    border-color: var(--neon-cyan);
-}
-
-.timeline-item:nth-child(odd) .timeline-content {
-    margin-right: auto;
-}
-
-.timeline-item:nth-child(even) .timeline-content {
-    margin-left: auto;
-}
-
-.timeline-content h3 {
-    color: var(--neon-cyan);
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content p {
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-}
-
-.timeline-content ul {
-    list-style: none;
-    padding: 0;
-}
-
-.timeline-content li {
-    color: var(--text-muted);
-    padding-left: 1.5rem;
-    position: relative;
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-}
-
-.timeline-content li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--neon-magenta);
-}
-
-/* ベネフィット */
-.vision-benefits {
-    margin-bottom: 3rem;
-}
-
-.benefits-title {
-    text-align: center;
-    font-size: 1.75rem;
-    margin-bottom: 3rem;
-    color: var(--text-secondary);
 }
 
 .benefits-grid {
@@ -2945,52 +2816,8 @@ a:focus-visible {
 }
 
 /* CTA */
-.vision-cta {
-    text-align: center;
-    padding: 3rem;
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%);
-    border-radius: 16px;
-}
-
-.vision-cta-text {
-    font-size: 1.25rem;
-    color: var(--text-primary);
-    margin-bottom: 2rem;
-    line-height: 1.8;
-}
-
-.neon-button.large {
-    padding: 1rem 3rem;
-    font-size: 1.125rem;
-}
-
 /* レスポンシブ */
 @media (max-width: 768px) {
-    .vision-timeline::before {
-        left: 30px;
-    }
-    
-    .timeline-item,
-    .timeline-item:nth-child(even) {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .timeline-marker {
-        position: relative;
-        left: 0;
-        transform: none;
-        width: 60px;
-        height: 60px;
-        margin-bottom: 1rem;
-    }
-    
-    .timeline-content {
-        width: 100%;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-    
     .benefits-grid {
         grid-template-columns: 1fr;
     }
