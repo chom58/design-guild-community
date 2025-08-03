@@ -49,16 +49,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
+    <!-- ローディング画面 -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="120" height="40" fill="transparent"/>
+                    <text x="5" y="30" font-family="Arial Black, sans-serif" font-size="28" font-weight="900" fill="#00D9FF" class="loading-text-d">D</text>
+                    <rect x="30" y="15" width="25" height="3" fill="#FF006E" class="loading-bar-1"/>
+                    <rect x="30" y="22" width="25" height="3" fill="#FFD600" class="loading-bar-2"/>
+                    <text x="65" y="30" font-family="Arial Black, sans-serif" font-size="28" font-weight="900" fill="#00D9FF" class="loading-text-g">G</text>
+                </svg>
+            </div>
+            <div class="loading-text">混ざる、生まれる、未知なる表現</div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- WebGL背景 -->
     <div class="webgl-background">
         <canvas id="webgl-canvas"></canvas>
     </div>
 
     <!-- ナビゲーション -->
-    <nav class="nav-futuristic">
+    <nav class="nav-futuristic" role="navigation" aria-label="メインナビゲーション">
         <div class="nav-container">
-            <a href="#" class="logo-neon">
-                <svg viewBox="0 0 280 50" width="280" height="50">
+            <a href="#" class="logo-neon" aria-label="Design Guild ホーム">
+                <svg viewBox="0 0 280 50" width="280" height="50" role="img" aria-labelledby="logo-title">
+                    <title id="logo-title">Design Guild ロゴ</title>
                     <defs>
                         <filter id="glow">
                             <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -84,26 +104,26 @@
                     </g>
                 </svg>
             </a>
-            <button class="hamburger-menu" id="hamburgerMenu" aria-label="メニュー">
+            <button class="hamburger-menu" id="hamburgerMenu" aria-label="メニューを開く" aria-expanded="false" aria-controls="navItems">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-items" id="navItems">
-                <li><a href="#about" class="nav-link">はじめに</a></li>
-                <li><a href="#events" class="nav-link">イベント</a></li>
-                <li><a href="#community" class="nav-link">コミュニティ</a></li>
-                <li><button class="neon-button" onclick="showJoinModal()"><span>参加する</span></button></li>
+            <ul class="nav-items" id="navItems" role="menubar">
+                <li><a href="#about" class="nav-link" role="menuitem">はじめに</a></li>
+                <li><a href="/events.html" class="nav-link" role="menuitem">イベント</a></li>
+                <li><a href="#community" class="nav-link" role="menuitem">コミュニティ</a></li>
+                <li><button class="neon-button" onclick="showJoinModal()" aria-label="Design Guildに参加する"><span>参加する</span></button></li>
             </ul>
         </div>
     </nav>
 
     <!-- ヒーローセクション：生きたコラージュ -->
-    <section class="hero-collage">
-        <div class="collage-layer" data-depth="0.2">
+    <section class="hero-collage" role="banner" aria-label="メインビジュアル">
+        <div class="collage-layer" data-depth="0.2" aria-hidden="true">
             <div class="collage-item collage-item-1" data-field="graphic">
                 <div class="collage-icon">
-                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="グラフィックデザイン">
                         <rect width="200" height="150" fill="#1E293B"/>
                         <g opacity="0.3">
                             <line x1="0" y1="30" x2="200" y2="30" stroke="#334155" stroke-width="1"/>
@@ -233,7 +253,7 @@
             </h1>
             <p class="tagline-sub">異分野のクリエイターが出会い、新しい価値を創造する</p>
         </div>
-        <div class="scroll-indicator">
+        <div class="scroll-indicator" aria-hidden="true">
             <div class="mouse-icon">
                 <div class="wheel"></div>
             </div>
@@ -241,21 +261,21 @@
     </section>
 
     <!-- はじめにセクション -->
-    <section class="manifest-section" id="about">
+    <section class="manifest-section" id="about" role="region" aria-label="コラボレーションアイデア">
         <div class="container">
             <h2 class="section-title neon-text">こんなコラボが生まれたら</h2>
             <div class="project-cards">
-                <div class="project-card-3d">
+                <div class="project-card-3d" tabindex="0" role="article" aria-label="グラフィックデザイナー×エンジニア コラボレーション">
                     <div class="card-inner">
                         <div class="card-face card-front">
                             <p class="collab-formula">
                                 グラフィックデザイナー
-                                <span class="collab-operator">×</span>
+                                <span class="collab-operator" aria-label="と">×</span>
                                 エンジニア
-                                <span class="collab-result">= インタラクティブポスター</span>
+                                <span class="collab-result" aria-label="イコール">= インタラクティブポスター</span>
                             </p>
                         </div>
-                        <div class="card-face card-back">
+                        <div class="card-face card-back" aria-hidden="true">
                             <h3>動くポスターの未来</h3>
                             <p>静的なグラフィックに命を吹き込み、見る人の動きに反応する新しい広告体験を想像してみませんか？</p>
                             <div class="project-vision">
@@ -266,17 +286,17 @@
                     </div>
                 </div>
                 
-                <div class="project-card-3d">
+                <div class="project-card-3d" tabindex="0" role="article" aria-label="ファッションデザイナー×データサイエンティスト コラボレーション">
                     <div class="card-inner">
                         <div class="card-face card-front">
                             <p class="collab-formula">
                                 ファッションデザイナー
-                                <span class="collab-operator">×</span>
+                                <span class="collab-operator" aria-label="と">×</span>
                                 データサイエンティスト
-                                <span class="collab-result">= 感情反応する服</span>
+                                <span class="collab-result" aria-label="イコール">= 感情反応する服</span>
                             </p>
                         </div>
-                        <div class="card-face card-back">
+                        <div class="card-face card-back" aria-hidden="true">
                             <h3>感情を纏う服</h3>
                             <p>バイタルデータと連動して色やパターンが変化する服。あなたの感情を表現する新しいファッションの形</p>
                             <div class="project-vision">
@@ -287,17 +307,17 @@
                     </div>
                 </div>
                 
-                <div class="project-card-3d">
+                <div class="project-card-3d" tabindex="0" role="article" aria-label="マジシャン×UXデザイナー コラボレーション">
                     <div class="card-inner">
                         <div class="card-face card-front">
                             <p class="collab-formula">
                                 マジシャン
-                                <span class="collab-operator">×</span>
+                                <span class="collab-operator" aria-label="と">×</span>
                                 UXデザイナー
-                                <span class="collab-result">= 驚きのユーザー体験</span>
+                                <span class="collab-result" aria-label="イコール">= 驚きのユーザー体験</span>
                             </p>
                         </div>
-                        <div class="card-face card-back">
+                        <div class="card-face card-back" aria-hidden="true">
                             <h3>驚きのUI体験</h3>
                             <p>マジックの「ミスディレクション」をUIに応用。ユーザーの予想を良い意味で裏切る、楽しい体験を</p>
                             <div class="project-vision">
@@ -312,7 +332,7 @@
     </section>
 
     <!-- イベントセクション -->
-    <section class="events-section" id="events">
+    <section class="events-section" id="events" role="region" aria-label="イベント情報">
         <div class="container">
             <h2 class="section-title neon-text">アップカミングイベント</h2>
             <div class="events-grid">
@@ -360,7 +380,7 @@
     </section>
 
     <!-- クリエイターの交差点 -->
-    <section class="community-section" id="community">
+    <section class="community-section" id="community" role="region" aria-label="コミュニティ情報">
         <div class="container">
             <h2 class="section-title neon-text">クリエイターの交差点</h2>
             <div class="community-container">
@@ -400,13 +420,13 @@
                         </div>
                     </div>
                     
-                    <div class="community-stats">
+                    <div class="community-stats" role="group" aria-label="コミュニティ統計">
                         <div class="stat-box">
-                            <div class="stat-number neon-text" data-count="36">0</div>
+                            <div class="stat-number neon-text" data-count="36" aria-live="polite">0</div>
                             <div class="stat-label">交流会参加者</div>
                         </div>
                         <div class="stat-box">
-                            <div class="stat-number neon-text" data-count="50">0</div>
+                            <div class="stat-number neon-text" data-count="50" aria-live="polite">0</div>
                             <div class="stat-label">ベータ版定員</div>
                         </div>
                     </div>
@@ -415,7 +435,506 @@
         </div>
     </section>
 
+    <!-- 参加者プロフィール -->
+    <section class="participants-section" id="participants" role="region" aria-label="参加者情報">
+        <div class="container">
+            <h2 class="section-title neon-text">こんな人が参加しています</h2>
+            
+            <!-- 参加者統計 -->
+            <div class="participants-stats">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 class="stat-title">年齢層</h3>
+                        <canvas id="ageChart" width="200" height="200"></canvas>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="stat-title">職種分布</h3>
+                        <canvas id="jobChart" width="200" height="200"></canvas>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="stat-title">経験年数</h3>
+                        <canvas id="experienceChart" width="200" height="200"></canvas>
+                    </div>
+                </div>
+                
+                <div class="first-timer-badge">
+                    <div class="badge-content">
+                        <span class="badge-number">40%</span>
+                        <span class="badge-text">が初参加</span>
+                    </div>
+                    <p class="badge-subtitle">初めての方も安心してご参加ください</p>
+                </div>
+            </div>
+            
+            <!-- 参加者プロフィール -->
+            <div class="participants-profiles">
+                <h3 class="subsection-title">最近参加したメンバー</h3>
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">A</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Aさん</div>
+                                <div class="profile-job">Webデザイナー / 5年目</div>
+                            </div>
+                        </div>
+                        <p class="profile-comment">
+                            「UI/UXの枠を超えて、ファッションデザイナーの方とコラボできました。全く新しい視点でデザインを考えるきっかけに」
+                        </p>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">K</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Kさん</div>
+                                <div class="profile-job">エンジニア / 初参加</div>
+                            </div>
+                        </div>
+                        <p class="profile-comment">
+                            「技術的な話だけでなく、アートやデザインの視点からプログラミングを見直せました。クリエイティブコーディングに興味が」
+                        </p>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">M</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Mさん</div>
+                                <div class="profile-job">グラフィックデザイナー / 10年目</div>
+                            </div>
+                        </div>
+                        <p class="profile-comment">
+                            「経験年数は関係なく、フラットに意見交換できる雰囲気が良い。若手の方の新鮮なアイデアに刺激を受けています」
+                        </p>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">S</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Sさん</div>
+                                <div class="profile-job">映像クリエイター / 3年目</div>
+                            </div>
+                        </div>
+                        <p class="profile-comment">
+                            「静的なデザインと動的な映像の融合について、実践的に学べました。次回のプロジェクトに活かせそうです」
+                        </p>
+                    </div>
+                    
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">Y</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Yさん</div>
+                                <div class="profile-job">建築デザイナー / 7年目</div>
+                            </div>
+                        </div>
+                        <p class="profile-comment">
+                            「空間デザインの考え方がWebやグラフィックにも応用できることを発見。異分野の共通点を見つけるのが楽しい」
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- FAQ -->
+    <section class="faq-section" id="faq" role="region" aria-label="よくある質問">
+        <div class="container">
+            <h2 class="section-title neon-text">よくある質問</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">初めての参加でも大丈夫ですか？</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            もちろん大丈夫です！参加者の約40%が初参加の方です。
+                            最初は緊張するかもしれませんが、運営メンバーがフォローしますし、
+                            アイスブレイクの時間も設けています。異分野の方との出会いを楽しんでください。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">どんな雰囲気のイベントですか？</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            カジュアルでフラットな雰囲気を大切にしています。
+                            経験年数や肩書きに関係なく、お互いをリスペクトしながら
+                            自由にアイデアを交換できる場です。服装も自由ですので、
+                            リラックスしてご参加ください。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">参加費用はいくらですか？</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            イベントによって異なりますが、一般的に以下の価格帯です：<br>
+                            • ワークショップ: 3,000円〜5,000円（材料費込み）<br>
+                            • ランチ会: 1,500円〜2,000円（飲食代込み）<br>
+                            • プレゼンナイト: 無料〜1,000円<br>
+                            学生割引もございます。詳細は各イベントページをご確認ください。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">参加するまでの流れを教えてください</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="participation-flow">
+                            <div class="flow-step">
+                                <div class="flow-number">1</div>
+                                <div class="flow-content">
+                                    <h4>イベントを選ぶ</h4>
+                                    <p>興味のあるイベントを見つけて「参加申し込み」ボタンをクリック</p>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-number">2</div>
+                                <div class="flow-content">
+                                    <h4>フォームを送信</h4>
+                                    <p>必要事項を入力して送信。確認メールが届きます</p>
+                                </div>
+                            </div>
+                            <div class="flow-step">
+                                <div class="flow-number">3</div>
+                                <div class="flow-content">
+                                    <h4>当日参加</h4>
+                                    <p>会場にお越しください。受付でお名前をお伝えください</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">どんな人が参加していますか？</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Webデザイナー、グラフィックデザイナー、エンジニア、映像クリエイター、
+                            建築家、ファッションデザイナーなど、様々な分野のクリエイターが参加しています。
+                            年齢層は20代〜40代が中心で、フリーランスの方も会社員の方もいらっしゃいます。
+                            共通点は「新しい表現を探求したい」という想いです。
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span class="faq-question-text">持ち物や準備は必要ですか？</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            基本的に手ぶらでご参加いただけます。
+                            ワークショップの場合は、必要な道具や材料はこちらで用意します。
+                            ただし、ご自身の作品やポートフォリオがあれば、ぜひお持ちください。
+                            他の参加者と共有することで、より深い交流ができます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 運営メンバー紹介 -->
+    <section class="team-section" id="team" role="region" aria-label="運営メンバー">
+        <div class="container">
+            <h2 class="section-title neon-text">運営メンバー</h2>
+            <p class="section-subtitle">Design Guildを支える情熱的なメンバーたち</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image-wrapper">
+                        <img src="images/chomu.png" alt="ちょむ" class="member-image">
+                        <div class="member-overlay">
+                            <button class="view-profile-btn" onclick="showOrganizerModal('chomu')">
+                                プロフィールを見る
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="member-name">ちょむ</h3>
+                    <p class="member-tagline">クリエイターにやたらと縁がある人</p>
+                    <p class="member-role">ファウンダー / コミュニティマネージャー</p>
+                    <div class="member-message">
+                        「クリエイターでない私が、なぜかクリエイターに囲まれて生きてきました。
+                        その不思議な縁を活かして、異分野のクリエイターが出会い、
+                        新しい価値を生み出す場を作りたいと思っています」
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image-wrapper">
+                        <img src="images/nozawa.png" alt="野澤" class="member-image">
+                        <div class="member-overlay">
+                            <button class="view-profile-btn" onclick="showOrganizerModal('nozawa')">
+                                プロフィールを見る
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="member-name">野澤</h3>
+                    <p class="member-tagline">雑誌の凄腕アートディレクター</p>
+                    <p class="member-role">クリエイティブディレクター</p>
+                    <div class="member-message">
+                        「紙からWebまで、様々なメディアでデザインしてきました。
+                        でも一番面白いのは、異なる分野の人と話すこと。
+                        そこから生まれる化学反応が、次の時代のデザインを作ると信じています」
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image-wrapper">
+                        <div class="member-placeholder">
+                            <span>?</span>
+                        </div>
+                        <div class="member-overlay">
+                            <button class="view-profile-btn" onclick="showJoinModal()">
+                                あなたも仲間に
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="member-name">次はあなた？</h3>
+                    <p class="member-tagline">Design Guildを一緒に作る仲間</p>
+                    <p class="member-role">運営メンバー募集中</p>
+                    <div class="member-message">
+                        「Design Guildは参加者全員で作るコミュニティです。
+                        運営に興味がある方、イベント企画をしたい方、
+                        一緒にこの場を育てていきませんか？」
+                    </div>
+                </div>
+            </div>
+            
+            <div class="team-vision">
+                <h3 class="vision-title">なぜDesign Guildを始めたのか</h3>
+                <div class="vision-content">
+                    <p>
+                        私たちは、異なる分野で活動するクリエイターが出会うことで、
+                        今までにない価値が生まれる瞬間を何度も目撃してきました。
+                    </p>
+                    <p>
+                        グラフィックデザイナーとエンジニアが出会って生まれるインタラクティブアート。
+                        建築家とファッションデザイナーが語り合って見つける空間の新しい可能性。
+                        そんな「混ざる」ことで生まれる創造性を、もっと多くの人に体験してほしい。
+                    </p>
+                    <p>
+                        Design Guildは、そんな想いから生まれました。
+                        ここは、あなたの専門性が誰かの創造性と出会い、
+                        新しい表現が生まれる場所です。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 参加者の声 -->
+    <section class="testimonials-section" id="testimonials" role="region" aria-label="参加者の声">
+        <div class="container">
+            <h2 class="section-title neon-text">参加者の声</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="quote-icon">"</div>
+                        <div class="testimonial-rating">
+                            ★★★★★
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        今まで自分の専門分野だけで考えていたことが、
+                        他分野の視点を取り入れることで全く新しいアイデアになりました。
+                        特にエンジニアの方との会話から、デザインをプログラマブルに考える発想を得られたのが大きかったです。
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <div class="author-name">T.K.</div>
+                            <div class="author-role">グラフィックデザイナー / 参加歴6ヶ月</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="quote-icon">"</div>
+                        <div class="testimonial-rating">
+                            ★★★★★
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        最初は緊張しましたが、アイスブレイクが楽しくてすぐに打ち解けられました。
+                        年齢も経験も関係なく、フラットに話せる雰囲気が心地良いです。
+                        LINEグループでの交流も活発で、日常的に刺激をもらっています。
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <div class="author-name">M.S.</div>
+                            <div class="author-role">Webデザイナー / 初参加から3ヶ月</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="quote-icon">"</div>
+                        <div class="testimonial-rating">
+                            ★★★★★
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        実際にコラボプロジェクトが生まれて、今一緒に制作を進めています。
+                        ファッションデザイナーの方と組んで、インタラクティブな展示を作っているところです。
+                        こんな機会は他では得られません。
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <div class="author-name">H.Y.</div>
+                            <div class="author-role">クリエイティブコーダー / 参加歴1年</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonials-stats">
+                <div class="stat-item">
+                    <div class="stat-number">92%</div>
+                    <div class="stat-label">満足度</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">87%</div>
+                    <div class="stat-label">リピート参加率</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15組</div>
+                    <div class="stat-label">コラボ実績</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 参加後のビジョン -->
+    <section class="vision-section" id="vision" role="region" aria-label="参加後のビジョン">
+        <div class="container">
+            <h2 class="section-title neon-text">Design Guildで得られるもの</h2>
+            
+            <div class="vision-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>Day 1</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>初回参加</h3>
+                        <p>異分野のクリエイターと出会い、新しい視点に触れる</p>
+                        <ul>
+                            <li>アイスブレイクで緊張をほぐす</li>
+                            <li>自己紹介とポートフォリオ共有</li>
+                            <li>初めてのクロスジャンル対話</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>1ヶ月後</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>コミュニティ参加</h3>
+                        <p>LINE/Slackグループで日常的な交流が始まる</p>
+                        <ul>
+                            <li>作品へのフィードバック交換</li>
+                            <li>技術的な質問や相談</li>
+                            <li>イベント情報の共有</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>3ヶ月後</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>コラボレーション開始</h3>
+                        <p>気の合うメンバーとプロジェクトを立ち上げる</p>
+                        <ul>
+                            <li>共同制作の企画</li>
+                            <li>スキルの相互補完</li>
+                            <li>新しい表現への挑戦</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <span>6ヶ月後</span>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>成長と発信</h3>
+                        <p>新しいスキルと人脈を活かした活動が広がる</p>
+                        <ul>
+                            <li>異分野融合作品の完成</li>
+                            <li>展示やイベントへの参加</li>
+                            <li>次世代への知識共有</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vision-benefits">
+                <h3 class="benefits-title">継続的に得られるメリット</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🎨</div>
+                        <h4>創造性の拡張</h4>
+                        <p>異分野の知識や技術を取り入れることで、自分の表現の幅が大きく広がります</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">🤝</div>
+                        <h4>人脈の構築</h4>
+                        <p>様々な分野のプロフェッショナルとの繋がりが、新しい仕事やプロジェクトを生み出します</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">💡</div>
+                        <h4>アイデアの源泉</h4>
+                        <p>日常的な交流から生まれる刺激が、次のクリエイティブワークのインスピレーションになります</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">📈</div>
+                        <h4>スキルアップ</h4>
+                        <p>ワークショップや勉強会を通じて、新しい技術や考え方を継続的に学べます</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vision-cta">
+                <p class="vision-cta-text">
+                    あなたも、異分野クリエイターとの出会いから
+                    新しい可能性を見つけてみませんか？
+                </p>
+                <button class="neon-button large" onclick="document.getElementById('events').scrollIntoView({behavior: 'smooth'})">
+                    <span>イベントを見る</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- CTA -->
     <section class="cta-section">
@@ -430,28 +949,28 @@
                     境界を越えて協創する実験的プラットフォームです
                 </p>
                 <div class="cta-buttons">
-                    <button class="neon-button neon-button-primary" onclick="showJoinModal()"><span>参加する</span></button>
+                    <button class="neon-button neon-button-primary" onclick="showJoinModal()" aria-label="Design Guildに参加する"><span>参加する</span></button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- フッター -->
-    <footer class="footer-dark">
+    <footer class="footer-dark" role="contentinfo">
         <div class="container">
             <!-- 運営メンバー -->
             <div class="footer-organizers">
                 <h3 class="footer-section-title">運営メンバー</h3>
                 <div class="footer-organizers-grid">
-                    <div class="footer-organizer" onclick="showOrganizerModal('chomu')">
-                        <img src="images/chomu.png" alt="ちょむ" class="footer-organizer-image">
+                    <div class="footer-organizer" onclick="showOrganizerModal('chomu')" tabindex="0" role="button" aria-label="ちょむの詳細を見る" onkeydown="if(event.key==='Enter') showOrganizerModal('chomu')">
+                        <img src="images/chomu.png" alt="ちょむ" class="footer-organizer-image" loading="lazy">
                         <div class="footer-organizer-info">
                             <h4>ちょむ</h4>
                             <p>クリエイターにやたらと縁がある人</p>
                         </div>
                     </div>
-                    <div class="footer-organizer" onclick="showOrganizerModal('nozawa')">
-                        <img src="images/nozawa.png" alt="野澤" class="footer-organizer-image">
+                    <div class="footer-organizer" onclick="showOrganizerModal('nozawa')" tabindex="0" role="button" aria-label="野澤の詳細を見る" onkeydown="if(event.key==='Enter') showOrganizerModal('nozawa')">
+                        <img src="images/nozawa.png" alt="野澤" class="footer-organizer-image" loading="lazy">
                         <div class="footer-organizer-info">
                             <h4>野澤</h4>
                             <p>雑誌の凄腕アートディレクター</p>
@@ -490,24 +1009,48 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2024 Design Guild. All rights reserved.</p>
+                <div class="social-share">
+                    <span class="share-label">シェアする:</span>
+                    <a href="#" class="share-btn share-twitter" onclick="shareOnTwitter(event)" aria-label="Twitterでシェア">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="share-btn share-facebook" onclick="shareOnFacebook(event)" aria-label="Facebookでシェア">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="share-btn share-linkedin" onclick="shareOnLinkedIn(event)" aria-label="LinkedInでシェア">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <button class="share-btn share-copy" onclick="copyToClipboard()" aria-label="リンクをコピー">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- 運営メンバーモーダル -->
-    <div id="organizerModal" class="modal">
+    <div id="organizerModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-content">
-            <span class="modal-close" onclick="closeOrganizerModal()">&times;</span>
+            <span class="modal-close" onclick="closeOrganizerModal()" aria-label="閉じる" tabindex="0" onkeydown="if(event.key==='Enter') closeOrganizerModal()">&times;</span>
             <div id="modalContent"></div>
         </div>
     </div>
 
     <!-- 参加申し込みモーダル -->
-    <div id="joinModal" class="modal">
+    <div id="joinModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="join-modal-title" aria-hidden="true">
         <div class="modal-content modal-form-content">
-            <span class="modal-close" onclick="closeJoinModal()">&times;</span>
+            <span class="modal-close" onclick="closeJoinModal()" aria-label="閉じる" tabindex="0" onkeydown="if(event.key==='Enter') closeJoinModal()">&times;</span>
             <div class="join-form-container">
-                <h2 class="form-title">Design Guildに参加する</h2>
+                <h2 class="form-title" id="join-modal-title">Design Guildに参加する</h2>
                 <p class="form-subtitle">異分野のクリエイターと出会い、新しい表現を創造しましょう</p>
                 
                 <form id="joinForm" class="join-form">
@@ -593,6 +1136,8 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/dark-theme.js"></script>
+    <script src="js/participants.js"></script>
 </body>
 </html>

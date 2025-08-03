@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Guild 管理画面</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- ローディング -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="admin-header">
+        <div class="header-container">
+            <h1 class="header-title">
+                <span class="logo-text">DESIGN GUILD</span>
+                <span class="admin-badge">ADMIN</span>
+            </h1>
+            <nav class="header-nav">
+                <a href="/" class="nav-link">サイトを見る</a>
+                <button id="exportBtn" class="export-btn">CSVエクスポート</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="admin-main">
+        <!-- 統計情報 -->
+        <section class="stats-section">
+            <h2 class="section-title">統計情報</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCount">0</div>
+                    <div class="stat-label">総参加者数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">承認待ち</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedCount">0</div>
+                    <div class="stat-label">承認済み</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="thisMonthCount">0</div>
+                    <div class="stat-label">今月の申込</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- フィルター -->
+        <section class="filter-section">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="statusFilter">ステータス</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">すべて</option>
+                        <option value="pending">承認待ち</option>
+                        <option value="approved">承認済み</option>
+                        <option value="rejected">却下</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="professionFilter">職種</label>
+                    <select id="professionFilter" class="filter-select">
+                        <option value="">すべて</option>
+                    </select>
+                </div>
+                <button id="refreshBtn" class="refresh-btn">更新</button>
+            </div>
+        </section>
+
+        <!-- 参加者リスト -->
+        <section class="participants-section">
+            <h2 class="section-title">参加者一覧</h2>
+            <div class="table-container">
+                <table class="participants-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名前</th>
+                            <th>メール</th>
+                            <th>職種</th>
+                            <th>ステータス</th>
+                            <th>申込日</th>
+                            <th>アクション</th>
+                        </tr>
+                    </thead>
+                    <tbody id="participantsList">
+                        <!-- 動的に生成 -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- ページネーション -->
+            <div class="pagination" id="pagination">
+                <!-- 動的に生成 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 詳細モーダル -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 class="modal-title">参加者詳細</h2>
+            <div id="modalBody" class="modal-body">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

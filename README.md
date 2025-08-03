@@ -31,6 +31,8 @@ Design Guildは、異分野のクリエイターが集まり、新しい価値�
 
 ## 🚀 セットアップ
 
+### 基本セットアップ
+
 ```bash
 # リポジトリをクローン
 git clone https://github.com/[username]/design-guild.git
@@ -38,12 +40,38 @@ git clone https://github.com/[username]/design-guild.git
 # ディレクトリに移動
 cd design-guild
 
-# ローカルサーバーで起動（例：Python）
-python -m http.server 8000
+# 依存関係をインストール
+npm install
 
-# ブラウザでアクセス
-open http://localhost:8000
+# 環境変数の設定
+cp .env.example .env
+# .envファイルを編集して必要な設定を行う
 ```
+
+### サーバー起動
+
+```bash
+# 簡単な起動方法
+./start-server.sh
+
+# または手動で起動
+npm start
+
+# 開発モード（自動リロード）
+npm run dev
+```
+
+### アクセスURL
+
+- 🌐 Website: http://localhost:3000
+- 🔐 Admin: http://localhost:3000/admin
+- 📡 API: http://localhost:3000/api
+
+### 管理画面のログイン
+
+デフォルトの認証情報（.envで変更可能）:
+- Username: `admin`
+- Password: `designguild2024`
 
 ## 📁 ディレクトリ構成
 

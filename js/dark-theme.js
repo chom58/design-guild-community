@@ -4,6 +4,36 @@
  */
 
 // ===================================
+// ローディング画面
+// ===================================
+window.addEventListener('load', function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const progressBar = document.querySelector('.loading-progress-bar');
+    
+    // プログレスバーのアニメーション
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+        progress += Math.random() * 30;
+        if (progress > 90) {
+            progress = 100;
+            clearInterval(progressInterval);
+            
+            // ローディング完了
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                document.body.style.overflow = '';
+                
+                // 完全に非表示にする
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 300);
+        }
+        progressBar.style.width = progress + '%';
+    }, 200);
+});
+
+// ===================================
 // ハンバーガーメニュー
 // ===================================
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,8 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (hamburgerMenu && navItems) {
         hamburgerMenu.addEventListener('click', function() {
+            const isExpanded = this.classList.contains('active');
             this.classList.toggle('active');
             navItems.classList.toggle('active');
+            // アクセシビリティ: aria-expanded属性を更新
+            this.setAttribute('aria-expanded', !isExpanded);
         });
         
         // メニューリンクをクリックしたら閉じる
@@ -22,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 hamburgerMenu.classList.remove('active');
                 navItems.classList.remove('active');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
             });
         });
         
@@ -30,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!hamburgerMenu.contains(event.target) && !navItems.contains(event.target)) {
                 hamburgerMenu.classList.remove('active');
                 navItems.classList.remove('active');
+                hamburgerMenu.setAttribute('aria-expanded', 'false');
             }
         });
     }
@@ -401,47 +436,258 @@ class Card3D {
 }
 
 // ===================================
+// パフォーマンス最適化: Intersection Observerで遅延初期化
+// ===================================
+const initializeOnIntersection = (selector, callback, options = {}) => {
+    const elements = document.querySelectorAll(selector);
+    if (elements.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                callback(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, ...options });
+    
+    elements.forEach(el => observer.observe(el));
+};
+
+// ===================================
 // 初期化
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
-    // WebGL背景
+    // WebGL背景 (モバイルでは無効化)
     if (document.getElementById('webgl-canvas') && window.innerWidth > 768) {
-        new WebGLBackground();
+        // デバイスのパフォーマンスをチェック
+        const isLowPerformance = navigator.hardwareConcurrency < 4 || 
+                               navigator.deviceMemory < 4 ||
+                               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isLowPerformance) {
+            // 少し遅延させて初期レンダリングの負荷を軽減
+            requestAnimationFrame(() => {
+                new WebGLBackground();
+            });
+        }
     }
     
-    // パララックスコラージュ
-    new ParallaxCollage();
+    // パララックスコラージュ (ビューポートに入ったら初期化)
+    initializeOnIntersection('.hero-section', () => {
+        new ParallaxCollage();
+    });
     
     // 可変フォント
     new VariableFont();
     
-    // カウンターアニメーション
+    // カウンターアニメーション (すでにIntersection Observerを使用)
     new CounterAnimation();
     
-    // スキルレーダー
-    new SkillRadar('skillRadar');
+    // スキルレーダー (ビューポートに入ったら初期化)
+    initializeOnIntersection('#skillRadar', (element) => {
+        new SkillRadar(element.id);
+    });
     
-    // 3Dカード
-    new Card3D();
+    // 3Dカード (ビューポートに入ったら初期化)
+    initializeOnIntersection('.projects-section', () => {
+        new Card3D();
+    });
     
-    // ネオンボタンのリップルエフェクト
-    document.querySelectorAll('.neon-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => ripple.remove(), 600);
+    // ネオンボタンのリップルエフェクト (イベント委譲で最適化)
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.neon-button');
+        if (!button) return;
+        
+        const ripple = document.createElement('span');
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        button.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    });
+    
+    // パフォーマンス最適化: スクロールイベントのスロットリング
+    let scrollTimeout;
+    const throttledScroll = () => {
+        if (scrollTimeout) return;
+        
+        scrollTimeout = setTimeout(() => {
+            scrollTimeout = null;
+        }, 16); // 約60fps
+    };
+    
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    
+    // ===================================
+    // アクセシビリティ: キーボードナビゲーション
+    // ===================================
+    // 3Dカードのキーボード操作
+    document.querySelectorAll('.project-card-3d').forEach(card => {
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.classList.toggle('flipped');
+                
+                // フリップ状態をアナウンス
+                const isFlipped = this.classList.contains('flipped');
+                const status = isFlipped ? 'カードの裏面を表示' : 'カードの表面を表示';
+                
+                // スクリーンリーダー用のライブリージョンを作成
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.setAttribute('aria-atomic', 'true');
+                announcement.style.position = 'absolute';
+                announcement.style.left = '-10000px';
+                announcement.textContent = status;
+                document.body.appendChild(announcement);
+                
+                setTimeout(() => announcement.remove(), 1000);
+            }
         });
+    });
+    
+    // スキップリンクの実装
+    const skipLink = document.createElement('a');
+    skipLink.href = '#about';
+    skipLink.className = 'skip-link';
+    skipLink.textContent = 'メインコンテンツへスキップ';
+    skipLink.setAttribute('aria-label', 'メインコンテンツへスキップ');
+    document.body.insertBefore(skipLink, document.body.firstChild);
+    
+    // ===================================
+    // スムーズスクロールとアニメーション
+    // ===================================
+    // ナビゲーションリンクのスムーズスクロール
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                const offsetTop = target.getBoundingClientRect().top + window.pageYOffset;
+                const navHeight = document.querySelector('.nav-futuristic').offsetHeight;
+                
+                window.scrollTo({
+                    top: offsetTop - navHeight - 20,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // スクロールトリガーアニメーション
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // 要素ごとの特別なアニメーション
+                if (entry.target.classList.contains('event-card')) {
+                    const delay = Array.from(entry.target.parentElement.children).indexOf(entry.target) * 100;
+                    entry.target.style.transitionDelay = `${delay}ms`;
+                }
+                
+                if (entry.target.classList.contains('profession-tag')) {
+                    const delay = Math.random() * 300;
+                    entry.target.style.transitionDelay = `${delay}ms`;
+                }
+            }
+        });
+    }, observerOptions);
+    
+    // アニメーション対象要素を監視
+    const animatedElements = document.querySelectorAll(`
+        .section-title,
+        .project-card-3d,
+        .event-card,
+        .community-content,
+        .profession-tag,
+        .stat-box,
+        .footer-organizer
+    `);
+    
+    animatedElements.forEach(el => {
+        el.classList.add('fade-in-up');
+        scrollObserver.observe(el);
+    });
+    
+    // パララックススクロール効果の改善
+    let ticking = false;
+    function updateParallax() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('[data-depth]');
+        
+        parallaxElements.forEach(element => {
+            const depth = element.getAttribute('data-depth');
+            const movement = -(scrolled * depth);
+            const translate3d = `translate3d(0, ${movement}px, 0)`;
+            element.style.transform = translate3d;
+        });
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            window.requestAnimationFrame(updateParallax);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // フォーカストラップの実装（モーダル用）
+    function trapFocus(element) {
+        const focusableElements = element.querySelectorAll(
+            'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+        );
+        const firstFocusableElement = focusableElements[0];
+        const lastFocusableElement = focusableElements[focusableElements.length - 1];
+        
+        element.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstFocusableElement) {
+                        lastFocusableElement.focus();
+                        e.preventDefault();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastFocusableElement) {
+                        firstFocusableElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+    
+    // モーダルが開いたときにフォーカストラップを適用
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                if (mutation.attributeName === 'style' && modal.style.display === 'block') {
+                    trapFocus(modal);
+                }
+            });
+        });
+        observer.observe(modal, { attributes: true });
     });
 });
 
@@ -476,7 +722,7 @@ function showOrganizerModal(organizerId) {
                 <div class="modal-organizer-header">
                     <img src="${data.image}" alt="${data.name}" class="modal-organizer-image">
                     <div class="modal-organizer-title">
-                        <h3>${data.name}</h3>
+                        <h3 id="modal-title">${data.name}</h3>
                         <p>${data.tagline}</p>
                     </div>
                 </div>
@@ -487,12 +733,32 @@ function showOrganizerModal(organizerId) {
             </div>
         `;
         modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        
+        // フォーカス管理
+        const closeButton = modal.querySelector('.modal-close');
+        if (closeButton) {
+            closeButton.focus();
+        }
+        
+        // 背景のスクロールを無効化
+        document.body.style.overflow = 'hidden';
     }
 }
 
 function closeOrganizerModal() {
     const modal = document.getElementById('organizerModal');
     modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    
+    // 背景のスクロールを再度有効化
+    document.body.style.overflow = '';
+    
+    // フォーカスを元の要素に戻す
+    const lastFocusedElement = document.activeElement;
+    if (lastFocusedElement && lastFocusedElement.classList.contains('footer-organizer')) {
+        lastFocusedElement.focus();
+    }
 }
 
 // モーダルの外側をクリックしたら閉じる
@@ -517,15 +783,36 @@ document.addEventListener('keydown', function(event) {
 function showJoinModal() {
     const modal = document.getElementById('joinModal');
     modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+    
     // フォームをリセット
     document.getElementById('joinForm').reset();
     document.getElementById('joinForm').style.display = 'block';
     document.getElementById('formSuccess').style.display = 'none';
+    
+    // フォーカス管理
+    const firstInput = document.getElementById('name');
+    if (firstInput) {
+        setTimeout(() => firstInput.focus(), 100);
+    }
+    
+    // 背景のスクロールを無効化
+    document.body.style.overflow = 'hidden';
 }
 
 function closeJoinModal() {
     const modal = document.getElementById('joinModal');
     modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    
+    // 背景のスクロールを再度有効化
+    document.body.style.overflow = '';
+    
+    // フォーカスを元のボタンに戻す
+    const joinButtons = document.querySelectorAll('.neon-button');
+    if (joinButtons.length > 0) {
+        joinButtons[0].focus();
+    }
 }
 
 // フォームの送信処理
@@ -547,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // フォーム送信
-        joinForm.addEventListener('submit', function(e) {
+        joinForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             if (validateForm()) {
@@ -555,19 +842,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formData = new FormData(joinForm);
                 const data = Object.fromEntries(formData);
                 
-                // ここで実際のAPIに送信する処理を実装
-                console.log('フォームデータ:', data);
-                
                 // 送信ボタンを無効化
                 const submitButton = joinForm.querySelector('.submit-button');
                 submitButton.disabled = true;
                 submitButton.innerHTML = '<span>送信中...</span>';
                 
-                // 送信成功をシミュレート（実際はAPIレスポンスを待つ）
-                setTimeout(() => {
-                    joinForm.style.display = 'none';
-                    document.getElementById('formSuccess').style.display = 'block';
-                }, 1500);
+                try {
+                    // APIに送信
+                    const response = await fetch('/api/join', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // 成功時の処理
+                        joinForm.style.display = 'none';
+                        document.getElementById('formSuccess').style.display = 'block';
+                    } else {
+                        // エラー表示
+                        alert(result.message || '送信に失敗しました。もう一度お試しください。');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<span>参加申し込みを送信</span>';
+                    }
+                } catch (error) {
+                    console.error('送信エラー:', error);
+                    alert('ネットワークエラーが発生しました。もう一度お試しください。');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span>参加申し込みを送信</span>';
+                }
             }
         });
     }
@@ -631,4 +938,107 @@ window.addEventListener('click', function(event) {
     if (event.target == joinModal) {
         closeJoinModal();
     }
+});
+
+// ===================================
+// ソーシャルシェア機能
+// ===================================
+function shareOnTwitter(event) {
+    event.preventDefault();
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('Design Guild - 混ざる、生まれる、未知なる表現｜異分野クリエイターが集まるコミュニティ');
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
+}
+
+function shareOnFacebook(event) {
+    event.preventDefault();
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+}
+
+function shareOnLinkedIn(event) {
+    event.preventDefault();
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent('Design Guild');
+    const summary = encodeURIComponent('異分野クリエイターが集まり、新しい価値を創造するコミュニティプラットフォーム');
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+}
+
+function copyToClipboard() {
+    const url = window.location.href;
+    
+    // クリップボードAPIを使用
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            showCopySuccess();
+        }).catch(() => {
+            fallbackCopyToClipboard(url);
+        });
+    } else {
+        fallbackCopyToClipboard(url);
+    }
+}
+
+function fallbackCopyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.top = '0';
+    textarea.style.left = '0';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopySuccess();
+    } catch (err) {
+        console.error('コピーに失敗しました:', err);
+    }
+    
+    document.body.removeChild(textarea);
+}
+
+function showCopySuccess() {
+    const message = document.createElement('div');
+    message.className = 'copy-success';
+    message.textContent = 'リンクをコピーしました！';
+    document.body.appendChild(message);
+    
+    setTimeout(() => {
+        message.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(message);
+        }, 300);
+    }, 2000);
+}
+
+// グローバルスコープに関数を追加
+window.shareOnTwitter = shareOnTwitter;
+window.shareOnFacebook = shareOnFacebook;
+window.shareOnLinkedIn = shareOnLinkedIn;
+window.copyToClipboard = copyToClipboard;
+
+// FAQ アコーディオン
+document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // 全てのFAQを閉じる
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            });
+            
+            // クリックしたFAQを開く/閉じる
+            if (!isActive) {
+                faqItem.classList.add('active');
+                question.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
 });

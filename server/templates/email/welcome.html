@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Guild へようこそ！</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #F3F4F6;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        <!-- ヘッダー -->
+        <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); padding: 40px 20px; text-align: center;">
+            <div style="display: inline-block; padding: 20px;">
+                <h1 style="color: #00D9FF; font-size: 36px; margin: 0; letter-spacing: 2px; text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);">
+                    DESIGN GUILD
+                </h1>
+                <p style="color: #CBD5E1; margin: 10px 0 0; font-size: 14px; letter-spacing: 1px;">
+                    混ざる、生まれる、未知なる表現
+                </p>
+            </div>
+        </div>
+
+        <!-- メインコンテンツ -->
+        <div style="padding: 40px 30px;">
+            <h2 style="color: #0F172A; font-size: 28px; margin: 0 0 20px; text-align: center;">
+                ようこそ、{{name}}さん！
+            </h2>
+            
+            <p style="color: #475569; line-height: 1.8; font-size: 16px; margin-bottom: 30px;">
+                Design Guildへの参加申し込みありがとうございます。<br>
+                あなたの創造性が、新しい化学反応を生み出すことを楽しみにしています。
+            </p>
+
+            <!-- 登録情報カード -->
+            <div style="background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%); padding: 25px; border-radius: 12px; margin: 30px 0; border: 1px solid #E2E8F0;">
+                <h3 style="color: #0F172A; font-size: 18px; margin: 0 0 15px; display: flex; align-items: center;">
+                    <span style="display: inline-block; width: 8px; height: 24px; background: #00D9FF; margin-right: 10px; border-radius: 2px;"></span>
+                    登録情報
+                </h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 8px 0; color: #64748B; width: 120px;">職種:</td>
+                        <td style="padding: 8px 0; color: #0F172A; font-weight: 600;">{{profession}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; color: #64748B;">経験年数:</td>
+                        <td style="padding: 8px 0; color: #0F172A;">{{experience}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; color: #64748B;">ニュースレター:</td>
+                        <td style="padding: 8px 0; color: #0F172A;">{{newsletter}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 次のステップ -->
+            <div style="margin: 40px 0;">
+                <h3 style="color: #0F172A; font-size: 20px; margin: 0 0 20px;">
+                    <span style="color: #00D9FF;">✨</span> 次のステップ
+                </h3>
+                
+                <div style="background: #FAFAFA; border-left: 4px solid #00D9FF; padding: 20px; margin: 15px 0;">
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <span style="background: #00D9FF; color: #0F172A; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; margin-right: 15px; flex-shrink: 0;">1</span>
+                        <p style="margin: 0; color: #475569; line-height: 1.6;">
+                            運営チームがあなたの申し込みを確認します（通常1-2営業日）
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start; margin-bottom: 15px;">
+                        <span style="background: #FF006E; color: #FFFFFF; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; margin-right: 15px; flex-shrink: 0;">2</span>
+                        <p style="margin: 0; color: #475569; line-height: 1.6;">
+                            承認後、Discordコミュニティへの招待リンクをお送りします
+                        </p>
+                    </div>
+                    
+                    <div style="display: flex; align-items: flex-start;">
+                        <span style="background: #FFEE00; color: #0F172A; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; margin-right: 15px; flex-shrink: 0;">3</span>
+                        <p style="margin: 0; color: #475569; line-height: 1.6;">
+                            次回のイベント情報をメールでお知らせします
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="text-align: center; margin: 40px 0;">
+                <p style="color: #64748B; margin-bottom: 20px;">
+                    ご質問がございましたら、お気軽にお問い合わせください
+                </p>
+                <a href="mailto:hello@design-guild.jp" style="display: inline-block; background: #00D9FF; color: #0F172A; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; box-shadow: 0 4px 14px rgba(0, 217, 255, 0.3);">
+                    お問い合わせ
+                </a>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div style="background: #1E293B; padding: 30px; text-align: center;">
+            <div style="margin-bottom: 20px;">
+                <a href="#" style="color: #64748B; text-decoration: none; margin: 0 10px; font-size: 14px;">Twitter</a>
+                <a href="#" style="color: #64748B; text-decoration: none; margin: 0 10px; font-size: 14px;">Instagram</a>
+                <a href="#" style="color: #64748B; text-decoration: none; margin: 0 10px; font-size: 14px;">Discord</a>
+            </div>
+            <p style="color: #475569; margin: 0; font-size: 12px;">
+                © 2024 Design Guild. All rights reserved.<br>
+                〒100-0001 東京都千代田区デザイン1-2-3
+            </p>
+        </div>
+    </div>
+</body>
+</html>
