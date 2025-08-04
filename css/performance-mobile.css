@@ -1,0 +1,192 @@
+/* ===================================
+   モバイルパフォーマンス最適化
+   =================================== */
+
+/* GPU加速の有効化 */
+.accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* モバイルでのアニメーション最適化 */
+@media (max-width: 768px) {
+    /* 複雑なアニメーションの無効化 */
+    .parallax-element,
+    .floating-element,
+    .collage-item {
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    /* ホバーエフェクトの無効化 */
+    .event-card:hover,
+    .benefit-card:hover,
+    .profile-card:hover,
+    .neon-button:hover::before {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* トランジションの軽量化 */
+    * {
+        transition-duration: 0.2s !important;
+    }
+    
+    /* 不要な要素の非表示 */
+    .desktop-only,
+    .decorative-element,
+    .background-animation {
+        display: none !important;
+    }
+    
+    /* WebGL無効化 */
+    #webgl-canvas,
+    .three-scene {
+        display: none !important;
+    }
+    
+    /* 影の簡略化 */
+    .card,
+    .modal,
+    .dropdown {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* グラデーションの簡略化 */
+    .gradient-background {
+        background: var(--bg-dark) !important;
+    }
+    
+    /* フィルター効果の無効化 */
+    .blur-effect,
+    .backdrop-blur {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+}
+
+/* 省電力モード対応 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* 低帯域幅対応 */
+@media (prefers-reduced-data: reduce) {
+    /* 背景画像の無効化 */
+    .has-background-image {
+        background-image: none !important;
+    }
+    
+    /* Web フォントの最小化 */
+    body {
+        font-family: system-ui, -apple-system, sans-serif !important;
+    }
+}
+
+/* コンテンツの可視性最適化 */
+.below-fold {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* スクロールパフォーマンス */
+.scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* レイアウトシフト防止 */
+img,
+video,
+iframe {
+    aspect-ratio: attr(width) / attr(height);
+}
+
+/* フォントの最適化 */
+@media (max-width: 768px) {
+    /* フォントの事前読み込み */
+    @font-face {
+        font-family: 'Inter';
+        font-display: swap;
+    }
+    
+    @font-face {
+        font-family: 'Noto Sans JP';
+        font-display: swap;
+        unicode-range: U+3000-30FF, U+4E00-9FFF;
+    }
+}
+
+/* 要素の再描画最適化 */
+.optimized-repaint {
+    contain: layout style paint;
+}
+
+/* Z-indexの最適化 */
+.z-optimized {
+    isolation: isolate;
+}
+
+/* ペイント領域の最小化 */
+.paint-optimized {
+    contain: paint;
+}
+
+/* レイヤー作成の最適化 */
+@media (max-width: 768px) {
+    .no-layer {
+        will-change: auto !important;
+        transform: none !important;
+    }
+}
+
+/* メモリ使用量の削減 */
+@media (max-width: 768px) and (max-device-memory: 4) {
+    /* 低メモリデバイス向けの最適化 */
+    .high-memory-element {
+        display: none;
+    }
+    
+    /* アニメーション要素の削減 */
+    .animated-element:nth-child(n+5) {
+        animation: none;
+    }
+}
+
+/* バッテリー残量に応じた最適化 */
+@media (max-width: 768px) {
+    /* 低バッテリー時の最適化 */
+    .battery-intensive {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* 遅延読み込みの最適化 */
+[loading="lazy"] {
+    background: var(--bg-dark-secondary);
+}
+
+/* スケルトンスクリーンの軽量化 */
+.skeleton {
+    background: var(--bg-dark-secondary);
+    animation: none;
+}
+
+/* モバイルでの印刷最適化 */
+@media print and (max-width: 768px) {
+    * {
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+}

@@ -454,6 +454,34 @@ const initializeOnIntersection = (selector, callback, options = {}) => {
     elements.forEach(el => observer.observe(el));
 };
 
+// 画像の遅延読み込み
+function setupLazyLoading() {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    
+    if ('loading' in HTMLImageElement.prototype) {
+        // ブラウザがネイティブの遅延読み込みをサポートしている場合
+        lazyImages.forEach(img => {
+            img.addEventListener('load', () => {
+                img.classList.add('loaded');
+            });
+        });
+    } else {
+        // IntersectionObserverを使用したフォールバック
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.add('loaded');
+                    observer.unobserve(img);
+                }
+            });
+        });
+        
+        lazyImages.forEach(img => imageObserver.observe(img));
+    }
+}
+
 // ===================================
 // 初期化
 // ===================================
@@ -689,6 +717,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         observer.observe(modal, { attributes: true });
     });
+    
+    // 画像の遅延読み込みを初期化
+    setupLazyLoading();
 });
 
 // ===================================
@@ -1041,4 +1072,75 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+});
+
+// ===================================
+// モバイルナビゲーション
+// ===================================
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navItems = document.getElementById('navItems');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const body = document.body;
+    
+    // ハンバーガーメニューのトグル
+    hamburgerMenu.addEventListener('click', () => {
+        const isActive = navItems.classList.contains('active');
+        
+        if (isActive) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+    
+    // メニューを開く
+    function openMenu() {
+        hamburgerMenu.classList.add('active');
+        navItems.classList.add('active');
+        body.style.overflow = 'hidden';
+        hamburgerMenu.setAttribute('aria-expanded', 'true');
+        hamburgerMenu.setAttribute('aria-label', 'メニューを閉じる');
+    }
+    
+    // メニューを閉じる
+    function closeMenu() {
+        hamburgerMenu.classList.remove('active');
+        navItems.classList.remove('active');
+        body.style.overflow = '';
+        hamburgerMenu.setAttribute('aria-expanded', 'false');
+        hamburgerMenu.setAttribute('aria-label', 'メニューを開く');
+    }
+    
+    // ナビゲーションリンクをクリックしたら閉じる
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                closeMenu();
+            }
+        });
+    });
+    
+    // ウィンドウリサイズ時の処理
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        }, 250);
+    });
+    
+    // スクロール時にメニューを閉じる（オプション）
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && navItems.classList.contains('active')) {
+            closeMenu();
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, { passive: true });
 });
