@@ -475,6 +475,26 @@ a:focus-visible {
     margin: 0 1rem;
 }
 
+@media (max-width: 768px) {
+    .collab-formula {
+        font-size: 1.1rem;
+    }
+    
+    .collab-operator {
+        margin: 0 0.5rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .collab-formula {
+        font-size: 0.9rem;
+    }
+    
+    .collab-operator {
+        margin: 0 0.3rem;
+    }
+}
+
 .collab-result {
     color: var(--neon-cyan);
     display: block;
@@ -493,6 +513,13 @@ a:focus-visible {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+    .community-container {
+        padding: 0 1rem;
+        overflow: hidden;
+    }
 }
 
 .community-main {
@@ -565,6 +592,8 @@ a:focus-visible {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .profession-tag {
@@ -1971,7 +2000,7 @@ a:focus-visible {
     }
     
     .project-card-3d {
-        height: 350px;
+        height: 250px;
     }
     
     /* コミュニティセクション */
@@ -1979,6 +2008,10 @@ a:focus-visible {
         grid-template-columns: 1fr;
         gap: 2rem;
         padding: 2rem;
+    }
+    
+    .community-section {
+        padding: 3rem 0;
     }
     
     .community-stats {
@@ -2008,11 +2041,14 @@ a:focus-visible {
     /* 職種タグ */
     .profession-tags {
         gap: 0.5rem;
+        max-width: 100%;
+        justify-content: flex-start;
     }
     
     .profession-tag {
         font-size: 0.7rem;
         padding: 0.3rem 0.6rem;
+        flex-shrink: 0;
     }
     
     /* CTAセクション */
@@ -2162,11 +2198,11 @@ a:focus-visible {
     }
     
     .project-card-3d {
-        height: 300px;
+        height: 200px;
     }
     
     .card-face {
-        padding: 1.5rem;
+        padding: 1rem;
     }
     
     .community-main {

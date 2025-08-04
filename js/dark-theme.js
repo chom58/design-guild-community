@@ -482,6 +482,32 @@ function setupLazyLoading() {
     }
 }
 
+// モバイルでの職種タグ制限
+function limitProfessionTags() {
+    const professionTags = document.querySelector('.profession-tags');
+    if (!professionTags) return;
+    
+    const allTags = Array.from(professionTags.querySelectorAll('.profession-tag'));
+    const maxVisible = window.innerWidth <= 375 ? 8 : 12;
+    
+    if (allTags.length > maxVisible) {
+        // 表示するタグを制限
+        allTags.forEach((tag, index) => {
+            if (index >= maxVisible - 1) {
+                tag.style.display = 'none';
+            }
+        });
+        
+        // 「他●●職種」のタグを追加
+        const remainingCount = allTags.length - maxVisible + 1;
+        const moreTag = document.createElement('span');
+        moreTag.className = 'profession-tag';
+        moreTag.style.cssText = '--tag-color: var(--neon-purple);';
+        moreTag.textContent = `他${remainingCount}職種`;
+        professionTags.appendChild(moreTag);
+    }
+}
+
 // ===================================
 // 初期化
 // ===================================
@@ -720,6 +746,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 画像の遅延読み込みを初期化
     setupLazyLoading();
+    
+    // モバイルでの職種タグ制限
+    if (window.innerWidth <= 768) {
+        limitProfessionTags();
+    }
 });
 
 // ===================================
