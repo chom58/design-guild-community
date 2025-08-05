@@ -6,7 +6,7 @@
         "title": "Design Guild 9月交流会",
         "type": "meetup",
         "typeLabel": "交流会",
-        "date": "2025-09-01T12:00:00",
+        "date": "2025-09-02",
         "time": "15:00-17:00",
         "location": "渋谷周辺カフェ",
         "capacity": 15,
@@ -19,9 +19,9 @@
         ],
         "image": "",
         "registrationOpen": true,
-        "registrationDeadline": "2025-09-01",
+        "registrationDeadline": "2025-08-30",
         "mailSubject": "参加申込：9月交流会",
-        "mailBody": "9月1日の交流会に参加希望です。",
+        "mailBody": "9月2日の交流会に参加希望です。",
         "tags": ["交流会"]
       }
     ]
