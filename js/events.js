@@ -2,69 +2,8 @@
  * イベントカレンダー JavaScript
  */
 
-// イベントデータ（実際はAPIから取得）
-const eventsData = [
-    {
-        id: 1,
-        title: 'リミックス・ワークショップ',
-        type: 'workshop',
-        typeLabel: 'ワークショップ',
-        date: '2024-08-10',
-        time: '14:00-17:00',
-        location: '渋谷クリエイティブスペース',
-        capacity: 20,
-        description: '参加者が持ち寄った作品を他分野のクリエイターがリミックス。グラフィックをインタラクティブに、ファッションをデータビジュアライゼーションに。新しい表現の可能性を探ります。',
-        features: ['作品の相互リミックス', '異分野の視点']
-    },
-    {
-        id: 2,
-        title: 'クリエイティブ・ランチ会',
-        type: 'meetup',
-        typeLabel: 'ランチ会',
-        date: '2024-08-15',
-        time: '12:00-13:30',
-        location: '恵比寿カフェ',
-        capacity: 8,
-        description: 'カジュアルなランチタイムに少人数で集まり、「AIとクリエイティブ」をテーマにアイデア交換。',
-        features: ['リラックスした雰囲気', '深いディスカッション']
-    },
-    {
-        id: 3,
-        title: 'ポートフォリオ・ナイト',
-        type: 'presentation',
-        typeLabel: 'プレゼン',
-        date: '2024-08-22',
-        time: '19:00-21:00',
-        location: 'オンライン',
-        capacity: 50,
-        description: '異分野のクリエイター8名が各5分で作品を紹介。プレゼン後は投票で「コラボしたい人」を選出。',
-        features: ['ライトニングトーク', 'マッチング投票']
-    },
-    {
-        id: 4,
-        title: '実験室セッション：音×ビジュアル',
-        type: 'experimental',
-        typeLabel: '実験',
-        date: '2024-08-28',
-        time: '18:00-20:00',
-        location: '新宿スタジオ',
-        capacity: 15,
-        description: '音とビジュアルの新しい関係性を探る実験的ワークショップ。',
-        features: ['実験的アプローチ', '新しい組み合わせ']
-    },
-    {
-        id: 5,
-        title: 'Design Guild 月次交流会',
-        type: 'meetup',
-        typeLabel: '交流会',
-        date: '2024-09-05',
-        time: '19:00-21:00',
-        location: '表参道イベントスペース',
-        capacity: 30,
-        description: '毎月第一水曜日に開催する定例交流会。新メンバーの紹介とネットワーキング。',
-        features: ['定例イベント', 'ネットワーキング']
-    }
-];
+// イベントデータを格納する変数
+let eventsData = [];
 
 // グローバル変数
 let currentDate = new Date();
@@ -82,7 +21,10 @@ const elements = {
 };
 
 // 初期化
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // イベントデータを読み込む
+    await loadEvents();
+    
     initializeCalendar();
     
     // イベントリスナー
@@ -102,6 +44,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// イベントデータを読み込む
+async function loadEvents() {
+    try {
+        const response = await fetch('data/events.json');
+        const data = await response.json();
+        eventsData = data.events || [];
+        console.log('イベントデータを読み込みました:', eventsData.length + '件');
+    } catch (error) {
+        console.error('イベントデータの読み込みに失敗しました:', error);
+        // フォールバック用のデフォルトデータ
+        eventsData = [];
+    }
+}
 
 // カレンダー初期化
 function initializeCalendar() {
@@ -314,9 +270,16 @@ function showEventDetail(eventId) {
         </div>
         
         <div class="event-modal-actions">
-            <button class="neon-button" onclick="showJoinModal()">
-                <span>参加申し込み</span>
-            </button>
+            ${event.registrationOpen ? `
+                <a href="mailto:hello@design-guild.jp?subject=${encodeURIComponent(event.mailSubject)}&body=${encodeURIComponent(event.mailBody)}" 
+                   class="neon-button mail-button">
+                    <span>参加申し込み</span>
+                </a>
+            ` : `
+                <button class="neon-button" disabled>
+                    <span>受付終了</span>
+                </button>
+            `}
             <button class="neon-button secondary" onclick="closeEventModal()">
                 <span>閉じる</span>
             </button>

@@ -384,6 +384,20 @@
     justify-content: center;
 }
 
+/* メールボタンスタイル */
+a.neon-button.mail-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.neon-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* レスポンシブ */
 @media (max-width: 768px) {
     .calendar-controls .container {
