@@ -1,0 +1,29 @@
+{
+  "lastUpdated": "2024-08-01",
+  "events": [
+    {
+      "id": "event-20240901",
+      "title": "Design Guild 9月交流会",
+      "type": "meetup",
+      "typeLabel": "交流会",
+      "date": "2024-09-01",
+      "time": "15:00-17:00",
+      "location": "渋谷周辺カフェ（申込者に詳細連絡）",
+      "capacity": 15,
+      "currentParticipants": 0,
+      "description": "9月最初の日曜日に、クリエイター同士でゆるく交流しませんか？異なる分野のクリエイターが集まり、最近の作品や悩み、アイデアを共有する場です。初参加の方も大歓迎！",
+      "features": [
+        "カジュアルな雰囲気",
+        "少人数制で話しやすい",
+        "初参加歓迎",
+        "ドリンク付き"
+      ],
+      "image": "",
+      "registrationOpen": true,
+      "registrationDeadline": "2024-08-30",
+      "mailSubject": "【参加申込】Design Guild 9月交流会（9/1）",
+      "mailBody": "以下の内容でイベント参加を申し込みます。\n\n【イベント名】Design Guild 9月交流会\n【日時】2024年9月1日（日）15:00-17:00\n【場所】渋谷周辺カフェ\n\n【お名前】\n【メールアドレス】\n【職種・分野】\n【Design Guild参加回数】初めて・2回目以上\n【最近気になっていること・話したいテーマ】\n\n※このまま送信してください。",
+      "tags": ["交流会", "ネットワーキング", "カジュアル"]
+    }
+  ]
+}

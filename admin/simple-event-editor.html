@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルイベント管理</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #22D3EE;
+            padding-bottom: 10px;
+        }
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #22D3EE;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #22D3EE;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover {
+            background: #1BA9CC;
+        }
+        .template {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        .copy-hint {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 シンプルイベント管理</h1>
+    
+    <div class="step">
+        <h2><span class="step-number">1</span>現在のイベントデータをコピー</h2>
+        <p>以下のボタンをクリックして、現在のデータを読み込んでください。</p>
+        <button onclick="loadCurrentData()">現在のデータを表示</button>
+        <div id="loadSuccess" class="success">データを読み込みました！下のテキストエリアで編集できます。</div>
+    </div>
+    
+    <div class="step">
+        <h2><span class="step-number">2</span>イベントを追加・編集</h2>
+        <p>テキストエリアで直接編集してください。新しいイベントを追加する場合は、以下のテンプレートをコピーして使ってください。</p>
+        
+        <details>
+            <summary style="cursor: pointer; color: #22D3EE; font-weight: bold;">📝 イベントテンプレート（クリックで開く）</summary>
+            <div class="template">{
+  "id": "event-20240901",
+  "title": "イベント名をここに入力",
+  "type": "meetup",
+  "typeLabel": "交流会",
+  "date": "2024-09-01",
+  "time": "15:00-17:00",
+  "location": "場所をここに入力",
+  "capacity": 20,
+  "currentParticipants": 0,
+  "description": "イベントの説明をここに入力",
+  "features": [
+    "特徴1",
+    "特徴2",
+    "特徴3"
+  ],
+  "image": "",
+  "registrationOpen": true,
+  "registrationDeadline": "2024-08-30",
+  "mailSubject": "【参加申込】イベント名（日付）",
+  "mailBody": "申込メールの本文テンプレート",
+  "tags": ["タグ1", "タグ2"]
+}</div>
+            <div class="copy-hint">💡 ヒント: カンマ「,」を忘れずに！最後のイベントの後ろにはカンマ不要</div>
+        </details>
+        
+        <textarea id="jsonEditor"></textarea>
+    </div>
+    
+    <div class="step">
+        <h2><span class="step-number">3</span>保存する</h2>
+        <p>編集が終わったら、以下のボタンでファイルをダウンロードしてください。</p>
+        <button onclick="downloadJSON()">events.json をダウンロード</button>
+        <button onclick="copyToClipboard()">クリップボードにコピー</button>
+        <div id="saveSuccess" class="success">保存しました！</div>
+        
+        <div class="copy-hint">
+            📁 ダウンロードしたファイルを <strong>data/events.json</strong> に上書き保存するか、<br>
+            📋 GitHubで直接ペーストして更新してください。
+        </div>
+    </div>
+    
+    <script>
+        const jsonEditor = document.getElementById('jsonEditor');
+        
+        // 現在のデータを読み込む
+        async function loadCurrentData() {
+            try {
+                const response = await fetch('../data/events.json');
+                const data = await response.json();
+                jsonEditor.value = JSON.stringify(data, null, 2);
+                document.getElementById('loadSuccess').style.display = 'block';
+                jsonEditor.focus();
+            } catch (error) {
+                // エラーの場合はサンプルデータを表示
+                jsonEditor.value = JSON.stringify({
+                    "lastUpdated": new Date().toISOString().split('T')[0],
+                    "events": []
+                }, null, 2);
+                alert('データの読み込みに失敗しました。新規作成モードで開始します。');
+            }
+        }
+        
+        // JSONをダウンロード
+        function downloadJSON() {
+            try {
+                // JSONの妥当性をチェック
+                const data = JSON.parse(jsonEditor.value);
+                
+                const dataStr = jsonEditor.value;
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', 'events.json');
+                linkElement.click();
+                
+                document.getElementById('saveSuccess').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('saveSuccess').style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                alert('JSONの形式にエラーがあります。\n' + error.message);
+            }
+        }
+        
+        // クリップボードにコピー
+        function copyToClipboard() {
+            try {
+                // JSONの妥当性をチェック
+                JSON.parse(jsonEditor.value);
+                
+                jsonEditor.select();
+                document.execCommand('copy');
+                
+                document.getElementById('saveSuccess').textContent = 'クリップボードにコピーしました！';
+                document.getElementById('saveSuccess').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('saveSuccess').style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                alert('JSONの形式にエラーがあります。\n' + error.message);
+            }
+        }
+        
+        // ページ読み込み時に自動でデータを読み込む
+        window.onload = () => {
+            loadCurrentData();
+        };
+    </script>
+</body>
+</html>

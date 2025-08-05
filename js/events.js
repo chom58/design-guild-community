@@ -112,6 +112,9 @@ function switchView(view) {
 function renderMonthView() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
+    
+    console.log(`renderMonthView called: ${year}年${month + 1}月`);
+    
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const prevLastDay = new Date(year, month, 0);
@@ -119,6 +122,8 @@ function renderMonthView() {
     const startDate = firstDay.getDay();
     const endDate = lastDay.getDate();
     const prevEndDate = prevLastDay.getDate();
+    
+    console.log(`カレンダー情報: 開始曜日=${startDate}, 最終日=${endDate}`);
     
     let html = '';
     let date = 1;
@@ -141,17 +146,22 @@ function renderMonthView() {
                 // 当月の日付
                 const currentDateObj = new Date(year, month, date);
                 const isToday = isDateToday(currentDateObj);
+                console.log(`当月日付処理: ${date}日 -> ${currentDateObj.toISOString()}`);
                 html += createDayCell(date, isToday ? 'today' : '', currentDateObj);
                 date++;
             }
         }
     }
     
+    console.log('カレンダーHTML生成完了');
     elements.calendarDays.innerHTML = html;
 }
 
 // 日付セル作成
 function createDayCell(date, className, dateObj) {
+    // デバッグ用ログ
+    console.log(`createDayCell called: 表示日付=${date}, dateObj=${dateObj.toISOString()}, className=${className}`);
+    
     const events = getEventsForDate(dateObj);
     const eventsHtml = events.slice(0, 3).map(event => 
         `<div class="event-dot event-${event.type}" onclick="showEventDetail(${event.id})">${event.title}</div>`
@@ -167,8 +177,25 @@ function createDayCell(date, className, dateObj) {
 
 // 特定日付のイベント取得
 function getEventsForDate(date) {
-    const dateStr = date.toISOString().split('T')[0];
-    return eventsData.filter(event => event.date === dateStr);
+    // ローカル時間での日付文字列を作成（タイムゾーンの影響を避ける）
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
+    
+    // デバッグ用ログ
+    console.log('getEventsForDate called:');
+    console.log('- 検索対象日付:', dateStr);
+    console.log('- 全イベントデータ:', eventsData);
+    
+    const matchedEvents = eventsData.filter(event => {
+        const matches = event.date === dateStr;
+        console.log(`- イベント ${event.title}: ${event.date} === ${dateStr} ? ${matches}`);
+        return matches;
+    });
+    
+    console.log('- マッチしたイベント:', matchedEvents);
+    return matchedEvents;
 }
 
 // 今日かどうか判定
@@ -186,8 +213,9 @@ function renderListView() {
     
     // 当月のイベントをフィルタリング
     const monthEvents = eventsData.filter(event => {
-        const eventDate = new Date(event.date);
-        return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+        // event.dateは "YYYY-MM-DD" 形式の文字列
+        const [eventYear, eventMonth, eventDay] = event.date.split('-').map(Number);
+        return eventYear === year && (eventMonth - 1) === month;
     }).sort((a, b) => new Date(a.date) - new Date(b.date));
     
     if (monthEvents.length === 0) {
@@ -200,14 +228,16 @@ function renderListView() {
     }
     
     elements.eventsList.innerHTML = monthEvents.map(event => {
-        const date = new Date(event.date);
+        // タイムゾーンの問題を避けるため、直接文字列から日付情報を取得
+        const [eventYear, eventMonth, eventDay] = event.date.split('-').map(Number);
+        const date = new Date(eventYear, eventMonth - 1, eventDay);
         const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
         
         return `
             <div class="event-list-item" onclick="showEventDetail(${event.id})">
                 <div class="event-date-block">
-                    <div class="event-month">${date.getMonth() + 1}月</div>
-                    <div class="event-day">${date.getDate()}</div>
+                    <div class="event-month">${eventMonth}月</div>
+                    <div class="event-day">${eventDay}</div>
                     <div class="event-weekday">${weekdays[date.getDay()]}</div>
                 </div>
                 <div class="event-info">
@@ -232,7 +262,9 @@ function showEventDetail(eventId) {
     const event = eventsData.find(e => e.id === eventId);
     if (!event) return;
     
-    const date = new Date(event.date);
+    // タイムゾーンの問題を避けるため、直接文字列から日付情報を取得
+    const [eventYear, eventMonth, eventDay] = event.date.split('-').map(Number);
+    const date = new Date(eventYear, eventMonth - 1, eventDay);
     const weekdays = ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'];
     
     elements.eventModalContent.innerHTML = `
@@ -240,7 +272,7 @@ function showEventDetail(eventId) {
             <span class="event-modal-type event-${event.type}">${event.typeLabel}</span>
             <h2 class="event-modal-title">${event.title}</h2>
             <p class="event-modal-date">
-                ${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日（${weekdays[date.getDay()]}）
+                ${eventYear}年${eventMonth}月${eventDay}日（${weekdays[date.getDay()]}）
             </p>
         </div>
         
