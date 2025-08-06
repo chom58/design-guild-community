@@ -7,7 +7,7 @@ let eventsData = [];
 
 // グローバル変数
 let currentDate = new Date();
-let currentView = 'month';
+let currentView = 'list';
 
 // DOM要素
 const elements = {
@@ -51,7 +51,6 @@ async function loadEvents() {
         const response = await fetch('data/events.json');
         const data = await response.json();
         eventsData = data.events || [];
-        console.log('イベントデータを読み込みました:', eventsData.length + '件');
     } catch (error) {
         console.error('イベントデータの読み込みに失敗しました:', error);
         // フォールバック用のデフォルトデータ
@@ -113,7 +112,7 @@ function renderMonthView() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     
-    console.log(`renderMonthView called: ${year}年${month + 1}月`);
+
     
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -123,9 +122,7 @@ function renderMonthView() {
     const endDate = lastDay.getDate();
     const prevEndDate = prevLastDay.getDate();
     
-    console.log(`カレンダー情報: 開始曜日=${startDate}, 最終日=${endDate}`);
-    
-    let html = '';
+let html = '';
     let date = 1;
     
     // 6週間分のグリッドを生成
@@ -146,22 +143,17 @@ function renderMonthView() {
                 // 当月の日付
                 const currentDateObj = new Date(year, month, date);
                 const isToday = isDateToday(currentDateObj);
-                console.log(`当月日付処理: ${date}日 -> ${currentDateObj.toISOString()}`);
-                html += createDayCell(date, isToday ? 'today' : '', currentDateObj);
+            html += createDayCell(date, isToday ? 'today' : '', currentDateObj);
                 date++;
             }
         }
     }
     
-    console.log('カレンダーHTML生成完了');
-    elements.calendarDays.innerHTML = html;
+elements.calendarDays.innerHTML = html;
 }
 
 // 日付セル作成
 function createDayCell(date, className, dateObj) {
-    // デバッグ用ログ
-    console.log(`createDayCell called: 表示日付=${date}, dateObj=${dateObj.toISOString()}, className=${className}`);
-    
     const events = getEventsForDate(dateObj);
     const eventsHtml = events.slice(0, 3).map(event => 
         `<div class="event-dot event-${event.type}" onclick="showEventDetail(${event.id})">${event.title}</div>`
@@ -183,18 +175,11 @@ function getEventsForDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
     const dateStr = `${year}-${month}-${day}`;
     
-    // デバッグ用ログ
-    console.log('getEventsForDate called:');
-    console.log('- 検索対象日付:', dateStr);
-    console.log('- 全イベントデータ:', eventsData);
-    
     const matchedEvents = eventsData.filter(event => {
         const matches = event.date === dateStr;
-        console.log(`- イベント ${event.title}: ${event.date} === ${dateStr} ? ${matches}`);
         return matches;
     });
     
-    console.log('- マッチしたイベント:', matchedEvents);
     return matchedEvents;
 }
 
