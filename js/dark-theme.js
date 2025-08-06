@@ -896,49 +896,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // フォーム送信
-        joinForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            if (validateForm()) {
-                // フォームデータを収集
-                const formData = new FormData(joinForm);
-                const data = Object.fromEntries(formData);
-                
-                // 送信ボタンを無効化
-                const submitButton = joinForm.querySelector('.submit-button');
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<span>送信中...</span>';
-                
-                try {
-                    // APIに送信
-                    const response = await fetch('/api/join', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        // 成功時の処理
-                        joinForm.style.display = 'none';
-                        document.getElementById('formSuccess').style.display = 'block';
-                    } else {
-                        // エラー表示
-                        alert(result.message || '送信に失敗しました。もう一度お試しください。');
-                        submitButton.disabled = false;
-                        submitButton.innerHTML = '<span>参加申し込みを送信</span>';
-                    }
-                } catch (error) {
-                    console.error('送信エラー:', error);
-                    alert('ネットワークエラーが発生しました。もう一度お試しください。');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = '<span>参加申し込みを送信</span>';
-                }
-            }
-        });
+        // フォーム送信はmain.jsのGoogle Forms連携で処理
+        // joinForm.addEventListener('submit', ...) は削除
     }
 });
 
