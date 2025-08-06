@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms送信テスト</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background: #5B9BD5;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #4A8BC5;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .info {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Google Forms送信テスト</h1>
+        
+        <h2>方法1: iframe送信（現在の実装）</h2>
+        <button onclick="testIframeSubmit()">iframeでテスト送信</button>
+        
+        <h2>方法2: 直接window.open（新しいタブ）</h2>
+        <button onclick="testDirectSubmit()">新しいタブで送信</button>
+        
+        <h2>方法3: fetch API（CORS制限あり）</h2>
+        <button onclick="testFetchSubmit()">fetch APIで送信</button>
+        
+        <h2>方法4: Google Forms公式iframe埋め込み</h2>
+        <button onclick="showGoogleForm()">Google Formを表示</button>
+        
+        <div id="formContainer"></div>
+        
+        <h2>📋 ログ</h2>
+        <div id="log" class="log">テストを実行してください...</div>
+    </div>
+
+    <script>
+        const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
+        const logDiv = document.getElementById('log');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type;
+            logDiv.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            logDiv.innerHTML = '';
+        }
+        
+        // 方法1: iframe送信（現在の実装）
+        function testIframeSubmit() {
+            clearLog();
+            log('=== iframe送信テスト開始 ===', 'info');
+            
+            const testData = {
+                'entry.2019842798': 'テスト太郎',
+                'entry.61724704': 'test@example.com',
+                'entry.966592544': 'Webデザイナー',
+                'entry.1896235522': '1〜3年',
+                'entry.505500388': 'テスト送信です',
+                'entry.1751089080': 'https://example.com'
+            };
+            
+            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+            
+            log('送信URL: ' + url, 'info');
+            log('送信データ: ' + JSON.stringify(testData, null, 2), 'info');
+            
+            try {
+                // iframe作成
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.name = 'google_form_iframe';
+                document.body.appendChild(iframe);
+                
+                // フォーム作成
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = url;
+                form.target = 'google_form_iframe';
+                
+                // データ追加
+                Object.keys(testData).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = testData[key];
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+                
+                log('フォーム送信実行', 'success');
+                
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                    document.body.removeChild(form);
+                    log('送信完了（Google Formsの回答タブを確認してください）', 'success');
+                }, 3000);
+                
+            } catch (error) {
+                log('エラー: ' + error.message, 'error');
+            }
+        }
+        
+        // 方法2: 直接window.open
+        function testDirectSubmit() {
+            clearLog();
+            log('=== 新しいタブで送信テスト ===', 'info');
+            
+            const params = new URLSearchParams({
+                'entry.2019842798': 'テスト次郎',
+                'entry.61724704': 'test2@example.com',
+                'entry.966592544': 'エンジニア',
+                'entry.1896235522': '3〜5年',
+                'entry.505500388': '新しいタブでテスト',
+                'entry.1751089080': 'https://example.org'
+            });
+            
+            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/viewform?${params.toString()}`;
+            
+            log('URLを開きます: ' + url, 'info');
+            window.open(url, '_blank');
+            log('新しいタブでフォームが開きました。手動で送信してください。', 'success');
+        }
+        
+        // 方法3: fetch API
+        async function testFetchSubmit() {
+            clearLog();
+            log('=== fetch API送信テスト ===', 'info');
+            log('注意: CORSエラーが発生する可能性があります', 'error');
+            
+            const formData = new FormData();
+            formData.append('entry.2019842798', 'テスト三郎');
+            formData.append('entry.61724704', 'test3@example.com');
+            formData.append('entry.966592544', 'デザイナー');
+            formData.append('entry.1896235522', '5年以上');
+            formData.append('entry.505500388', 'fetchテスト');
+            formData.append('entry.1751089080', 'https://example.net');
+            
+            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+            
+            try {
+                log('fetch送信開始...', 'info');
+                const response = await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                
+                log('送信完了（no-corsモードのため応答は確認できません）', 'success');
+                log('Google Formsの回答タブを確認してください', 'info');
+                
+            } catch (error) {
+                log('エラー: ' + error.message, 'error');
+            }
+        }
+        
+        // 方法4: Google Forms公式iframe
+        function showGoogleForm() {
+            clearLog();
+            log('=== Google Forms公式iframe表示 ===', 'info');
+            
+            const container = document.getElementById('formContainer');
+            container.innerHTML = `
+                <iframe src="https://docs.google.com/forms/d/e/${FORM_ID}/viewform?embedded=true" 
+                        width="100%" 
+                        height="800" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0">
+                    読み込んでいます...
+                </iframe>
+            `;
+            
+            log('Google Formsを下に表示しました', 'success');
+        }
+    </script>
+</body>
+</html>
