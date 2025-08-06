@@ -363,12 +363,12 @@ async function submitToGoogleForms(event) {
     
     // エントリーIDのマッピング（Google Formsのフィールドに対応）
     const params = new URLSearchParams({
-        'entry.1751089080': data.name,       // お名前
-        'entry.2019842798': data.email,      // メールアドレス
-        'entry.61724704': data.profession,   // 職種・専門分野
-        'entry.1887838426': data.experience || '', // 経験年数
-        'entry.505500388': data.motivation,  // 応募動機
-        'entry.123456789': data.portfolio || '' // ポートフォリオURL（エントリーIDは要確認）
+        'entry.2019842798': data.name,       // お名前
+        'entry.61724704': data.email,        // メールアドレス  
+        'entry.966592544': data.profession,  // 職種・専門分野
+        'entry.1896235522': data.experience || '', // 経験年数
+        'entry.505500388': data.motivation,  // 応募動機（要確認）
+        'entry.123456789': data.portfolio || '' // ポートフォリオURL（要確認）
     });
     
     try {

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms エントリーID取得ガイド</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #5B9BD5;
+            margin-bottom: 2rem;
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #5B9BD5;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        .step h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        img {
+            max-width: 100%;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .test-button {
+            background: #5B9BD5;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+        .test-button:hover {
+            background: #4A8BC5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Google Forms エントリーID取得ガイド</h1>
+        
+        <div class="warning">
+            ⚠️ <strong>重要:</strong> Google FormsのエントリーIDが正しくないと、フォーム送信が失敗します。
+        </div>
+
+        <div class="step">
+            <h2>ステップ 1: Google Formsを開く</h2>
+            <p>1. <a href="https://forms.google.com" target="_blank">Google Forms</a>にアクセス</p>
+            <p>2. Design Guild用のフォームを開く（または新規作成）</p>
+        </div>
+
+        <div class="step">
+            <h2>ステップ 2: 事前入力リンクを取得</h2>
+            <p>1. フォーム編集画面の右上の「⋮」メニューをクリック</p>
+            <p>2. 「事前入力されたリンクを取得」を選択</p>
+            <p>3. 各フィールドにテストデータを入力：</p>
+            <ul>
+                <li>お名前: テスト太郎</li>
+                <li>メール: test@example.com</li>
+                <li>職種: Webデザイナー</li>
+                <li>経験年数: 1-3年</li>
+                <li>動機: テストメッセージ</li>
+            </ul>
+            <p>4. 「リンクを取得」をクリック</p>
+        </div>
+
+        <div class="step">
+            <h2>ステップ 3: URLからエントリーIDを抽出</h2>
+            <p>生成されたURLは次のような形式になります：</p>
+            <div class="code-block">
+https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform?
+entry.123456789=テスト太郎&
+entry.987654321=test@example.com&
+entry.456789123=Webデザイナー&
+entry.789123456=1-3年&
+entry.111222333=テストメッセージ
+            </div>
+            <p>各<code>entry.XXXXXXXXX</code>の数字がエントリーIDです。</p>
+        </div>
+
+        <div class="step">
+            <h2>ステップ 4: コードを更新</h2>
+            <p>main.jsの以下の部分を更新してください：</p>
+            <div class="code-block">// エントリーIDのマッピング（Google Formsのフィールドに対応）
+const params = new URLSearchParams({
+    'entry.XXXXXXXXX': data.name,       // お名前のID
+    'entry.XXXXXXXXX': data.email,      // メールアドレスのID
+    'entry.XXXXXXXXX': data.profession,   // 職種のID
+    'entry.XXXXXXXXX': data.experience || '', // 経験年数のID
+    'entry.XXXXXXXXX': data.motivation,  // 応募動機のID
+    'entry.XXXXXXXXX': data.portfolio || '' // ポートフォリオURLのID
+});</div>
+        </div>
+
+        <div class="step">
+            <h2>デバッグ用テストコード</h2>
+            <p>以下のボタンをクリックして、ブラウザコンソールで動作を確認できます：</p>
+            <button class="test-button" onclick="testGoogleForms()">テスト送信</button>
+            <div class="code-block">function testGoogleForms() {
+    console.log('=== Google Forms テスト送信 ===');
+    
+    // テストデータ
+    const testData = {
+        name: 'テスト太郎',
+        email: 'test@example.com',
+        profession: 'Webデザイナー',
+        experience: '1-3年',
+        motivation: 'テスト送信です'
+    };
+    
+    // フォームIDとURL
+    const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
+    const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+    
+    console.log('送信URL:', url);
+    console.log('送信データ:', testData);
+    
+    // エントリーIDマッピング
+    const params = new URLSearchParams({
+        'entry.1751089080': testData.name,
+        'entry.2019842798': testData.email,
+        'entry.61724704': testData.profession,
+        'entry.1887838426': testData.experience,
+        'entry.505500388': testData.motivation
+    });
+    
+    console.log('パラメータ:', params.toString());
+    
+    // テスト用iframe作成
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'test_iframe';
+    document.body.appendChild(iframe);
+    
+    // フォーム作成
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    form.target = 'test_iframe';
+    
+    params.forEach((value, key) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    });
+    
+    document.body.appendChild(form);
+    
+    console.log('送信開始...');
+    form.submit();
+    
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+        document.body.removeChild(form);
+        console.log('送信完了（確認はGoogle Formsの回答タブで）');
+        alert('テスト送信完了！Google Formsの回答タブを確認してください。');
+    }, 2000);
+}</div>
+        </div>
+
+        <div class="step">
+            <h2>代替案: mailto方式（確実に動作）</h2>
+            <p>Google Formsがうまく動作しない場合は、mailto方式に切り替えることができます：</p>
+            <div class="code-block">// main.jsのsubmitToGoogleFormsを以下に置き換え
+async function submitToGoogleForms(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        profession: formData.get('profession') === 'other' 
+            ? formData.get('otherProfession') 
+            : formData.get('profession'),
+        experience: formData.get('experience'),
+        motivation: formData.get('motivation'),
+        portfolio: formData.get('portfolio')
+    };
+    
+    // メール本文を作成
+    const subject = 'Design Guild 参加申込み';
+    const body = `
+Design Guild 参加申込み
+
+【お名前】${data.name}
+【メールアドレス】${data.email}
+【職種・専門分野】${data.profession}
+【経験年数】${data.experience || '未回答'}
+【参加動機・期待すること】
+${data.motivation}
+【ポートフォリオURL】${data.portfolio || 'なし'}
+
+※このメールは自動生成されています。
+    `.trim();
+    
+    // mailtoリンクを開く
+    const mailtoLink = `mailto:hello@design-guild.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+    
+    // 成功メッセージを表示
+    setTimeout(() => {
+        form.style.display = 'none';
+        const successDiv = document.getElementById('formSuccess');
+        if (successDiv) {
+            successDiv.style.display = 'block';
+        }
+    }, 1000);
+}</div>
+        </div>
+    </div>
+
+    <script>
+        function testGoogleForms() {
+            console.log('=== Google Forms テスト送信 ===');
+            
+            // テストデータ
+            const testData = {
+                name: 'テスト太郎',
+                email: 'test@example.com',
+                profession: 'Webデザイナー',
+                experience: '1-3年',
+                motivation: 'テスト送信です'
+            };
+            
+            // フォームIDとURL
+            const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
+            const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+            
+            console.log('送信URL:', url);
+            console.log('送信データ:', testData);
+            
+            // エントリーIDマッピング
+            const params = new URLSearchParams({
+                'entry.1751089080': testData.name,
+                'entry.2019842798': testData.email,
+                'entry.61724704': testData.profession,
+                'entry.1887838426': testData.experience,
+                'entry.505500388': testData.motivation
+            });
+            
+            console.log('パラメータ:', params.toString());
+            
+            // テスト用iframe作成
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.name = 'test_iframe';
+            document.body.appendChild(iframe);
+            
+            // フォーム作成
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            form.target = 'test_iframe';
+            
+            params.forEach((value, key) => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            
+            console.log('送信開始...');
+            form.submit();
+            
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                document.body.removeChild(form);
+                console.log('送信完了（確認はGoogle Formsの回答タブで）');
+                alert('テスト送信完了！Google Formsの回答タブを確認してください。');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
