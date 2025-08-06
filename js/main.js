@@ -325,10 +325,11 @@ function animateParticles() {
     requestAnimationFrame(animateParticles);
 }
 
-// パーティクルアニメーション開始（デスクトップのみ）
-if (window.innerWidth > 768) {
-    animateParticles();
-}
+// パーティクルアニメーション開始（パフォーマンス最適化のため無効化）
+// 重いアニメーションが原因でエラーが発生しているため一時的に無効化
+// if (window.innerWidth > 768) {
+//     animateParticles();
+// }
 
 // ===================================
 // フォーム送信処理（mailto方式 - 確実に動作）
@@ -404,6 +405,12 @@ ${data.motivation}
 
 // フォームイベントの設定
 document.addEventListener('DOMContentLoaded', () => {
+    // URLパラメータをクリア（フォーム送信後のパラメータを削除）
+    if (window.location.search) {
+        // URLからパラメータを削除
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+    }
+    
     const joinForm = document.getElementById('joinForm');
     
     if (joinForm) {
@@ -411,10 +418,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const newForm = joinForm.cloneNode(true);
         joinForm.parentNode.replaceChild(newForm, joinForm);
         
-        // Google Forms送信を設定
+        // mailto送信を設定
         newForm.addEventListener('submit', submitToGoogleForms);
         
-        console.log('Design Guild - Google Forms連携が有効化されました');
+        console.log('Design Guild - フォーム送信設定完了（mailto方式）');
     }
 });
 
