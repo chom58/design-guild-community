@@ -331,6 +331,149 @@ if (window.innerWidth > 768) {
 }
 
 // ===================================
+// Google Forms連携 - フォーム送信処理
+// ===================================
+async function submitToGoogleForms(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    
+    // ボタンを無効化
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<span>送信中...</span>';
+    
+    // フォームデータを取得
+    const formData = new FormData(form);
+    const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        profession: formData.get('profession') === 'other' 
+            ? formData.get('otherProfession') 
+            : formData.get('profession'),
+        experience: formData.get('experience'),
+        motivation: formData.get('motivation'),
+        portfolio: formData.get('portfolio')
+    };
+    
+    // Google Forms用のURL
+    const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
+    const url = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+    
+    // エントリーIDのマッピング（Google Formsのフィールドに対応）
+    const params = new URLSearchParams({
+        'entry.1751089080': data.name,       // お名前
+        'entry.2019842798': data.email,      // メールアドレス
+        'entry.61724704': data.profession,   // 職種・専門分野
+        'entry.1887838426': data.experience || '', // 経験年数
+        'entry.505500388': data.motivation,  // 応募動機
+        'entry.123456789': data.portfolio || '' // ポートフォリオURL（エントリーIDは要確認）
+    });
+    
+    try {
+        // デバッグ用ログ
+        console.log('Design Guild - フォーム送信:', data);
+        
+        // iframe経由で送信（CORS回避）
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.name = 'hidden_iframe_' + Date.now();
+        document.body.appendChild(iframe);
+        
+        // フォームを作成して送信
+        const tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = url;
+        tempForm.target = iframe.name;
+        
+        // パラメータを追加
+        params.forEach((value, key) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            tempForm.appendChild(input);
+        });
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+        
+        // 成功処理
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+            document.body.removeChild(tempForm);
+            
+            // 既存の成功メッセージ表示
+            form.style.display = 'none';
+            const successDiv = document.getElementById('formSuccess');
+            if (successDiv) {
+                successDiv.style.display = 'block';
+            }
+            
+            // 3秒後にモーダルを閉じる
+            setTimeout(() => {
+                const modal = document.getElementById('joinModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+                // フォームをリセット
+                form.reset();
+                form.style.display = 'block';
+                if (successDiv) {
+                    successDiv.style.display = 'none';
+                }
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }, 3000);
+        }, 2000);
+        
+    } catch (error) {
+        console.error('送信エラー:', error);
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+        alert('送信に失敗しました。もう一度お試しください。');
+    }
+}
+
+// モーダルを閉じる関数
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        // フォームをリセット
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+            form.style.display = 'block';
+            const successDiv = modal.querySelector('.form-success, .success-message');
+            if (successDiv) {
+                successDiv.style.display = 'none';
+            }
+        }
+    }
+}
+
+// グローバルスコープに公開（onclick属性で使用するため）
+window.closeModal = closeModal;
+
+// フォームイベントの設定
+document.addEventListener('DOMContentLoaded', () => {
+    const joinForm = document.getElementById('joinForm');
+    
+    if (joinForm) {
+        // 既存のイベントリスナーをクリア
+        const newForm = joinForm.cloneNode(true);
+        joinForm.parentNode.replaceChild(newForm, joinForm);
+        
+        // Google Forms送信を設定
+        newForm.addEventListener('submit', submitToGoogleForms);
+        
+        console.log('Design Guild - Google Forms連携が有効化されました');
+    }
+});
+
+// ===================================
 // ページ離脱時の処理
 // ===================================
 window.addEventListener('beforeunload', () => {

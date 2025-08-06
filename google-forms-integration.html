@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms 統合ガイド - Design Guild</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2D3E50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #5B9BD5;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+        h2 {
+            color: #4A8BC5;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E8F2FF;
+        }
+        .method-card {
+            background: #F8FBFF;
+            border: 2px solid #E8F2FF;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .pros {
+            background: #E8F8E8;
+            border-left: 4px solid #4CAF50;
+        }
+        .cons {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+        }
+        code {
+            background: #F5F5F5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #1E1E1E;
+            color: #D4D4D4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .demo-button {
+            display: inline-block;
+            background: #5B9BD5;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 1rem 0;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(91, 155, 213, 0.3);
+        }
+        .step {
+            background: white;
+            border: 2px solid #E8F2FF;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+            padding-left: 3rem;
+        }
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: #5B9BD5;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .iframe-demo {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #E8F2FF;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .recommendation h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Google Forms 統合ガイド</h1>
+        <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">
+            Design Guildの応募フォームをセキュアに実装する方法
+        </p>
+
+        <div class="method-card">
+            <h2>📋 方法1: カスタムデザイン + Google Forms API</h2>
+            <p>現在の美しいフォームデザインを維持しながら、データをGoogle Formsに送信</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ メリット</h3>
+                    <ul>
+                        <li>デザインの完全なカスタマイズ</li>
+                        <li>ユーザー体験の統一性</li>
+                        <li>リアルタイムバリデーション</li>
+                        <li>アニメーション効果の維持</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>⚠️ デメリット</h3>
+                    <ul>
+                        <li>実装がやや複雑</li>
+                        <li>Google Forms IDの取得が必要</li>
+                        <li>CORSの設定が必要な場合あり</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>実装手順</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Google Formsを作成</strong>
+                <p>Google Formsで応募フォームを作成し、各フィールドのname属性を取得</p>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>フォームIDを取得</strong>
+                <p>URLから <code>https://docs.google.com/forms/d/e/[FORM_ID]/viewform</code> のFORM_IDを取得</p>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>JavaScriptを実装</strong>
+                <pre><code>// Google Formsへの送信
+async function submitToGoogleForms(formData) {
+    const GOOGLE_FORM_ID = 'YOUR_FORM_ID_HERE';
+    const url = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
+    
+    // フィールドマッピング（Google Formsの入力フィールドのname属性）
+    const params = new URLSearchParams({
+        'entry.123456789': formData.name,      // お名前
+        'entry.987654321': formData.email,     // メール
+        'entry.456789123': formData.profession, // 職種
+        'entry.789123456': formData.motivation  // 動機
+    });
+    
+    try {
+        // iframe経由で送信（CORS回避）
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = `${url}?${params.toString()}&submit=Submit`;
+        document.body.appendChild(iframe);
+        
+        // 成功メッセージ表示
+        setTimeout(() => {
+            document.body.removeChild(iframe);
+            showSuccessMessage();
+        }, 2000);
+        
+        return true;
+    } catch (error) {
+        console.error('送信エラー:', error);
+        return false;
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="method-card">
+            <h2>🖼️ 方法2: Google Forms iframe埋め込み</h2>
+            <p>Google Formsを直接ページに埋め込む最もシンプルな方法</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ メリット</h3>
+                    <ul>
+                        <li>実装が超簡単（5分で完了）</li>
+                        <li>メンテナンス不要</li>
+                        <li>確実に動作</li>
+                        <li>自動でレスポンシブ対応</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>⚠️ デメリット</h3>
+                    <ul>
+                        <li>デザインのカスタマイズに制限</li>
+                        <li>Googleブランディング表示</li>
+                        <li>サイトデザインとの統一感が難しい</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>実装手順</h3>
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Google Formsで埋め込みコードを取得</strong>
+                <p>フォーム編集画面 → 送信 → &lt;&gt;アイコン → HTMLコードをコピー</p>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>HTMLに埋め込み</strong>
+                <pre><code>&lt;!-- モーダル内のフォームを置き換え --&gt;
+&lt;div class="google-form-container"&gt;
+    &lt;iframe 
+        src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true"
+        width="100%" 
+        height="800" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0"&gt;
+        読み込んでいます…
+    &lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>スタイリング調整</strong>
+                <pre><code>.google-form-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.google-form-container iframe {
+    border-radius: 8px;
+    min-height: 600px;
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="recommendation">
+            <h3>🎯 推奨実装方法</h3>
+            <p style="font-size: 1.1rem; margin: 1rem 0;">
+                <strong>GitHub Pagesで公開する場合：方法2（iframe埋め込み）</strong>
+            </p>
+            <p>
+                実装が簡単で、確実に動作し、個人情報も完全に保護されます。<br>
+                デザインをある程度犠牲にしても、セキュリティと実装の簡単さを優先することをお勧めします。
+            </p>
+        </div>
+
+        <div class="method-card">
+            <h2>🛠️ Google Forms作成時の推奨設定</h2>
+            <ol style="line-height: 2;">
+                <li><strong>必須項目の設定</strong>：名前、メール、職種、動機を必須に</li>
+                <li><strong>メール収集</strong>：設定 → レスポンス → メールアドレスを収集</li>
+                <li><strong>確認メール</strong>：回答のコピーを回答者に送信</li>
+                <li><strong>通知設定</strong>：新しい回答についてメール通知を受け取る</li>
+                <li><strong>スプレッドシート連携</strong>：回答タブ → スプレッドシートアイコン</li>
+            </ol>
+        </div>
+
+        <div class="method-card">
+            <h2>📝 実装後のテスト項目</h2>
+            <ul style="line-height: 2;">
+                <li>✅ フォーム送信が正常に完了するか</li>
+                <li>✅ Google スプレッドシートにデータが記録されるか</li>
+                <li>✅ 確認メールが送信されるか</li>
+                <li>✅ 管理者に通知が届くか</li>
+                <li>✅ モバイル表示が適切か</li>
+                <li>✅ エラー時の挙動が適切か</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="demo-button">メインページに戻る</a>
+        </div>
+    </div>
+</body>
+</html>
