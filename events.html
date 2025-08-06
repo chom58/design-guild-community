@@ -140,7 +140,75 @@
                 <p class="form-subtitle">異分野のクリエイターと出会い、新しい表現を創造しましょう</p>
                 
                 <form id="joinForm" class="join-form">
-                    <!-- フォームの内容は index.html と同じ -->
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profession">職種・専門分野 <span class="required">*</span></label>
+                        <select id="profession" name="profession" required>
+                            <option value="">選択してください</option>
+                            <option value="graphic-designer">グラフィックデザイナー</option>
+                            <option value="web-designer">Webデザイナー</option>
+                            <option value="ui-ux-designer">UI/UXデザイナー</option>
+                            <option value="frontend-engineer">フロントエンドエンジニア</option>
+                            <option value="backend-engineer">バックエンドエンジニア</option>
+                            <option value="ai-engineer">AIエンジニア</option>
+                            <option value="illustrator">イラストレーター</option>
+                            <option value="photographer">フォトグラファー</option>
+                            <option value="artist">アーティスト</option>
+                            <option value="video-director">映像ディレクター</option>
+                            <option value="motion-designer">モーションデザイナー</option>
+                            <option value="fashion-designer">ファッションデザイナー</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="otherProfessionGroup" style="display: none;">
+                        <label for="otherProfession">その他の職種</label>
+                        <input type="text" id="otherProfession" name="otherProfession">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">経験年数</label>
+                        <select id="experience" name="experience">
+                            <option value="">選択してください</option>
+                            <option value="0-1">1年未満</option>
+                            <option value="1-3">1〜3年</option>
+                            <option value="3-5">3〜5年</option>
+                            <option value="5-10">5〜10年</option>
+                            <option value="10+">10年以上</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">参加動機・期待すること <span class="required">*</span></label>
+                        <textarea id="motivation" name="motivation" rows="4" required placeholder="どんなコラボレーションに興味がありますか？"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="portfolio">ポートフォリオURL（任意）</label>
+                        <input type="url" id="portfolio" name="portfolio" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="newsletter" name="newsletter" checked>
+                            ニュースレターを受け取る
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">
+                            <span>参加申し込みを送信</span>
+                        </button>
+                    </div>
                 </form>
                 
                 <div id="formSuccess" class="form-success" style="display: none;">

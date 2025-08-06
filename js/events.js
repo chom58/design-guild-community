@@ -313,11 +313,105 @@ function closeEventModal() {
     elements.eventModal.setAttribute('aria-hidden', 'true');
 }
 
-// 参加申し込みモーダル（簡易版）
+// 参加申し込みモーダル
 function showJoinModal() {
-    alert('参加申し込み機能は準備中です。\nお問い合わせ: hello@design-guild.jp');
+    const modal = document.getElementById('joinModal');
+    if (modal) {
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function closeJoinModal() {
-    // メインページの機能を使用
+    const modal = document.getElementById('joinModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        
+        // フォームをリセット
+        const form = document.getElementById('joinForm');
+        const formSuccess = document.getElementById('formSuccess');
+        if (form) form.style.display = 'block';
+        if (formSuccess) formSuccess.style.display = 'none';
+        if (form) form.reset();
+    }
 }
+
+// フォーム送信処理
+document.addEventListener('DOMContentLoaded', () => {
+    const joinForm = document.getElementById('joinForm');
+    const professionSelect = document.getElementById('profession');
+    const otherProfessionGroup = document.getElementById('otherProfessionGroup');
+    
+    // 職種選択時の処理
+    if (professionSelect) {
+        professionSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'other') {
+                otherProfessionGroup.style.display = 'block';
+                document.getElementById('otherProfession').required = true;
+            } else {
+                otherProfessionGroup.style.display = 'none';
+                document.getElementById('otherProfession').required = false;
+            }
+        });
+    }
+    
+    // フォーム送信処理
+    if (joinForm) {
+        joinForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(joinForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                profession: formData.get('profession') === 'other' 
+                    ? formData.get('otherProfession') 
+                    : formData.get('profession'),
+                experience: formData.get('experience'),
+                motivation: formData.get('motivation'),
+                portfolio: formData.get('portfolio'),
+                newsletter: formData.get('newsletter') === 'on'
+            };
+            
+            // メールで送信（mailto）
+            const mailSubject = 'Design Guild 参加申込';
+            const mailBody = `
+Design Guild 参加申込
+
+【お名前】${data.name}
+【メールアドレス】${data.email}
+【職種・専門分野】${data.profession}
+【経験年数】${data.experience || '未回答'}
+【参加動機・期待すること】
+${data.motivation}
+【ポートフォリオURL】${data.portfolio || 'なし'}
+【ニュースレター】${data.newsletter ? '希望する' : '希望しない'}
+
+※このメールは自動生成されています。
+            `.trim();
+            
+            // メールリンクを開く
+            const mailtoLink = `mailto:hello@design-guild.jp?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+            window.location.href = mailtoLink;
+            
+            // 成功メッセージを表示
+            setTimeout(() => {
+                joinForm.style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+            }, 1000);
+        });
+    }
+    
+    // モーダル外クリックで閉じる
+    const joinModal = document.getElementById('joinModal');
+    if (joinModal) {
+        joinModal.addEventListener('click', (e) => {
+            if (e.target === joinModal) {
+                closeJoinModal();
+            }
+        });
+    }
+});
