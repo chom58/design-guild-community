@@ -426,17 +426,27 @@ a:focus-visible {
 }
 
 .card-front {
+    position: relative;
     background: var(--bg-dark-tertiary);
-    border: 1px solid transparent;
-    background-image: linear-gradient(var(--bg-dark-tertiary), var(--bg-dark-tertiary)), var(--gradient-neon);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    border: none;
+}
+
+.card-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1px;
+    background: var(--gradient-neon);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
 }
 
 .card-back {
     background: var(--bg-dark-secondary);
     transform: rotateY(180deg);
-    border: 2px solid var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
     box-shadow: var(--shadow-neon);
 }
 
