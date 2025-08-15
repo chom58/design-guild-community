@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@
     <meta name="twitter:image" content="https://design-guild.jp/images/ogp-image.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="images/favicon-32.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -720,6 +721,28 @@
     <!-- フッター -->
     <footer class="footer-dark" role="contentinfo">
         <div class="container">
+            <!-- 運営メンバー -->
+            <div class="footer-organizers">
+                <h3 class="footer-section-title">運営メンバー</h3>
+                <div class="footer-organizers-grid">
+                    <div class="footer-organizer" onclick="showOrganizerModal('chomu')" tabindex="0" role="button" aria-label="ちょむの詳細を見る" onkeydown="if(event.key==='Enter') showOrganizerModal('chomu')">
+                        <img src="images/chomu.png" alt="ちょむ" class="footer-organizer-image" loading="lazy">
+                        <div class="footer-organizer-info">
+                            <h4>ちょむ</h4>
+                            <p>クリエイターにやたらと縁がある人</p>
+                        </div>
+                    </div>
+                    <div class="footer-organizer" onclick="showOrganizerModal('nozawa')" tabindex="0" role="button" aria-label="野澤の詳細を見る" onkeydown="if(event.key==='Enter') showOrganizerModal('nozawa')">
+                        <img src="images/nozawa.png" alt="野澤" class="footer-organizer-image" loading="lazy">
+                        <div class="footer-organizer-info">
+                            <h4>野澤</h4>
+                            <p>雑誌の凄腕アートディレクター</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-divider"></div>
             
             <div class="footer-grid">
                 <div class="footer-brand">
@@ -744,7 +767,7 @@
                 </div>
                 <div class="footer-contact">
                     <h4>お問い合わせ</h4>
-                    <p>hello@design-guild.jp</p>
+                    <p>umigakikoeruyo@gmail.com</p>
                 </div>
             </div>
             <div class="footer-bottom">

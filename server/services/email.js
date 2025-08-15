@@ -92,7 +92,7 @@ class EmailService {
                         
                         <p style="color: #475569; margin-top: 30px;">
                             ご質問がございましたら、お気軽にお問い合わせください。<br>
-                            <a href="mailto:hello@design-guild.jp" style="color: #00D9FF;">hello@design-guild.jp</a>
+                            <a href="mailto:umigakikoeruyo@gmail.com" style="color: #00D9FF;">umigakikoeruyo@gmail.com</a>
                         </p>
                     </div>
                     <div style="background: #1E293B; padding: 30px; text-align: center;">

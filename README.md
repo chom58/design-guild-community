@@ -103,7 +103,7 @@ design-guild/
 
 ## 📧 お問い合わせ
 
-hello@design-guild.jp
+umigakikoeruyo@gmail.com
 
 ---
 

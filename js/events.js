@@ -288,7 +288,7 @@ function showEventDetail(eventId) {
         
         <div class="event-modal-actions">
             ${event.registrationOpen ? `
-                <a href="mailto:hello@design-guild.jp?subject=${encodeURIComponent(event.mailSubject)}&body=${encodeURIComponent(event.mailBody)}" 
+                <a href="mailto:umigakikoeruyo@gmail.com?subject=${encodeURIComponent(event.mailSubject)}&body=${encodeURIComponent(event.mailBody)}" 
                    class="neon-button mail-button">
                     <span>参加申し込み</span>
                 </a>
@@ -394,7 +394,7 @@ ${data.motivation}
             `.trim();
             
             // メールリンクを開く
-            const mailtoLink = `mailto:hello@design-guild.jp?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+            const mailtoLink = `mailto:umigakikoeruyo@gmail.com?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
             window.location.href = mailtoLink;
             
             // 成功メッセージを表示

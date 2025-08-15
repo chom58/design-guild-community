@@ -372,7 +372,7 @@ ${data.motivation}
 ※このメールは自動生成されています。`;
     
     // mailtoリンクを開く
-    const mailtoLink = `mailto:hello@design-guild.jp?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:umigakikoeruyo@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // メールクライアントを開く
     window.location.href = mailtoLink;
