@@ -337,8 +337,8 @@ function animateParticles() {
 async function submitToGoogleForms(event) {
     event.preventDefault();
     
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
+    const form = document.getElementById('joinForm');
+    const submitButton = document.getElementById('submitBtn');
     const originalText = submitButton.innerHTML;
     
     // バリデーション（dark-theme.jsの関数を使用）
@@ -465,17 +465,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const joinForm = document.getElementById('joinForm');
+    const submitBtn = document.getElementById('submitBtn');
     
-    if (joinForm) {
-        // フォームのデフォルト動作を無効化
-        joinForm.setAttribute('method', 'POST');
-        joinForm.setAttribute('action', '#');
+    if (submitBtn && joinForm) {
+        // ボタンクリックで送信処理を実行
+        submitBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // フォームのsubmitイベントをエミュレート
+            const event = new Event('submit', {
+                bubbles: true,
+                cancelable: true
+            });
+            event.target = joinForm;
+            event.currentTarget = joinForm;
+            submitToGoogleForms(event);
+            return false;
+        });
         
-        // submitイベントを設定
+        // フォームのデフォルトsubmitを無効化
         joinForm.addEventListener('submit', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            submitToGoogleForms(e);
             return false;
         });
         

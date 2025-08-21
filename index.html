@@ -791,7 +791,7 @@
                 <h2 class="form-title" id="join-modal-title">Design Guildに参加する</h2>
                 <p class="form-subtitle">異分野のクリエイターと出会い、新しい表現を創造しましょう</p>
                 
-                <form id="joinForm" class="join-form" method="POST" action="#" onsubmit="return false;">
+                <form id="joinForm" class="join-form" novalidate>
                     <div class="form-group">
                         <label for="name">お名前 <span class="required">*</span></label>
                         <input type="text" id="name" name="name" required>
@@ -857,7 +857,7 @@
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="submit-button">
+                        <button type="button" class="submit-button" id="submitBtn">
                             <span>参加申し込みを送信</span>
                         </button>
                     </div>
