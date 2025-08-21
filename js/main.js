@@ -467,14 +467,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const joinForm = document.getElementById('joinForm');
     
     if (joinForm) {
-        // 既存のイベントリスナーをクリア
-        const newForm = joinForm.cloneNode(true);
-        joinForm.parentNode.replaceChild(newForm, joinForm);
+        // フォームのデフォルト動作を無効化
+        joinForm.setAttribute('method', 'POST');
+        joinForm.setAttribute('action', '#');
         
-        // Google Forms送信を設定
-        newForm.addEventListener('submit', submitToGoogleForms);
+        // submitイベントを設定
+        joinForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            submitToGoogleForms(e);
+            return false;
+        });
         
-        console.log('Design Guild - フォーム送信設定完了（mailto方式）');
+        console.log('Design Guild - フォーム送信設定完了（Google Forms連携）');
     }
 });
 
