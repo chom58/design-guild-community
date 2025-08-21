@@ -2,7 +2,7 @@
  * デザインギルド - メインJavaScript
  */
 
-// DOM要素の取得
+// DOM要素の取得（存在しない要素があってもエラーにならないように）
 const elements = {
     loading: document.getElementById('loading'),
     navToggle: document.querySelector('.nav-toggle'),
@@ -21,10 +21,14 @@ const elements = {
 // ローディング画面の制御
 // ===================================
 window.addEventListener('load', () => {
-    setTimeout(() => {
-        elements.loading.classList.add('fade-out');
-        initAnimations();
-    }, 1000);
+    if (elements.loading) {
+        setTimeout(() => {
+            elements.loading.classList.add('fade-out');
+            if (typeof initAnimations === 'function') {
+                initAnimations();
+            }
+        }, 1000);
+    }
 });
 
 // ===================================
