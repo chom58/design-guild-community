@@ -341,18 +341,33 @@ async function submitToGoogleForms(event) {
     const submitButton = form.querySelector('button[type="submit"]');
     const originalText = submitButton.innerHTML;
     
+    // バリデーション（dark-theme.jsの関数を使用）
+    if (typeof validateForm === 'function' && !validateForm()) {
+        return;
+    }
+    
     // ボタンを無効化
     submitButton.disabled = true;
     submitButton.innerHTML = '<span>送信中...</span>';
     
-    // フォームデータを取得
-    const formData = new FormData(form);
-    
-    // 職種の処理
-    let profession = formData.get('profession');
-    if (profession === 'other') {
-        profession = formData.get('otherProfession');
-    }
+    try {
+        // フォームデータを取得
+        const formData = new FormData(form);
+        
+        // 職種の処理
+        let profession = formData.get('profession');
+        if (profession === 'other') {
+            profession = formData.get('otherProfession');
+        }
+        
+        console.log('送信データ:', {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            profession: profession,
+            experience: formData.get('experience'),
+            motivation: formData.get('motivation'),
+            portfolio: formData.get('portfolio')
+        });
     
     // Google FormsのエントリーID
     const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
@@ -432,6 +447,13 @@ async function submitToGoogleForms(event) {
             submitButton.innerHTML = originalText;
         }, 3000);
     }, 1500);
+    
+    } catch (error) {
+        console.error('送信エラー:', error);
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+        alert('送信中にエラーが発生しました。もう一度お試しください。');
+    }
 }
 
 // フォームイベントの設定
