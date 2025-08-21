@@ -332,7 +332,8 @@ function animateParticles() {
 // }
 
 // ===================================
-// フォーム送信処理（mailto方式 - 確実に動作）
+// Google Forms送信処理
+// ===================================
 async function submitToGoogleForms(event) {
     event.preventDefault();
     
@@ -342,43 +343,71 @@ async function submitToGoogleForms(event) {
     
     // ボタンを無効化
     submitButton.disabled = true;
-    submitButton.innerHTML = '<span>処理中...</span>';
+    submitButton.innerHTML = '<span>送信中...</span>';
     
     // フォームデータを取得
     const formData = new FormData(form);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        profession: formData.get('profession') === 'other' 
-            ? formData.get('otherProfession') 
-            : formData.get('profession'),
-        experience: formData.get('experience') || '',
-        motivation: formData.get('motivation'),
-        portfolio: formData.get('portfolio') || ''
+    
+    // 職種の処理
+    let profession = formData.get('profession');
+    if (profession === 'other') {
+        profession = formData.get('otherProfession');
+    }
+    
+    // Google FormsのエントリーID
+    const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
+    const FORM_URL = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
+    
+    // エントリーIDとフォームフィールドのマッピング
+    const entries = {
+        'entry.2019842798': formData.get('name'),           // お名前
+        'entry.61724704': formData.get('email'),            // メールアドレス
+        'entry.966592544': profession,                      // 職種・専門分野
+        'entry.1896235522': formData.get('experience') || '', // 経験年数
+        'entry.505500388': formData.get('motivation'),      // 参加動機
+        'entry.1751089080': formData.get('portfolio') || ''  // ポートフォリオURL
     };
     
-    // メール本文を作成
-    const subject = 'Design Guild 参加申込み';
-    const body = `Design Guild 参加申込み
-
-【お名前】${data.name}
-【メールアドレス】${data.email}
-【職種・専門分野】${data.profession}
-【経験年数】${data.experience}
-【参加動機・期待すること】
-${data.motivation}
-【ポートフォリオURL】${data.portfolio || 'なし'}
-
-※このメールは自動生成されています。`;
+    // URLエンコードされたデータを準備
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(entries)) {
+        if (value) {
+            params.append(key, value);
+        }
+    }
     
-    // mailtoリンクを開く
-    const mailtoLink = `mailto:umigakikoeruyo@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // iframeを使用して送信（CORSを回避）
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'hidden-iframe-' + Date.now();
+    document.body.appendChild(iframe);
     
-    // メールクライアントを開く
-    window.location.href = mailtoLink;
+    // フォームを動的に作成して送信
+    const tempForm = document.createElement('form');
+    tempForm.method = 'POST';
+    tempForm.action = FORM_URL;
+    tempForm.target = iframe.name;
     
-    // 成功メッセージを表示
+    for (const [key, value] of Object.entries(entries)) {
+        if (value) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            tempForm.appendChild(input);
+        }
+    }
+    
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    
+    // 送信後の処理
     setTimeout(() => {
+        // iframeとtempFormを削除
+        document.body.removeChild(iframe);
+        document.body.removeChild(tempForm);
+        
+        // 成功メッセージを表示
         form.style.display = 'none';
         const successDiv = document.getElementById('formSuccess');
         if (successDiv) {
@@ -390,6 +419,8 @@ ${data.motivation}
             const modal = document.getElementById('joinModal');
             if (modal) {
                 modal.style.display = 'none';
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
             }
             // フォームをリセット
             form.reset();
@@ -400,7 +431,7 @@ ${data.motivation}
             submitButton.disabled = false;
             submitButton.innerHTML = originalText;
         }, 3000);
-    }, 1000);
+    }, 1500);
 }
 
 // フォームイベントの設定
@@ -418,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newForm = joinForm.cloneNode(true);
         joinForm.parentNode.replaceChild(newForm, joinForm);
         
-        // mailto送信を設定
+        // Google Forms送信を設定
         newForm.addEventListener('submit', submitToGoogleForms);
         
         console.log('Design Guild - フォーム送信設定完了（mailto方式）');
