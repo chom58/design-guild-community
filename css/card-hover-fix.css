@@ -1,0 +1,49 @@
+/* カードホバー時のレイアウトシフト問題を修正するための追加CSS */
+
+/* グリッドコンテナを固定 */
+.project-cards {
+    /* グリッドアイテムが動かないように固定 */
+    contain: layout style;
+}
+
+/* 各カードを独立したレイヤーに配置 */
+.project-card-3d {
+    /* GPUレイヤーを作成して他の要素に影響しないようにする */
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    
+    /* レイアウトの計算を最適化 */
+    contain: layout style paint;
+    
+    /* ホバー時のレイアウトシフトを防ぐ */
+    position: relative !important;
+    z-index: 1;
+}
+
+/* ホバー時も位置を固定 */
+.project-card-3d:hover {
+    transform: translate3d(0, 0, 0) !important;
+    z-index: 10;
+}
+
+/* カード内部の回転のみを許可 */
+.card-inner {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* すべてのカードフェイスにbox-sizingを適用 */
+.card-face,
+.card-front,
+.card-back {
+    box-sizing: border-box !important;
+}
+
+/* グリッドアイテムの高さを完全に固定 */
+.project-card-3d::before {
+    content: '';
+    display: block;
+    padding-bottom: 0;
+    height: 400px;
+}
