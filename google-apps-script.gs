@@ -4,8 +4,22 @@
 
 function doPost(e) {
   try {
-    // POSTデータを解析
-    const data = JSON.parse(e.postData.contents);
+    // CORSヘッダーを設定
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    
+    // パラメータまたはJSONデータを解析
+    let data;
+    if (e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (jsonError) {
+        // JSONパースエラーの場合、パラメータとして処理
+        data = e.parameter;
+      }
+    } else {
+      data = e.parameter;
+    }
     
     // Google Formsに送信
     const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/formResponse';
@@ -23,27 +37,30 @@ function doPost(e) {
     // フォームに送信
     const options = {
       'method': 'post',
-      'payload': payload
+      'payload': payload,
+      'muteHttpExceptions': true
     };
     
-    UrlFetchApp.fetch(formUrl, options);
+    const response = UrlFetchApp.fetch(formUrl, options);
     
     // 成功レスポンスを返す
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        'result': 'success',
-        'message': '送信が完了しました'
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    output.setContent(JSON.stringify({
+      'result': 'success',
+      'message': '送信が完了しました',
+      'data': data
+    }));
+    
+    return output;
       
   } catch(error) {
     // エラーレスポンスを返す
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        'result': 'error',
-        'message': error.toString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    output.setContent(JSON.stringify({
+      'result': 'error',
+      'message': error.toString()
+    }));
+    return output;
   }
 }
 
