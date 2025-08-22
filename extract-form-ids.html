@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Forms エントリーID抽出ツール</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+        }
+        .instructions {
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        .result {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: monospace;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .copy-btn {
+            background: #34a853;
+            font-size: 14px;
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+        .field-mapping {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .field-name {
+            color: #4285f4;
+            font-weight: bold;
+        }
+        .entry-id {
+            color: #ea4335;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Google Forms エントリーID抽出ツール</h1>
+        
+        <div class="instructions">
+            <h3>使い方：</h3>
+            <div class="step">1. Google Formsを開く: <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/viewform" target="_blank">フォームを開く</a></div>
+            <div class="step">2. ブラウザで右クリック → 「ページのソースを表示」を選択</div>
+            <div class="step">3. Ctrl+A (Mac: Cmd+A) で全選択</div>
+            <div class="step">4. Ctrl+C (Mac: Cmd+C) でコピー</div>
+            <div class="step">5. このページに戻って「分析開始」ボタンをクリック</div>
+        </div>
+
+        <button onclick="getFormEntries()">📋 クリップボードから分析開始</button>
+        
+        <div id="result" class="result">
+            <h3>抽出結果：</h3>
+            <div id="entries"></div>
+            <button class="copy-btn" onclick="copyCode()">コードをコピー</button>
+        </div>
+    </div>
+
+    <script>
+        async function getFormEntries() {
+            try {
+                // クリップボードから読み取り
+                const text = await navigator.clipboard.readText();
+                
+                // entry.で始まる数字を抽出
+                const entryPattern = /entry\.(\d+)/g;
+                const entries = new Set();
+                let match;
+                
+                while ((match = entryPattern.exec(text)) !== null) {
+                    entries.add(match[1]);
+                }
+                
+                // フィールド名を推測（data-params属性から）
+                const fieldPattern = /data-params=".*?\[(\d+),.*?"([^"]*?)"/g;
+                const fieldNames = {};
+                
+                while ((match = fieldPattern.exec(text)) !== null) {
+                    fieldNames[match[1]] = match[2];
+                }
+                
+                // 別のパターンでもフィールド名を探す
+                const labelPattern = /\["([^"]+?)","entry\.(\d+)"/g;
+                while ((match = labelPattern.exec(text)) !== null) {
+                    if (!fieldNames[match[2]]) {
+                        fieldNames[match[2]] = match[1];
+                    }
+                }
+                
+                // aria-labelからも取得
+                const ariaPattern = /aria-label="([^"]+)"[^>]*name="entry\.(\d+)"/g;
+                while ((match = ariaPattern.exec(text)) !== null) {
+                    if (!fieldNames[match[2]]) {
+                        fieldNames[match[2]] = match[1];
+                    }
+                }
+                
+                if (entries.size === 0) {
+                    alert('エントリーIDが見つかりませんでした。正しいHTMLソースをコピーしてください。');
+                    return;
+                }
+                
+                // 結果を表示
+                let html = '<h4>見つかったエントリーID：</h4>';
+                let codeSnippet = `// Google FormsのエントリーIDマッピング\nconst entries = {\n`;
+                
+                const sortedEntries = Array.from(entries).sort();
+                sortedEntries.forEach(entryId => {
+                    const fieldName = fieldNames[entryId] || '不明なフィールド';
+                    html += `<div class="field-mapping">
+                        <span class="field-name">${fieldName}</span>: 
+                        <span class="entry-id">entry.${entryId}</span>
+                    </div>`;
+                    
+                    // 推測されるフィールド名
+                    let varName = 'unknown';
+                    if (fieldName.includes('名前') || fieldName.includes('Name')) varName = 'name';
+                    else if (fieldName.includes('メール') || fieldName.includes('Email')) varName = 'email';
+                    else if (fieldName.includes('職種') || fieldName.includes('専門')) varName = 'profession';
+                    else if (fieldName.includes('経験')) varName = 'experience';
+                    else if (fieldName.includes('動機')) varName = 'motivation';
+                    else if (fieldName.includes('ポートフォリオ') || fieldName.includes('URL')) varName = 'portfolio';
+                    
+                    codeSnippet += `    'entry.${entryId}': formData.get('${varName}'), // ${fieldName}\n`;
+                });
+                
+                codeSnippet += `};\n\n// フォームURL\nconst FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';\nconst FORM_URL = \`https://docs.google.com/forms/u/0/d/e/\${FORM_ID}/formResponse\`;`;
+                
+                html += `<h4>コード：</h4><pre id="codeSnippet">${codeSnippet}</pre>`;
+                
+                document.getElementById('entries').innerHTML = html;
+                document.getElementById('result').classList.add('show');
+                
+            } catch (err) {
+                alert('クリップボードの読み取りに失敗しました。\n手動でHTMLソースをコピーして、もう一度お試しください。');
+                console.error(err);
+            }
+        }
+        
+        function copyCode() {
+            const code = document.getElementById('codeSnippet').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('コードをクリップボードにコピーしました！');
+            });
+        }
+    </script>
+</body>
+</html>

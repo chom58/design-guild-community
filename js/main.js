@@ -379,14 +379,15 @@ async function submitToGoogleForms(event) {
     const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
     const FORM_URL = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
     
-    // エントリーIDとフォームフィールドのマッピング
+    // エントリーIDとフォームフィールドのマッピング（正しいIDに更新済み）
     const entries = {
-        'entry.2019842798': formData.get('name'),           // お名前
-        'entry.61724704': formData.get('email'),            // メールアドレス
+        'entry.1755098959': formData.get('name'),           // お名前(ニックネームでok)
+        'entry.1593853110': formData.get('email'),          // メールアドレス
+        'entry.1887838426': '',                             // LINE ID（フォームに無いため空）
         'entry.966592544': profession,                      // 職種・専門分野
         'entry.1896235522': formData.get('experience') || '', // 経験年数
-        'entry.505500388': formData.get('motivation'),      // 参加動機
-        'entry.1751089080': formData.get('portfolio') || ''  // ポートフォリオURL
+        'entry.505500388': formData.get('motivation'),      // 参加動機・期待すること
+        'entry.1751089080': formData.get('portfolio') || ''  // ポートフォリオURL（任意）
     };
     
     // URLエンコードされたデータを準備
