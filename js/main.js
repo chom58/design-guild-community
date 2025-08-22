@@ -375,9 +375,10 @@ async function submitToGoogleForms(event) {
             portfolio: formData.get('portfolio')
         });
     
-    // Google FormsのエントリーID
-    const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q';
-    const FORM_URL = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
+    // Google Apps Script経由で送信（CORS回避）
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyQRFEjUsje4rDN-MT0MNivcj2MGCC71FiTh0qAqoFFFx74XyccuI0t1Npso7E85oo/exec';
+    const FORM_ID = '1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q'; // バックアップ用
+    const FORM_URL = GAS_URL; // Google Apps Script経由で送信
     
     // エントリーIDとフォームフィールドのマッピング（正しいIDに更新済み）
     const entries = {
@@ -398,17 +399,28 @@ async function submitToGoogleForms(event) {
         }
     }
     
-    // fetch APIを使用して送信（no-corsモード）
-    // Google FormsはCORSを許可していないため、no-corsモードで送信
-    // レスポンスは確認できないが、データは送信される
+    // Google Apps Script経由で送信（JSONデータとして）
+    const jsonData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        lineId: formData.get('lineId') || '',
+        profession: profession,
+        experience: formData.get('experience') || '',
+        motivation: formData.get('motivation'),
+        portfolio: formData.get('portfolio') || ''
+    };
+    
+    // fetch APIでGoogle Apps Scriptに送信
     fetch(FORM_URL, {
         method: 'POST',
-        mode: 'no-cors', // CORSエラーを回避
+        mode: 'cors', // Google Apps ScriptはCORSを許可
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
         },
-        body: params.toString()
-    }).then(() => {
+        body: JSON.stringify(jsonData)
+    }).then(response => response.json()).then(result => {
+        console.log('GAS Response:', result);
+        if (result.result === 'success') {
         console.log('フォーム送信完了');
         
         // 成功メッセージを表示
@@ -450,40 +462,18 @@ async function submitToGoogleForms(event) {
             submitButton.disabled = false;
             submitButton.innerHTML = originalText;
         }, 3000);
-    }).catch((error) => {
-        // no-corsモードではエラーも正常扱いになることがある
-        console.log('送信処理完了（no-corsモード）');
-        
-        // エラーでも成功として扱う（Google Formsの仕様）
-        form.style.display = 'none';
-        let successDiv = document.getElementById('formSuccess');
-        if (!successDiv) {
-            successDiv = document.createElement('div');
-            successDiv.id = 'formSuccess';
-            successDiv.style.cssText = `
-                text-align: center;
-                padding: 40px 20px;
-                background: #f0f9ff;
-                border-radius: 8px;
-                margin: 20px 0;
-            `;
-            successDiv.innerHTML = `
-                <h3 style="color: #4CAF50; margin-bottom: 10px;">✓ 送信完了</h3>
-                <p>参加申し込みを受け付けました。<br>確認メールをお送りしますので、しばらくお待ちください。</p>
-            `;
-            form.parentElement.appendChild(successDiv);
+        } else {
+            throw new Error(result.message || '送信に失敗しました');
         }
-        successDiv.style.display = 'block';
+    }).catch((error) => {
+        console.error('送信エラー:', error);
         
-        setTimeout(() => {
-            form.reset();
-            form.style.display = 'block';
-            if (successDiv) {
-                successDiv.style.display = 'none';
-            }
-            submitButton.disabled = false;
-            submitButton.innerHTML = originalText;
-        }, 3000);
+        // エラーメッセージを表示
+        alert('送信中にエラーが発生しました。もう一度お試しください。\n\n' + error.message);
+        
+        // ボタンを元に戻す
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
     });
     
     } catch (error) {
