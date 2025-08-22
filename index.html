@@ -793,13 +793,18 @@
                 
                 <form id="joinForm" class="join-form" novalidate>
                     <div class="form-group">
-                        <label for="name">お名前 <span class="required">*</span></label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name">お名前(ニックネームでok) <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="ニックネームでも大丈夫です">
                     </div>
                     
                     <div class="form-group">
                         <label for="email">メールアドレス <span class="required">*</span></label>
                         <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lineId">LINE ID</label>
+                        <input type="text" id="lineId" name="lineId" placeholder="連絡用（任意）">
                     </div>
                     
                     <div class="form-group">

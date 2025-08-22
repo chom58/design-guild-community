@@ -383,7 +383,7 @@ async function submitToGoogleForms(event) {
     const entries = {
         'entry.1755098959': formData.get('name'),           // お名前(ニックネームでok)
         'entry.1593853110': formData.get('email'),          // メールアドレス
-        'entry.1887838426': '',                             // LINE ID（フォームに無いため空）
+        'entry.1887838426': formData.get('lineId') || '',   // LINE ID
         'entry.966592544': profession,                      // 職種・専門分野
         'entry.1896235522': formData.get('experience') || '', // 経験年数
         'entry.505500388': formData.get('motivation'),      // 参加動機・期待すること
