@@ -912,6 +912,17 @@ a:focus-visible {
     position: relative;
     overflow: hidden;
     transition: var(--transition-smooth);
+    text-decoration: none;
+    display: inline-block;
+}
+
+a.neon-button {
+    color: var(--neon-cyan);
+    text-decoration: none;
+}
+
+a.neon-button:hover {
+    color: var(--bg-dark);
 }
 
 .neon-button::before {

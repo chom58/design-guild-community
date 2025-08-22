@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Apps Script デバッグツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4285f4;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        h3 {
+            color: #4285f4;
+            margin-top: 0;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Google Apps Script デバッグツール</h1>
+        
+        <div class="test-section">
+            <h3>1. GETテスト（基本動作確認）</h3>
+            <button onclick="testGet()">GETテストを実行</button>
+            <div id="getResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. POST テスト（シンプル）</h3>
+            <button onclick="testSimplePost()">シンプルPOSTテスト</button>
+            <div id="simpleResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. フォームデータ送信テスト</h3>
+            <form id="testForm">
+                <input type="text" id="name" placeholder="名前" value="テスト太郎">
+                <input type="email" id="email" placeholder="メール" value="test@example.com">
+                <input type="text" id="lineId" placeholder="LINE ID" value="test_line">
+                <select id="profession">
+                    <option value="designer">デザイナー</option>
+                    <option value="engineer">エンジニア</option>
+                </select>
+                <textarea id="motivation" placeholder="動機">これはテストです</textarea>
+                <button type="button" onclick="testFormPost()">フォーム送信テスト</button>
+            </form>
+            <div id="formResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 直接Google Forms送信テスト</h3>
+            <button onclick="testDirectGoogleForms()">直接送信テスト</button>
+            <div id="directResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. URLパラメータテスト</h3>
+            <button onclick="testUrlParams()">URLパラメータで送信</button>
+            <div id="urlResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbyQRFEjUsje4rDN-MT0MNivcj2MGCC71FiTh0qAqoFFFx74XyccuI0t1Npso7E85oo/exec';
+        
+        // 1. GETテスト
+        async function testGet() {
+            const resultDiv = document.getElementById('getResult');
+            resultDiv.textContent = 'テスト中...';
+            
+            try {
+                const response = await fetch(GAS_URL);
+                const text = await response.text();
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `成功!\nレスポンス: ${text}`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+        
+        // 2. シンプルPOSTテスト
+        async function testSimplePost() {
+            const resultDiv = document.getElementById('simpleResult');
+            resultDiv.textContent = 'テスト中...';
+            
+            const testData = {
+                name: 'シンプルテスト',
+                email: 'simple@test.com'
+            };
+            
+            try {
+                // no-corsモード
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `送信完了（no-corsモード）\n送信データ: ${JSON.stringify(testData, null, 2)}\n\nGoogle Formsの回答を確認してください`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+        
+        // 3. フォーム送信テスト
+        async function testFormPost() {
+            const resultDiv = document.getElementById('formResult');
+            resultDiv.textContent = 'テスト中...';
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                lineId: document.getElementById('lineId').value,
+                profession: document.getElementById('profession').value,
+                experience: '3-5',
+                motivation: document.getElementById('motivation').value,
+                portfolio: 'https://test.example.com'
+            };
+            
+            try {
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(formData)
+                });
+                
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `送信完了！\n送信データ:\n${JSON.stringify(formData, null, 2)}\n\n※Google Formsの回答を確認してください`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+        
+        // 4. 直接Google Forms送信
+        async function testDirectGoogleForms() {
+            const resultDiv = document.getElementById('directResult');
+            resultDiv.textContent = 'テスト中...';
+            
+            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/formResponse';
+            
+            const params = new URLSearchParams({
+                'entry.1755098959': '直接テスト',
+                'entry.1593853110': 'direct@test.com',
+                'entry.1887838426': 'direct_line',
+                'entry.966592544': 'designer',
+                'entry.1896235522': '1-3',
+                'entry.505500388': '直接送信テスト',
+                'entry.1751089080': ''
+            });
+            
+            try {
+                await fetch(formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params.toString()
+                });
+                
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `直接送信完了！\nGoogle Formsの回答を確認してください\n\n送信パラメータ:\n${params.toString()}`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+        
+        // 5. URLパラメータテスト
+        async function testUrlParams() {
+            const resultDiv = document.getElementById('urlResult');
+            resultDiv.textContent = 'テスト中...';
+            
+            const params = new URLSearchParams({
+                name: 'URLパラメータテスト',
+                email: 'url@test.com',
+                lineId: 'url_line',
+                profession: 'engineer',
+                experience: '5-10',
+                motivation: 'URLパラメータ経由のテスト',
+                portfolio: 'https://url.test.com'
+            });
+            
+            const urlWithParams = `${GAS_URL}?${params.toString()}`;
+            
+            try {
+                await fetch(urlWithParams, {
+                    method: 'GET'
+                });
+                
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `URLパラメータ送信完了！\n\nURL:\n${urlWithParams}\n\nGoogle Formsの回答を確認してください`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `エラー: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
