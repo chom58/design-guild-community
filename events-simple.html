@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベント | Design Guild</title>
+    <meta name="description" content="Design Guildの交流会・イベント情報">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/dark-theme.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0A0F1C 0%, #1A1F3A 100%);
+            color: #F8FAFC;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00FFFF;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00FFFF, #FF00FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #94A3B8;
+            font-size: 1.2rem;
+        }
+        
+        .event-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .event-title {
+            font-size: 1.8rem;
+            color: #00FFFF;
+            margin-bottom: 20px;
+        }
+        
+        .event-details {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .detail-label {
+            color: #94A3B8;
+            min-width: 80px;
+        }
+        
+        .detail-value {
+            color: #F8FAFC;
+            font-weight: 500;
+        }
+        
+        .event-features {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .feature-tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00FFFF;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #00FFFF, #FF00FF);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #00FFFF;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #00FFFF;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .info-title {
+            color: #00FFFF;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .info-text {
+            color: #CBD5E1;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="logo">DESIGN GUILD</a>
+            <h1>イベント情報</h1>
+            <p class="subtitle">クリエイターの化学反応が起きる場所</p>
+        </div>
+        
+        <div class="event-card">
+            <h2 class="event-title">🎨 Design Guild 9月交流会</h2>
+            
+            <div class="event-details">
+                <div class="detail-item">
+                    <span class="detail-label">📅 日時:</span>
+                    <span class="detail-value">2025年9月1日（日）15:00-17:00</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 場所:</span>
+                    <span class="detail-value">渋谷周辺カフェ（参加者に詳細をお知らせ）</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">👥 定員:</span>
+                    <span class="detail-value">15名（先着順）</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">💰 参加費:</span>
+                    <span class="detail-value">ドリンク代のみ（1,000円程度）</span>
+                </div>
+            </div>
+            
+            <div class="event-features">
+                <span class="feature-tag">カジュアルな雰囲気</span>
+                <span class="feature-tag">少人数制</span>
+                <span class="feature-tag">初参加歓迎</span>
+                <span class="feature-tag">異業種交流</span>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/viewform" 
+                   target="_blank" 
+                   class="cta-button">
+                    参加申し込みはこちら →
+                </a>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-title">💡 こんな方におすすめ</div>
+            <div class="info-text">
+                • デザイナー、エンジニア、クリエイター全般<br>
+                • 異分野のクリエイターと交流したい方<br>
+                • 新しいプロジェクトのきっかけを探している方<br>
+                • カジュアルな雰囲気で情報交換したい方
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <div class="info-title">📝 参加にあたって</div>
+            <div class="info-text">
+                • 事前申し込み制（当日参加不可）<br>
+                • キャンセルは前日までにご連絡ください<br>
+                • 名刺やポートフォリオがあればお持ちください<br>
+                • リラックスした服装でOKです
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">← ホームに戻る</a>
+        </div>
+    </div>
+</body>
+</html>

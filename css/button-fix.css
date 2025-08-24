@@ -1,0 +1,91 @@
+/* 参加するボタンの文字色修正 */
+
+/* ナビゲーションバーの参加するボタン */
+.nav-items .neon-button {
+    background: transparent !important;
+    color: var(--neon-cyan) !important;
+    border: 2px solid var(--neon-cyan);
+}
+
+.nav-items .neon-button span {
+    color: var(--neon-cyan) !important;
+}
+
+.nav-items .neon-button:hover {
+    background: var(--neon-cyan) !important;
+    color: var(--bg-dark) !important;
+}
+
+.nav-items .neon-button:hover span {
+    color: var(--bg-dark) !important;
+}
+
+/* CTAセクションの参加するボタン（プライマリ） */
+.neon-button-primary {
+    background: var(--neon-cyan) !important;
+    color: #0A0F1C !important; /* 暗い背景色を直接指定 */
+    border-color: var(--neon-cyan);
+}
+
+.neon-button-primary span {
+    color: #0A0F1C !important; /* 暗い背景色を直接指定 */
+    position: relative;
+    z-index: 2;
+}
+
+.neon-button-primary:hover {
+    background: transparent !important;
+    color: var(--neon-cyan) !important;
+}
+
+.neon-button-primary:hover span {
+    color: var(--neon-cyan) !important;
+}
+
+/* リンクとしてのネオンボタン */
+a.neon-button {
+    text-decoration: none;
+}
+
+a.neon-button span {
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+/* モバイルでのボタン表示修正 */
+@media (max-width: 768px) {
+    .nav-items .neon-button {
+        width: 100%;
+        text-align: center;
+        display: block;
+        margin: 10px 0;
+    }
+    
+    .neon-button-primary {
+        font-size: 1rem;
+        padding: 0.875rem 2rem;
+    }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+    .neon-button-primary {
+        color: #0A0F1C !important;
+    }
+    
+    .neon-button-primary span {
+        color: #0A0F1C !important;
+    }
+}
+
+/* フォーカス時のアクセシビリティ */
+.neon-button:focus {
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 4px;
+}
+
+.neon-button-primary:focus {
+    outline: 2px solid var(--neon-cyan);
+    outline-offset: 4px;
+}

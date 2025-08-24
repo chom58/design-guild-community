@@ -1,0 +1,171 @@
+/* ===================================
+   タッチ操作最適化
+   =================================== */
+
+/* タッチターゲットの最小サイズ確保 */
+@media (hover: none) and (pointer: coarse) {
+    /* ボタン・リンクの最小サイズ */
+    button,
+    a,
+    input[type="button"],
+    input[type="submit"],
+    .clickable {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* タップ領域の拡大 */
+    .nav-link,
+    .faq-question,
+    .event-card,
+    .benefit-card,
+    .profile-card {
+        position: relative;
+    }
+    
+    .nav-link::before,
+    .faq-question::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        bottom: -8px;
+        left: -8px;
+    }
+    
+    /* スワイプ対応カルーセル */
+    .events-grid,
+    .benefits-grid {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+    
+    .event-card,
+    .benefit-card {
+        scroll-snap-align: center;
+    }
+    
+    /* モバイルでのホバー効果を無効化 */
+    .event-card:hover,
+    .benefit-card:hover,
+    .profile-card:hover,
+    .team-member:hover .member-overlay {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* タップ時のフィードバック */
+    .event-card:active,
+    .benefit-card:active,
+    .neon-button:active,
+    .faq-question:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    /* フォームフィールドの最適化 */
+    input,
+    textarea,
+    select {
+        min-height: 48px;
+        font-size: 16px; /* iOSでのズーム防止 */
+        padding: 12px 16px;
+    }
+    
+    /* モーダルのスクロール改善 */
+    .modal-content {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+}
+
+/* スクロール可能エリアの視覚的ヒント */
+@media (max-width: 768px) {
+    .events-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding: 0 1rem 1rem;
+        margin: 0 -1rem;
+    }
+    
+    .events-grid::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .events-grid::-webkit-scrollbar-track {
+        background: var(--bg-dark-tertiary);
+        border-radius: 2px;
+    }
+    
+    .events-grid::-webkit-scrollbar-thumb {
+        background: var(--neon-cyan);
+        border-radius: 2px;
+    }
+    
+    .event-card {
+        flex: 0 0 280px;
+        max-width: 280px;
+    }
+    
+    /* スクロールインジケーター */
+    .scroll-hint {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--bg-dark));
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    
+    .events-grid.scrolled .scroll-hint {
+        opacity: 0;
+    }
+}
+
+/* プルトゥリフレッシュ防止 */
+body {
+    overscroll-behavior-y: none;
+}
+
+/* スワイプジェスチャー対応 */
+.swipeable {
+    touch-action: pan-y;
+}
+
+.swipeable-x {
+    touch-action: pan-x;
+}
+
+/* モバイルでのアニメーション軽量化 */
+@media (max-width: 768px) {
+    /* 複雑なアニメーションを簡略化 */
+    .collage-item,
+    .parallax-element {
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    /* トランジションの高速化 */
+    * {
+        transition-duration: 0.2s !important;
+    }
+    
+    /* グラデーションアニメーションの無効化 */
+    @keyframes gradient-shift {
+        to {
+            background-position: 100% 50%;
+        }
+    }
+    
+    .neon-button::before {
+        animation: none;
+    }
+}

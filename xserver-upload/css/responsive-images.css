@@ -1,0 +1,223 @@
+/* ===================================
+   画像・メディアのレスポンシブ対応
+   =================================== */
+
+/* 基本の画像設定 */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* レスポンシブ画像クラス */
+.responsive-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* メンバー画像の最適化 */
+.member-image,
+.footer-organizer-image,
+.modal-organizer-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+/* モバイル画像サイズ調整 */
+@media (max-width: 768px) {
+    /* メンバー画像 */
+    .member-image-wrapper {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .member-image {
+        border-radius: 20px;
+    }
+    
+    /* フッターの運営者画像 */
+    .footer-organizer-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* モーダルの運営者画像 */
+    .modal-organizer-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 1rem;
+    }
+}
+
+/* 極小デバイス対応 */
+@media (max-width: 375px) {
+    .member-image-wrapper {
+        max-width: 160px;
+    }
+    
+    .footer-organizer-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .modal-organizer-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* 画像の遅延読み込み */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* WebP対応のpictureタグ用スタイル */
+picture {
+    display: block;
+    width: 100%;
+}
+
+picture img {
+    width: 100%;
+    height: auto;
+}
+
+/* アートディレクション用レスポンシブ画像 */
+@media (max-width: 768px) {
+    /* モバイル用に最適化された画像表示 */
+    .hero-visual img,
+    .section-visual img {
+        object-position: center center;
+    }
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Retina対応が必要な画像にはpictureタグを使用 */
+}
+
+/* アイコン・SVGの最適化 */
+.icon,
+.benefit-icon svg {
+    width: 100%;
+    height: auto;
+    max-width: 64px;
+}
+
+@media (max-width: 768px) {
+    .icon,
+    .benefit-icon svg {
+        max-width: 48px;
+    }
+}
+
+/* 背景画像のレスポンシブ対応 */
+.has-background-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .has-background-image {
+        background-attachment: scroll; /* モバイルでfixedを無効化 */
+    }
+}
+
+/* アスペクト比の維持 */
+.aspect-ratio-16-9 {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.aspect-ratio-16-9 img,
+.aspect-ratio-16-9 video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.aspect-ratio-1-1 {
+    position: relative;
+    padding-bottom: 100%; /* 1:1 */
+    height: 0;
+    overflow: hidden;
+}
+
+.aspect-ratio-1-1 img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ビデオのレスポンシブ対応 */
+video {
+    max-width: 100%;
+    height: auto;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container video,
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* パフォーマンス最適化 */
+@media (max-width: 768px) {
+    /* モバイルでは画像の品質を少し下げてパフォーマンスを向上 */
+    img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+    
+    /* 不要な画像の非表示 */
+    .desktop-only-image {
+        display: none;
+    }
+}
+
+/* 画像のスケルトンローディング */
+.image-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-dark-secondary) 25%,
+        var(--bg-dark-tertiary) 50%,
+        var(--bg-dark-secondary) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - ページが見つかりません | Design Guild</title>
+    <meta name="description" content="お探しのページは見つかりませんでした。Design Guildのトップページへお戻りください。">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0F172A;
+            --bg-dark-secondary: #1E293B;
+            --neon-cyan: #00D9FF;
+            --neon-magenta: #FF006E;
+            --neon-yellow: #FFEE00;
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 背景パーティクル */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 10s linear infinite;
+        }
+        
+        .particle:nth-child(2n) {
+            background: var(--neon-magenta);
+            animation-duration: 12s;
+        }
+        
+        .particle:nth-child(3n) {
+            background: var(--neon-yellow);
+            animation-duration: 15s;
+        }
+        
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* エラーコンテンツ */
+        .error-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            padding: 2rem;
+            max-width: 600px;
+        }
+        
+        .error-code {
+            font-size: clamp(6rem, 15vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 50px rgba(0, 217, 255, 0.5);
+            animation: glitch 2s ease-in-out infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% {
+                text-shadow: 
+                    0 0 50px rgba(0, 217, 255, 0.5),
+                    -2px 0 var(--neon-magenta),
+                    2px 0 var(--neon-cyan);
+            }
+            50% {
+                text-shadow: 
+                    0 0 50px rgba(0, 217, 255, 0.5),
+                    2px 0 var(--neon-magenta),
+                    -2px 0 var(--neon-cyan);
+            }
+        }
+        
+        .error-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .error-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        
+        .error-illustration {
+            width: 300px;
+            height: 200px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+        
+        .error-illustration svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* ボタン */
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .neon-button {
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .neon-button:hover {
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+        
+        .neon-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-cyan);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+        
+        .neon-button:hover::before {
+            left: 0;
+        }
+        
+        .neon-button.secondary {
+            border-color: var(--neon-magenta);
+            color: var(--neon-magenta);
+        }
+        
+        .neon-button.secondary::before {
+            background: var(--neon-magenta);
+        }
+        
+        .neon-button.secondary:hover {
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+        }
+        
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            
+            .error-illustration {
+                width: 250px;
+                height: 150px;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .neon-button {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景パーティクル -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- エラーコンテンツ -->
+    <div class="error-container">
+        <div class="error-illustration">
+            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- 迷子のデザインギルドロゴ -->
+                <g transform="translate(150, 100)">
+                    <!-- 背景の円 -->
+                    <circle cx="0" cy="0" r="80" fill="none" stroke="#1E293B" stroke-width="2" stroke-dasharray="5,5" opacity="0.5">
+                        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="20s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <!-- D -->
+                    <g transform="translate(-40, 0) rotate(-10)">
+                        <path d="M0,-20 L15,-20 Q25,-20 25,-10 L25,10 Q25,20 15,20 L0,20 Z M5,-15 L5,15 L15,15 Q20,15 20,10 L20,-10 Q20,-15 15,-15 Z" 
+                              fill="#00D9FF" opacity="0.8">
+                            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
+                        </path>
+                    </g>
+                    
+                    <!-- ? マーク -->
+                    <text x="0" y="10" font-family="Arial Black" font-size="40" font-weight="900" fill="#FF006E" text-anchor="middle">?</text>
+                    
+                    <!-- G -->
+                    <g transform="translate(40, 0) rotate(10)">
+                        <path d="M20,-10 Q20,-20 10,-20 L-10,-20 Q-20,-20 -20,-10 L-20,10 Q-20,20 -10,20 L10,20 Q20,20 20,10 L20,5 L5,5 L5,0 L15,0 L15,10 Q15,15 10,15 L-10,15 Q-15,15 -15,10 L-15,-10 Q-15,-15 -10,-15 L10,-15 Q15,-15 15,-10 Z" 
+                              fill="#00D9FF" opacity="0.8">
+                            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                        </path>
+                    </g>
+                    
+                    <!-- 迷子の星 -->
+                    <g>
+                        <circle cx="-60" cy="-40" r="3" fill="#FFEE00">
+                            <animate attributeName="cy" values="-40;-45;-40" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="60" cy="40" r="3" fill="#FFEE00">
+                            <animate attributeName="cy" values="40;45;40" dur="3s" repeatCount="indefinite" begin="1s"/>
+                        </circle>
+                        <circle cx="-30" cy="50" r="3" fill="#FFEE00">
+                            <animate attributeName="cy" values="50;55;50" dur="3s" repeatCount="indefinite" begin="2s"/>
+                        </circle>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">ページが見つかりません</h2>
+        <p class="error-message">
+            申し訳ございません。お探しのページは存在しないか、<br>
+            別の場所に移動した可能性があります。
+        </p>
+        
+        <div class="error-actions">
+            <a href="/" class="neon-button">ホームに戻る</a>
+            <a href="javascript:history.back()" class="neon-button secondary">前のページに戻る</a>
+        </div>
+    </div>
+    
+    <script>
+        // パーティクル生成
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // 404エラーをコンソールに記録
+        console.log('404 Error: Page not found at', window.location.pathname);
+    </script>
+</body>
+</html>

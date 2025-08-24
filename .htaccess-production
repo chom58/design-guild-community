@@ -1,0 +1,144 @@
+# Design Guild Production .htaccess
+# HTTPS有効化後の本番環境用設定
+
+# 文字コード設定
+AddDefaultCharset UTF-8
+
+# HTTPSへリダイレクト（最優先）
+RewriteEngine On
+
+# HTTPからHTTPSへリダイレクト
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# wwwなしに統一
+RewriteCond %{HTTP_HOST} ^www\.design-guild\.org [NC]
+RewriteRule ^(.*)$ https://design-guild.org/$1 [L,R=301]
+
+# セキュリティヘッダー
+<IfModule mod_headers.c>
+    # XSS対策
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # クリックジャッキング対策
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # MIME-Typeスニッフィング対策
+    Header set X-Content-Type-Options "nosniff"
+    
+    # HTTPS強制（HSTS）
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # リファラーポリシー
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # 権限ポリシー（不要な機能を無効化）
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
+    
+    # CSP（コンテンツセキュリティポリシー）基本設定
+    Header set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' https://docs.google.com https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://docs.google.com;"
+</IfModule>
+
+# キャッシュ設定（パフォーマンス最適化）
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # 画像ファイル（1ヶ月）
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 month"
+    ExpiresByType image/ico "access plus 1 month"
+    
+    # フォント（1年）
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    
+    # CSS/JavaScript（1週間）
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType text/javascript "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    
+    # HTML（キャッシュなし）
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# GZIP圧縮
+<IfModule mod_deflate.c>
+    # テキストベースのファイルを圧縮
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    
+    # 圧縮レベル
+    DeflateCompressionLevel 6
+    
+    # Proxies対応
+    <IfModule mod_headers.c>
+        Header append Vary User-Agent env=!dont-vary
+    </IfModule>
+</IfModule>
+
+# エラーページ
+ErrorDocument 404 /404.html
+ErrorDocument 403 /403.html
+ErrorDocument 500 /500.html
+
+# ディレクトリ一覧の無効化
+Options -Indexes
+
+# ファイルへの直接アクセスを制限
+<FilesMatch "\.(env|json|md|log|git|gitignore|sh|gs|yml)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# .htaccessファイル自体へのアクセスを制限
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# バックアップファイルへのアクセスを制限
+<FilesMatch "\.(bak|backup|old|orig|original|tmp|temp|copy)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# XMLHttpRequest対応
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "https://design-guild.org"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</IfModule>
+
+# ETags（キャッシュ検証）
+FileETag MTime Size
+
+# サーバー署名を無効化
+ServerSignature Off
+
+# PHPバージョン情報を隠す（PHPを使用する場合）
+<IfModule mod_php7.c>
+    php_flag expose_php Off
+</IfModule>

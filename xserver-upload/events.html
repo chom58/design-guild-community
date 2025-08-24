@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベントカレンダー | Design Guild</title>
+    <meta name="description" content="Design Guildのイベントカレンダー。ワークショップ、交流会、実験セッションなど多彩なイベントを開催しています。">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- フォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+    <link rel="stylesheet" href="css/events.css">
+</head>
+<body>
+    <!-- ナビゲーション -->
+    <nav class="nav-futuristic" role="navigation" aria-label="メインナビゲーション">
+        <div class="nav-container">
+            <a href="/" class="logo-neon" aria-label="Design Guild ホーム">
+                <svg viewBox="0 0 280 50" width="280" height="50" role="img" aria-labelledby="logo-title">
+                    <title id="logo-title">Design Guild ロゴ</title>
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <!-- D -->
+                    <g transform="translate(10, 25)">
+                        <path d="M0,-20 L15,-20 Q25,-20 25,-10 L25,10 Q25,20 15,20 L0,20 Z M5,-15 L5,15 L15,15 Q20,15 20,10 L20,-10 Q20,-15 15,-15 Z" 
+                              fill="#F8FAFC" filter="url(#glow)"/>
+                    </g>
+                    <!-- design -->
+                    <text x="65" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="400" fill="#F8FAFC">design</text>
+                    <!-- guild -->
+                    <text x="140" y="35" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">guild</text>
+                    <!-- G -->
+                    <g transform="translate(250, 25)">
+                        <path d="M20,-10 Q20,-20 10,-20 L-10,-20 Q-20,-20 -20,-10 L-20,10 Q-20,20 -10,20 L10,20 Q20,20 20,10 L20,5 L5,5 L5,0 L15,0 L15,10 Q15,15 10,15 L-10,15 Q-15,15 -15,10 L-15,-10 Q-15,-15 -10,-15 L10,-15 Q15,-15 15,-10 Z" 
+                              fill="#F8FAFC" filter="url(#glow)"/>
+                    </g>
+                </svg>
+            </a>
+            <ul class="nav-items" role="menubar">
+                <li><a href="index.html" class="nav-link" role="menuitem">ホーム</a></li>
+                <li><a href="events.html" class="nav-link active" role="menuitem">イベント</a></li>
+                <li><a href="index.html#community" class="nav-link" role="menuitem">コミュニティ</a></li>
+                <li><button class="neon-button" onclick="showJoinModal()" aria-label="Design Guildに参加する"><span>参加する</span></button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section class="events-hero">
+        <div class="container">
+            <h1 class="hero-title neon-text">イベントカレンダー</h1>
+            <p class="hero-subtitle">クリエイターの化学反応が起きる場所</p>
+        </div>
+    </section>
+
+    <!-- カレンダービュー切り替え -->
+    <section class="calendar-controls">
+        <div class="container">
+            <div class="view-switcher" style="display: none;">
+                <button class="view-btn" data-view="month">月表示</button>
+                <button class="view-btn active" data-view="list">リスト表示</button>
+            </div>
+            <div class="month-navigation">
+                <button class="nav-btn" id="prevMonth">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <h2 id="currentMonth" class="current-month">2024年8月</h2>
+                <button class="nav-btn" id="nextMonth">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- カレンダー表示 -->
+    <section class="calendar-section">
+        <div class="container">
+            <!-- 月表示 -->
+            <div id="monthView" class="calendar-view" style="display: none;">
+                <div class="calendar-grid">
+                    <div class="calendar-header">
+                        <div class="weekday">日</div>
+                        <div class="weekday">月</div>
+                        <div class="weekday">火</div>
+                        <div class="weekday">水</div>
+                        <div class="weekday">木</div>
+                        <div class="weekday">金</div>
+                        <div class="weekday">土</div>
+                    </div>
+                    <div id="calendarDays" class="calendar-days">
+                        <!-- 動的に生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- リスト表示 -->
+            <div id="listView" class="calendar-view active">
+                <div id="eventsList" class="events-list">
+                    <!-- 動的に生成 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- イベント詳細モーダル -->
+    <div id="eventModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeEventModal()" aria-label="閉じる">&times;</span>
+            <div id="eventModalContent" class="event-modal-content">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 参加申し込みモーダル（メインページと同じ） -->
+    <div id="joinModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="join-modal-title" aria-hidden="true">
+        <div class="modal-content modal-form-content">
+            <span class="modal-close" onclick="closeJoinModal()" aria-label="閉じる">&times;</span>
+            <div class="join-form-container">
+                <h2 class="form-title" id="join-modal-title">Design Guildに参加する</h2>
+                <p class="form-subtitle">異分野のクリエイターと出会い、新しい表現を創造しましょう</p>
+                
+                <form id="joinForm" class="join-form" autocomplete="off">
+                    <div class="form-group">
+                        <label for="name">お名前 <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profession">職種・専門分野 <span class="required">*</span></label>
+                        <select id="profession" name="profession" required>
+                            <option value="">選択してください</option>
+                            <option value="graphic-designer">グラフィックデザイナー</option>
+                            <option value="web-designer">Webデザイナー</option>
+                            <option value="ui-ux-designer">UI/UXデザイナー</option>
+                            <option value="frontend-engineer">フロントエンドエンジニア</option>
+                            <option value="backend-engineer">バックエンドエンジニア</option>
+                            <option value="ai-engineer">AIエンジニア</option>
+                            <option value="illustrator">イラストレーター</option>
+                            <option value="photographer">フォトグラファー</option>
+                            <option value="artist">アーティスト</option>
+                            <option value="video-director">映像ディレクター</option>
+                            <option value="motion-designer">モーションデザイナー</option>
+                            <option value="fashion-designer">ファッションデザイナー</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="otherProfessionGroup" style="display: none;">
+                        <label for="otherProfession">その他の職種</label>
+                        <input type="text" id="otherProfession" name="otherProfession">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">経験年数</label>
+                        <select id="experience" name="experience">
+                            <option value="">選択してください</option>
+                            <option value="0-1">1年未満</option>
+                            <option value="1-3">1〜3年</option>
+                            <option value="3-5">3〜5年</option>
+                            <option value="5-10">5〜10年</option>
+                            <option value="10+">10年以上</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">参加動機・期待すること <span class="required">*</span></label>
+                        <textarea id="motivation" name="motivation" rows="4" required placeholder="どんなコラボレーションに興味がありますか？"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="portfolio">ポートフォリオURL（任意）</label>
+                        <input type="url" id="portfolio" name="portfolio" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="newsletter" name="newsletter" checked>
+                            ニュースレターを受け取る
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">
+                            <span>参加申し込みを送信</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="formSuccess" class="form-success" style="display: none;">
+                    <div class="success-icon">✓</div>
+                    <h3>申し込みが完了しました！</h3>
+                    <p>ご登録いただいたメールアドレスに確認メールをお送りしました。</p>
+                    <button class="neon-button" onclick="closeJoinModal()">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/events.js"></script>
+</body>
+</html>
