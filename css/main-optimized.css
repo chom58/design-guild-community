@@ -1,0 +1,314 @@
+/* ================================
+   Design Guild - 統合最適化CSS
+   ================================ */
+
+/* Critical CSS - インライン化推奨 */
+:root {
+    --bg-dark: #0A0F1C;
+    --bg-dark-secondary: #0F1729;
+    --bg-dark-tertiary: #1A2332;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --neon-cyan: #00FFFF;
+    --neon-purple: #FF00FF;
+    --neon-magenta: #FF006E;
+    --neon-yellow: #FFFF00;
+    --neon-green: #00FF88;
+    --glow-cyan: 0 0 20px rgba(0, 255, 255, 0.5);
+    --glow-purple: 0 0 20px rgba(255, 0, 255, 0.5);
+    --glow-magenta: 0 0 20px rgba(255, 0, 110, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-secondary) 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ナビゲーション最適化 */
+.nav-futuristic {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(10, 15, 28, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-items {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--neon-cyan);
+}
+
+/* ボタン最適化 */
+.neon-button {
+    background: transparent;
+    color: var(--neon-cyan) !important;
+    border: 2px solid var(--neon-cyan);
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 48px;
+    touch-action: manipulation;
+}
+
+.neon-button:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-dark) !important;
+    box-shadow: var(--glow-cyan);
+}
+
+.neon-button-primary {
+    background: var(--neon-cyan) !important;
+    color: var(--bg-dark) !important;
+}
+
+.neon-button-primary:hover {
+    background: transparent !important;
+    color: var(--neon-cyan) !important;
+}
+
+/* セクション共通 */
+section {
+    padding: 100px 0;
+    position: relative;
+}
+
+.section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ヒーローセクション */
+.hero-collage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 80px;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+/* カード共通スタイル */
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.2);
+    border-color: var(--neon-cyan);
+}
+
+/* グリッドレイアウト */
+.grid {
+    display: grid;
+    gap: 30px;
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+}
+
+/* モバイル最適化 */
+@media (max-width: 768px) {
+    :root {
+        font-size: 14px;
+    }
+    
+    .nav-futuristic {
+        padding: 15px 0;
+    }
+    
+    .nav-items {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 320px;
+        height: 100vh;
+        background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-dark-secondary) 100%);
+        padding: 80px 20px 40px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+    }
+    
+    .nav-items.active {
+        right: 0;
+    }
+    
+    .hamburger-menu {
+        display: block;
+        width: 48px;
+        height: 48px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        z-index: 1001;
+    }
+    
+    .hamburger-menu span {
+        display: block;
+        width: 28px;
+        height: 3px;
+        background: var(--neon-cyan);
+        margin: 6px auto;
+        transition: all 0.3s ease;
+        border-radius: 2px;
+    }
+    
+    .hamburger-menu.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+    
+    .hamburger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger-menu.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+}
+
+/* デスクトップのみハンバーガー非表示 */
+@media (min-width: 769px) {
+    .hamburger-menu {
+        display: none !important;
+    }
+}
+
+/* ダークモード対応（デフォルトでダーク） */
+@media (prefers-color-scheme: light) {
+    /* ライトモード向けの調整が必要な場合 */
+}
+
+/* アニメーション軽量化 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* プリント対応 */
+@media print {
+    .nav-futuristic,
+    .hamburger-menu,
+    .neon-button {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
