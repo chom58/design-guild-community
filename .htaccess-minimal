@@ -1,0 +1,16 @@
+# 最小限の.htaccess設定
+# 500エラーを回避する安全な設定
+
+# 文字コード設定
+AddDefaultCharset UTF-8
+
+# ディレクトリ一覧の無効化（セキュリティ）
+Options -Indexes
+
+# 404エラーページ（存在する場合のみ）
+# ErrorDocument 404 /404.html
+
+# ファイル圧縮（基本的なもののみ）
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript
+</IfModule>

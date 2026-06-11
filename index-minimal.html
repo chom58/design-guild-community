@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Guild - 混ざる、生まれる、未知なる表現</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0A0F1C 0%, #1A1F3A 100%);
+            color: #F8FAFC;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00FFFF, #FF00FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            color: #94A3B8;
+            margin-bottom: 30px;
+            letter-spacing: 0.2em;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #CBD5E1;
+            margin-bottom: 40px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #00FFFF;
+            color: #0A0F1C;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+        
+        .secondary-button {
+            background: transparent;
+            border: 2px solid #00FFFF;
+            color: #00FFFF;
+        }
+        
+        .links {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .links a {
+            color: #00FFFF;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: opacity 0.3s;
+        }
+        
+        .links a:hover {
+            opacity: 0.7;
+        }
+        
+        .info {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #64748B;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .cta-button {
+                display: block;
+                width: 100%;
+                max-width: 300px;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DESIGN GUILD</h1>
+        <p class="tagline">混ざる、生まれる、未知なる表現</p>
+        <p class="description">
+            異分野のクリエイターが境界を越えて協創する<br>
+            実験的コミュニティプラットフォーム
+        </p>
+        
+        <div>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/viewform" 
+               target="_blank" 
+               class="cta-button">
+                参加申し込みはこちら
+            </a>
+            <a href="events-simple.html" class="cta-button secondary-button">
+                イベント情報
+            </a>
+        </div>
+        
+        <div class="links">
+            <a href="#about">コンセプト</a>
+            <a href="#community">コミュニティ</a>
+            <a href="#contact">お問い合わせ</a>
+        </div>
+        
+        <div class="info">
+            <p>📍 活動拠点：渋谷周辺</p>
+            <p>👥 月1-2回の交流会開催</p>
+            <p>💰 参加費：ドリンク代のみ</p>
+        </div>
+    </div>
+</body>
+</html>
