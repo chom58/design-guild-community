@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f7ff;
+  --foreground: #1a1a2e;
+  --surface: #ffffff;
+  --surface-elevated: #f0eeff;
+  --border: #e2e0f0;
+  --border-hover: #c8c4e0;
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a5880;
+  --text-muted: #8888aa;
+  --accent: #0099ff;
+  --accent-hover: #33adff;
+  --accent-purple: #7c3aed;
+  --accent-pink: #f43f5e;
+  --accent-orange: #f97316;
+  --accent-cyan: #06b6d4;
+  --accent-green: #22c55e;
+  --accent-yellow: #eab308;
+  --accent-gradient: linear-gradient(135deg, #0099ff, #7c3aed, #f43f5e);
+  --vivid-gradient: linear-gradient(135deg, #f43f5e, #f97316, #eab308, #22c55e, #06b6d4, #0099ff, #7c3aed);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-pink: var(--accent-pink);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-green: var(--accent-green);
+  --color-accent-yellow: var(--accent-yellow);
+  --font-sans: "Inter Variable", "Inter", "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(124, 58, 237, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 60%, rgba(0, 153, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 90%, rgba(244, 63, 94, 0.05) 0%, transparent 60%);
+  color: var(--foreground);
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.2);
+  color: #1a1a2e;
+}
+
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rainbow-text {
+  background: var(--vivid-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-border {
+  position: relative;
+  background: var(--surface);
+  border-radius: 12px;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: var(--accent-gradient);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.glass {
+  background: rgba(248, 247, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@keyframes border-rotate {
+  0% { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animated-border {
+  position: relative;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--border-angle),
+    #f43f5e 0%,
+    #f97316 15%,
+    #eab308 30%,
+    transparent 40%,
+    #0099ff 50%,
+    #7c3aed 65%,
+    #f43f5e 80%,
+    transparent 90%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  animation: border-rotate 3s linear infinite;
+}
+
+.section-divider {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #f43f5e44 15%,
+    #f9731644 30%,
+    #0099ff44 50%,
+    #7c3aed44 70%,
+    #22c55e44 85%,
+    transparent 100%
+  );
+}
+
+.card-shadow {
+  box-shadow: 0 2px 12px rgba(26, 26, 46, 0.06), 0 1px 4px rgba(26, 26, 46, 0.04);
+}
+
+.glow-card {
+  transition: box-shadow 0.4s ease;
+  box-shadow: 0 2px 12px rgba(26, 26, 46, 0.06), 0 1px 4px rgba(26, 26, 46, 0.04);
+}
+
+.glow-card:hover {
+  box-shadow:
+    0 4px 20px rgba(0, 153, 255, 0.15),
+    0 8px 40px rgba(124, 58, 237, 0.08);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(3deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
