@@ -5,49 +5,36 @@ import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer, scaleIn } from "@/lib/motion";
 
 const stats = [
-  { value: 36, label: "交流会参加者", suffix: "人", color: "#0099ff" },
-  { value: 30, label: "初参加の割合", suffix: "%", color: "#f43f5e" },
-  { value: 92, label: "満足度", suffix: "%", color: "#22c55e" },
-];
-
-const tagColors = [
-  "#0099ff",
-  "#7c3aed",
-  "#f43f5e",
-  "#22c55e",
-  "#eab308",
-  "#06b6d4",
-  "#f97316",
-  "#ec4899",
+  { value: 36, label: "交流会参加者", suffix: "人" },
+  { value: 30, label: "初参加の割合", suffix: "%" },
+  { value: 92, label: "満足度", suffix: "%" },
 ];
 
 const professions = [
-  "グラフィックデザイナー",
-  "Webデザイナー",
-  "UI/UXデザイナー",
-  "エンジニア",
-  "映像クリエイター",
-  "ミュージシャン",
-  "マジシャン",
-  "ファッションデザイナー",
-  "フォトグラファー",
-  "イラストレーター",
-  "コピーライター",
-  "建築家",
-  "アートディレクター",
-  "ダンサー",
-  "服飾学生",
-  "美容学生",
+  { name: "グラフィックデザイナー", color: "#7c3aed" },
+  { name: "Webデザイナー", color: "#7c3aed" },
+  { name: "UI/UXデザイナー", color: "#7c3aed" },
+  { name: "アートディレクター", color: "#7c3aed" },
+  { name: "イラストレーター", color: "#7c3aed" },
+  { name: "エンジニア", color: "#0099ff" },
+  { name: "映像クリエイター", color: "#0099ff" },
+  { name: "フォトグラファー", color: "#0099ff" },
+  { name: "コピーライター", color: "#0099ff" },
+  { name: "ミュージシャン", color: "#f43f5e" },
+  { name: "マジシャン", color: "#f43f5e" },
+  { name: "ダンサー", color: "#f43f5e" },
+  { name: "ファッションデザイナー", color: "#f97316" },
+  { name: "建築家", color: "#f97316" },
+  { name: "服飾学生", color: "#f97316" },
+  { name: "美容学生", color: "#f97316" },
 ];
 
 function CountUp({
   target,
   suffix,
-  color,
 }: {
   target: number;
   suffix: string;
-  color: string;
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -78,7 +65,7 @@ function CountUp({
   }, [target]);
 
   return (
-    <div ref={ref} className="text-5xl font-bold sm:text-6xl" style={{ color }}>
+    <div ref={ref} className="gradient-text text-5xl font-bold sm:text-6xl">
       {count}
       <span className="text-3xl sm:text-4xl">{suffix}</span>
     </div>
@@ -119,16 +106,12 @@ export default function Community() {
                 className="card-shadow relative overflow-hidden rounded-2xl border border-border bg-surface p-8 text-center transition-all hover:border-border-hover"
               >
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="h-24 w-24 rounded-full blur-[50px]"
-                    style={{ backgroundColor: `${stat.color}20` }}
-                  />
+                  <div className="h-24 w-24 rounded-full bg-accent/10 blur-[50px]" />
                 </div>
                 <div className="relative">
                   <CountUp
                     target={stat.value}
                     suffix={stat.suffix}
-                    color={stat.color}
                   />
                   <p className="mt-2 text-sm text-text-secondary">
                     {stat.label}
@@ -143,30 +126,27 @@ export default function Community() {
               参加者の多様な職種
             </h3>
             <div className="flex flex-wrap justify-center gap-2">
-              {professions.map((p, i) => {
-                const color = tagColors[i % tagColors.length];
-                return (
-                  <motion.span
-                    key={p}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    whileHover={{
-                      scale: 1.1,
-                      y: -2,
-                    }}
-                    transition={{ delay: i * 0.03, duration: 0.3 }}
-                    viewport={{ once: true }}
-                    className="rounded-full px-4 py-1.5 text-sm font-medium transition-shadow"
-                    style={{
-                      color,
-                      backgroundColor: `${color}12`,
-                      border: `1px solid ${color}30`,
-                    }}
-                  >
-                    {p}
-                  </motion.span>
-                );
-              })}
+              {professions.map((p, i) => (
+                <motion.span
+                  key={p.name}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  whileHover={{
+                    scale: 1.1,
+                    y: -2,
+                  }}
+                  transition={{ delay: i * 0.03, duration: 0.3 }}
+                  viewport={{ once: true }}
+                  className="rounded-full px-4 py-1.5 text-sm font-medium transition-shadow"
+                  style={{
+                    color: p.color,
+                    backgroundColor: `${p.color}12`,
+                    border: `1px solid ${p.color}30`,
+                  }}
+                >
+                  {p.name}
+                </motion.span>
+              ))}
             </div>
           </motion.div>
         </motion.div>

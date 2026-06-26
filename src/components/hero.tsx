@@ -11,24 +11,24 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6">
       <motion.div
-        initial={{ opacity: 0, scale: 0.7 }}
+        initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 2, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 2.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
       >
         <motion.div
           animate={{
             rotate: [0, 360],
-            y: [0, -15, 0],
+            y: [0, -20, 0],
           }}
           transition={{
-            rotate: { duration: 40, repeat: Infinity, ease: "linear" },
+            rotate: { duration: 35, repeat: Infinity, ease: "linear" },
             y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
           }}
-          className="relative h-[550px] w-[550px] sm:h-[700px] sm:w-[700px] lg:h-[850px] lg:w-[850px]"
+          className="relative h-[750px] w-[750px] sm:h-[1000px] sm:w-[1000px] lg:h-[1300px] lg:w-[1300px]"
           style={{
-            maskImage: "radial-gradient(circle, black 20%, transparent 65%)",
-            WebkitMaskImage: "radial-gradient(circle, black 20%, transparent 65%)",
+            maskImage: "radial-gradient(circle, black 25%, transparent 60%)",
+            WebkitMaskImage: "radial-gradient(circle, black 25%, transparent 60%)",
           }}
         >
           <Image
@@ -36,19 +36,19 @@ export default function Hero() {
             alt=""
             fill
             priority
-            className="object-contain opacity-95 mix-blend-screen"
+            className="object-contain mix-blend-screen animate-hue-shift"
           />
         </motion.div>
         <motion.div
-          animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.15, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute h-[400px] w-[400px] rounded-full blur-[80px] sm:h-[500px] sm:w-[500px]"
-          style={{
-            background: "radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(0,153,255,0.15) 40%, rgba(244,63,94,0.08) 70%, transparent 100%)",
+          animate={{
+            opacity: [0.4, 0.7, 0.4],
+            scale: [1, 1.2, 1],
           }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute h-[500px] w-[500px] rounded-full blur-[100px] sm:h-[700px] sm:w-[700px] animate-aurora-glow"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7ff] via-[#f8f7ff]/30 to-[#f8f7ff] opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7ff] via-transparent to-[#f8f7ff] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7ff] via-transparent to-[#f8f7ff] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7ff] via-transparent to-[#f8f7ff] opacity-40" />
       </motion.div>
 
       <motion.div
