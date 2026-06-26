@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OGP画像生成</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #0A0F1C 0%, #1A1F3A 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 背景パターン */
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0, 255, 255, 0.1) 35px, rgba(0, 255, 255, 0.1) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255, 0, 255, 0.1) 35px, rgba(255, 0, 255, 0.1) 70px);
+        }
+        
+        /* ネオン効果 */
+        .neon-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .neon-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+        }
+        
+        .circle1 {
+            width: 300px;
+            height: 300px;
+            background: #00FFFF;
+            top: -100px;
+            left: -100px;
+        }
+        
+        .circle2 {
+            width: 250px;
+            height: 250px;
+            background: #FF00FF;
+            bottom: -80px;
+            right: -80px;
+        }
+        
+        .circle3 {
+            width: 200px;
+            height: 200px;
+            background: #FFFF00;
+            top: 50%;
+            right: 100px;
+            transform: translateY(-50%);
+        }
+        
+        /* メインコンテンツ */
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 60px;
+        }
+        
+        .logo {
+            font-size: 80px;
+            font-weight: 900;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #00FFFF, #FF00FF, #FFFF00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px rgba(0, 255, 255, 0.5);
+        }
+        
+        .tagline {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #F8FAFC;
+            letter-spacing: 0.5em;
+        }
+        
+        .description {
+            font-size: 24px;
+            color: #CBD5E1;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 装飾要素 */
+        .decoration {
+            position: absolute;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .deco1 {
+            width: 100px;
+            height: 100px;
+            top: 50px;
+            left: 50px;
+            transform: rotate(45deg);
+        }
+        
+        .deco2 {
+            width: 80px;
+            height: 80px;
+            bottom: 50px;
+            right: 50px;
+            border-radius: 50%;
+            border-color: rgba(255, 0, 255, 0.3);
+        }
+        
+        .deco3 {
+            width: 120px;
+            height: 60px;
+            top: 100px;
+            right: 150px;
+            border-radius: 30px;
+            border-color: rgba(255, 255, 0, 0.3);
+        }
+        
+        /* URL表示 */
+        .url {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-size: 18px;
+            color: #64748B;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="neon-circles">
+        <div class="neon-circle circle1"></div>
+        <div class="neon-circle circle2"></div>
+        <div class="neon-circle circle3"></div>
+    </div>
+    
+    <div class="decoration deco1"></div>
+    <div class="decoration deco2"></div>
+    <div class="decoration deco3"></div>
+    
+    <div class="content">
+        <div class="logo">DESIGN GUILD</div>
+        <div class="tagline">混ざる、生まれる、未知なる表現</div>
+        <div class="description">
+            異分野クリエイターが境界を越えて協創する<br>
+            実験的コミュニティプラットフォーム
+        </div>
+    </div>
+    
+    <div class="url">design-guild.org</div>
+    
+    <script>
+        // このHTMLをブラウザで開いて、1200x630pxでスクリーンショットを撮ってください
+        console.log('OGP画像用のプレビューです。');
+        console.log('ブラウザのデベロッパーツールで1200x630pxに設定してスクリーンショットを撮ってください。');
+    </script>
+</body>
+</html>

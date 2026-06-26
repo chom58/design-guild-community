@@ -1,0 +1,128 @@
+/* メールアドレス保護用スタイル */
+
+/* コピーボタン */
+.copy-email-btn,
+.copy-email-btn-footer {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.copy-email-btn:hover,
+.copy-email-btn-footer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+}
+
+.copy-email-btn::before,
+.copy-email-btn-footer::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+.copy-email-btn:active::before,
+.copy-email-btn-footer:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* フッター用調整 */
+.copy-email-btn-footer {
+    display: block;
+    margin: 10px 0 0 0;
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+/* お問い合わせセクション */
+.contact-info {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.contact-email {
+    display: inline-block;
+    color: var(--neon-cyan);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 25px;
+}
+
+.contact-email:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.contact-email i {
+    margin-right: 10px;
+}
+
+/* メールアドレス表示 */
+[data-email="display"] {
+    display: inline-block;
+    font-family: monospace;
+    letter-spacing: 0.05em;
+}
+
+/* 難読化メール用 */
+[data-obfuscate] {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+}
+
+[data-obfuscate]:hover {
+    color: var(--neon-cyan);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .copy-email-btn {
+        display: block;
+        margin: 15px auto 0;
+        max-width: 200px;
+    }
+    
+    .contact-email {
+        font-size: 1rem;
+        display: block;
+        margin-bottom: 15px;
+    }
+}
+
+/* ダークテーマ対応 */
+.dark-mode .copy-email-btn,
+.dark-mode .copy-email-btn-footer {
+    background: linear-gradient(135deg, var(--neon-magenta), var(--neon-yellow));
+}
+
+.dark-mode .contact-email {
+    color: var(--neon-magenta);
+}
+
+.dark-mode .contact-email:hover {
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+}

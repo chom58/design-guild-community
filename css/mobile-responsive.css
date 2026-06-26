@@ -1,0 +1,343 @@
+/* ================================
+   モバイルファーストレスポンシブデザイン
+   ================================ */
+
+/* ベースモバイルスタイル (320px - 767px) */
+@media (max-width: 767px) {
+    /* タイポグラフィ調整 */
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        line-height: 1.6;
+        -webkit-text-size-adjust: 100%;
+    }
+    
+    h1, .hero-title {
+        font-size: 2rem !important;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+    
+    h2, .section-title {
+        font-size: 1.75rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem !important;
+    }
+    
+    p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* コンテナ幅調整 */
+    .container {
+        padding: 0 20px;
+        max-width: 100%;
+    }
+    
+    section {
+        padding: 60px 0 !important;
+    }
+    
+    /* ヒーローセクション最適化 */
+    .hero-collage {
+        height: 100vh;
+        min-height: 568px;
+        overflow: hidden;
+    }
+    
+    .hero-content {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem !important;
+        margin-bottom: 15px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem !important;
+        margin-bottom: 30px;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+    
+    /* ボタン最適化 */
+    .neon-button,
+    .cta-button {
+        min-height: 48px;
+        min-width: 140px;
+        padding: 14px 28px !important;
+        font-size: 16px !important;
+        border-radius: 24px;
+        touch-action: manipulation;
+    }
+    
+    .neon-button-primary {
+        width: 100%;
+        max-width: 280px;
+        margin: 10px auto;
+        display: block;
+    }
+    
+    /* カード・グリッドレイアウト */
+    .project-cards,
+    .benefits-grid,
+    .team-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+        padding: 0;
+    }
+    
+    .project-card-3d {
+        height: 320px;
+        margin-bottom: 20px;
+    }
+    
+    .benefit-card,
+    .challenge-card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+    
+    /* チームメンバーセクション */
+    .team-members {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .team-member {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    
+    .member-image-wrapper {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+    }
+    
+    /* コミュニティ統計 */
+    .community-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .stat-box {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem !important;
+    }
+    
+    /* 職種タグ */
+    .profession-tags {
+        justify-content: center;
+    }
+    
+    .profession-tag {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+        margin: 4px;
+    }
+    
+    /* フッター */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .footer-links ul {
+        padding: 0;
+    }
+    
+    .social-share {
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    /* モーダル調整 */
+    .modal-content {
+        width: 95%;
+        max-width: none;
+        margin: 20px auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    /* フォーム最適化 */
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 16px; /* iOS zoom防止 */
+        padding: 12px;
+    }
+    
+    /* アニメーション軽量化 */
+    .collage-item,
+    .floating-shape,
+    .particle {
+        animation: none !important;
+    }
+    
+    /* WebGL無効化 */
+    #three-canvas {
+        display: none !important;
+    }
+}
+
+/* 小型タブレット (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        max-width: 750px;
+        padding: 0 20px;
+    }
+    
+    .project-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .team-members {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .team-member {
+        width: calc(50% - 20px);
+    }
+    
+    .community-stats {
+        flex-wrap: wrap;
+    }
+    
+    .stat-box {
+        width: calc(50% - 15px);
+    }
+    
+    h1, .hero-title {
+        font-size: 3rem;
+    }
+    
+    h2, .section-title {
+        font-size: 2.25rem;
+    }
+}
+
+/* 大型タブレット・小型デスクトップ (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+        padding: 0 20px;
+    }
+    
+    .project-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .team-member {
+        width: calc(33.333% - 20px);
+    }
+}
+
+/* タッチデバイス最適化 */
+@media (hover: none) and (pointer: coarse) {
+    /* ホバー効果を無効化 */
+    .project-card-3d:hover .card-inner {
+        transform: none;
+    }
+    
+    /* タップ時のフィードバック */
+    .neon-button:active,
+    .nav-link:active,
+    .card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+    }
+    
+    /* スクロールのスムーズ化 */
+    * {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* タップハイライト除去 */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* 横向きモバイル対応 */
+@media (max-width: 767px) and (orientation: landscape) {
+    .hero-collage {
+        height: 100vh;
+        min-height: auto;
+    }
+    
+    .hero-content {
+        padding: 10px 20px;
+    }
+    
+    .hero-title {
+        font-size: 2rem !important;
+    }
+    
+    section {
+        padding: 40px 0 !important;
+    }
+}
+
+/* アクセシビリティ: モーション軽減 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+    /* すでにダークテーマなので追加調整は不要 */
+}
+
+/* 高解像度ディスプレイ対応 */
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi) {
+    /* 細い線の調整 */
+    .border {
+        border-width: 0.5px;
+    }
+}
+
+/* プリント対応 */
+@media print {
+    .nav-futuristic,
+    .hamburger-menu,
+    .neon-button,
+    .modal,
+    #three-canvas {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}

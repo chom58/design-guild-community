@@ -780,12 +780,11 @@ function showOrganizerModal(organizerId) {
     
     if (data) {
         modalContent.innerHTML = `
-            <div class="modal-organizer">
+            <div class="modal-organizer" style="writing-mode: horizontal-tb !important; text-orientation: mixed !important;">
                 <div class="modal-organizer-header">
                     <img src="${data.image}" alt="${data.name}" class="modal-organizer-image">
                     <div class="modal-organizer-title">
                         <h3 id="modal-title">${data.name}</h3>
-                        <p>${data.tagline}</p>
                     </div>
                 </div>
                 <div class="modal-organizer-body">

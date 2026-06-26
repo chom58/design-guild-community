@@ -156,7 +156,7 @@ elements.calendarDays.innerHTML = html;
 function createDayCell(date, className, dateObj) {
     const events = getEventsForDate(dateObj);
     const eventsHtml = events.slice(0, 3).map(event => 
-        `<div class="event-dot event-${event.type}" onclick="showEventDetail(${event.id})">${event.title}</div>`
+        `<div class="event-dot event-${event.type}" onclick="showEventDetail('${event.id}')">${event.title}</div>`
     ).join('');
     
     return `
@@ -219,7 +219,7 @@ function renderListView() {
         const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
         
         return `
-            <div class="event-list-item" onclick="showEventDetail(${event.id})">
+            <div class="event-list-item" onclick="showEventDetail('${event.id}')">
                 <div class="event-date-block">
                     <div class="event-month">${eventMonth}月</div>
                     <div class="event-day">${eventDay}</div>

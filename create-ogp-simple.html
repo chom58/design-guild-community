@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OGP画像簡易版</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #0A0F1C 0%, #1A1F3A 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 255, 255, 0.3);
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00FFFF, #FF00FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tagline {
+            font-size: 32px;
+            color: #F8FAFC;
+            letter-spacing: 0.3em;
+            margin-bottom: 30px;
+        }
+        
+        .description {
+            font-size: 24px;
+            color: #94A3B8;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .url {
+            position: absolute;
+            bottom: 40px;
+            right: 50px;
+            font-size: 20px;
+            color: #64748B;
+        }
+        
+        /* 装飾 */
+        .circle1 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.2), transparent);
+            top: -200px;
+            left: -200px;
+            border-radius: 50%;
+        }
+        
+        .circle2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.2), transparent);
+            bottom: -150px;
+            right: -150px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    
+    <img src="images/logo.png" alt="Logo" class="logo">
+    
+    <h1 class="title">DESIGN GUILD</h1>
+    <p class="tagline">混ざる、生まれる、未知なる表現</p>
+    <p class="description">
+        異分野クリエイターが境界を越えて協創する<br>
+        実験的コミュニティプラットフォーム
+    </p>
+    
+    <div class="url">design-guild.org</div>
+</body>
+</html>

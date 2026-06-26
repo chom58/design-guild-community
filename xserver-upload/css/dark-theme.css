@@ -327,6 +327,45 @@ a:focus-visible {
     max-width: 1000px;
 }
 
+.hero-cta {
+    margin-top: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.hero-button {
+    font-size: 1.125rem !important;
+    padding: 1rem 3rem !important;
+    background: var(--neon-cyan) !important;
+    border: 2px solid var(--neon-cyan) !important;
+    color: #0a0a0f !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    text-transform: none !important;
+    display: inline-block !important;
+}
+
+.hero-button::before {
+    display: none !important;
+}
+
+.hero-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.5) !important;
+    background: var(--neon-purple) !important;
+    color: #ffffff !important;
+}
+
+.hero-button span {
+    position: relative !important;
+    z-index: 10 !important;
+    color: inherit !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+}
+
 .tagline-main {
     font-size: clamp(2.5rem, 7vw, 5rem);
     font-weight: 900;
@@ -1259,14 +1298,25 @@ a.neon-button:hover {
 }
 
 .neon-button-primary {
-    background: var(--neon-cyan);
-    color: var(--bg-dark);
-    border-color: var(--neon-cyan);
+    background: var(--neon-cyan) !important;
+    color: #0a0a0f !important;
+    border-color: var(--neon-cyan) !important;
+    font-weight: 700 !important;
+}
+
+.neon-button-primary span {
+    color: #0a0a0f !important;
+    font-weight: 700 !important;
 }
 
 .neon-button-primary:hover {
-    background: transparent;
-    color: var(--neon-cyan);
+    background: var(--neon-purple) !important;
+    color: #ffffff !important;
+    border-color: var(--neon-purple) !important;
+}
+
+.neon-button-primary:hover span {
+    color: #ffffff !important;
 }
 
 .neon-button-secondary {
@@ -1593,6 +1643,12 @@ a.neon-button:hover {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.05);
     transition: var(--transition-smooth);
+    line-height: 1;
+    text-align: center;
+    padding: 0;
+    border: none;
+    writing-mode: horizontal-tb !important;
+    text-orientation: upright !important;
 }
 
 .modal-close:hover {
@@ -1600,8 +1656,40 @@ a.neon-button:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* aria-labelが表示されないようにする */
+.modal-close::before,
+.modal-close::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* aria-label属性を非表示 */
+[aria-label]::before,
+[aria-label]::after {
+    content: none !important;
+}
+
+/* モーダル内のテキストを確実に横書きにする */
+.modal-organizer * {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+}
+
+.modal-organizer p,
+.modal-organizer-title p,
+.modal-organizer-body p,
+.modal-tagline {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    display: block !important;
+    -webkit-writing-mode: horizontal-tb !important;
+    -ms-writing-mode: lr-tb !important;
+}
+
 .modal-organizer {
     padding: 3rem;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
 }
 
 .modal-organizer-header {
@@ -1630,11 +1718,7 @@ a.neon-button:hover {
     background-clip: text;
 }
 
-.modal-organizer-title p {
-    font-size: 1.125rem;
-    color: var(--neon-cyan);
-    font-weight: 600;
-}
+/* taglineは削除したのでこのスタイルは不要 */
 
 .modal-organizer-body {
     color: var(--text-secondary);
@@ -2664,7 +2748,14 @@ a.neon-button:hover {
 
 .member-name {
     font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 1rem;
     margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .member-tagline {
