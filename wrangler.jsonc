@@ -1,0 +1,15 @@
+{
+  // Next.js の静的書き出し（out/）を Cloudflare Workers の静的アセットとして配信する
+  "name": "design-guild",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "design-guild.org", "custom_domain": true },
+    { "pattern": "www.design-guild.org", "custom_domain": true }
+  ],
+  // 公開は design-guild.org のみ。*.workers.dev は閉じる
+  "workers_dev": false
+}

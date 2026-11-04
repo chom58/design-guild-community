@@ -13,7 +13,6 @@ const collabs = [
       "静的なグラフィックに命を吹き込み、見る人の動きに反応する新しい広告体験を想像してみませんか？",
     tags: ["アイデア", "未来の広告"],
     accent: "#0099ff",
-    glow: "rgba(0, 153, 255, 0.15)",
   },
   {
     left: "ファッションデザイナー",
@@ -24,7 +23,6 @@ const collabs = [
       "バイタルデータと連動して色やパターンが変化する服。あなたの感情を表現する新しいファッションの形",
     tags: ["感情表現", "スマートウェア"],
     accent: "#7c3aed",
-    glow: "rgba(124, 58, 237, 0.15)",
   },
   {
     left: "マジシャン",
@@ -35,7 +33,6 @@ const collabs = [
       "マジックの原理をUIに応用。予想を裏切り、でも心地よい。新しいインターフェース体験のデザイン",
     tags: ["サプライズ", "UX革新"],
     accent: "#f43f5e",
-    glow: "rgba(244, 63, 94, 0.15)",
   },
 ];
 
@@ -53,13 +50,13 @@ export default function Collab() {
             variants={fadeInUp}
             className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
           >
-            こんな<span className="gradient-text">コラボ</span>が生まれたら
+            分野を越えると、何ができる？
           </motion.h2>
           <motion.p
             variants={fadeInUp}
             className="mx-auto mb-16 max-w-lg text-center text-text-secondary"
           >
-            異なる分野が掛け合わされたとき、想像もしなかった可能性が生まれる
+            まだ実現していない、コラボレーションのアイデアです。
           </motion.p>
 
           <div className="grid gap-6 md:grid-cols-3">
@@ -67,21 +64,9 @@ export default function Collab() {
               <motion.div
                 key={collab.title}
                 variants={scaleIn}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                className="animated-border group cursor-default"
+                className="h-full rounded-2xl border border-border-hover bg-surface"
               >
-                <div
-                  className="rounded-2xl bg-surface p-6 transition-shadow duration-300"
-                  style={{
-                    boxShadow: `0 0 0px ${collab.glow}`,
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = `0 0 40px ${collab.glow}, 0 0 80px ${collab.glow}`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = `0 0 0px ${collab.glow}`;
-                  }}
-                >
+                <div className="p-6">
                   <div className="mb-6 text-center">
                     <span className="text-sm text-text-secondary">
                       {collab.left}
