@@ -71,8 +71,10 @@ export default function Hero() {
             fill
             priority
             sizes="(max-width: 1023px) 100vw, 52vw"
-            className="object-cover"
+            className="hero-crystal-image object-cover"
           />
+          <div className="hero-crystal-facet hero-crystal-facet-left" aria-hidden="true" />
+          <div className="hero-crystal-facet hero-crystal-facet-right" aria-hidden="true" />
         </motion.div>
       </div>
     </section>

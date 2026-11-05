@@ -56,6 +56,53 @@ body {
   color: var(--foreground);
 }
 
+/* Two offset facets meet and separate over the existing crystal image. */
+.hero-crystal-image {
+  animation: hero-crystal-breathe 16s ease-in-out infinite alternate;
+}
+
+.hero-crystal-facet {
+  position: absolute;
+  inset: -3%;
+  background: url("/images/hero-crystal.jpg") center / cover no-repeat;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.24;
+  will-change: transform;
+}
+
+.hero-crystal-facet-left {
+  clip-path: polygon(0 18%, 53% 4%, 66% 100%, 0 79%);
+  animation: hero-facet-left 9s ease-in-out infinite alternate;
+}
+
+.hero-crystal-facet-right {
+  clip-path: polygon(48% 0, 100% 20%, 100% 84%, 35% 100%);
+  animation: hero-facet-right 11s ease-in-out infinite alternate;
+}
+
+@keyframes hero-crystal-breathe {
+  from { transform: scale(1.045) rotate(-0.7deg); }
+  to { transform: scale(1.12) rotate(0.7deg); }
+}
+
+@keyframes hero-facet-left {
+  from { transform: translateX(-6%); }
+  to { transform: translateX(6%); }
+}
+
+@keyframes hero-facet-right {
+  from { transform: translateX(7%); }
+  to { transform: translateX(-5%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-crystal-image,
+  .hero-crystal-facet {
+    animation: none;
+  }
+}
+
 ::selection {
   background: rgba(124, 58, 237, 0.2);
   color: #1a1a2e;
