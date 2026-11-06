@@ -51,10 +51,10 @@ export default function Hero() {
               参加する <span aria-hidden="true">→</span>
             </a>
             <a
-              href="#about"
+              href="#events"
               className="inline-flex min-h-12 items-center justify-center rounded-full border border-border-hover px-7 py-3 font-medium text-text-primary transition-[border-color,background-color] hover:border-[#3155bd] hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3155bd]"
             >
-              活動を知る
+              企画を見る
             </a>
           </motion.div>
         </motion.div>
