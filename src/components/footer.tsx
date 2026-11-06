@@ -5,8 +5,8 @@ const footerLinks = [
   {
     title: "活動内容",
     links: [
-      { label: "はじめに", href: "#about" },
-      { label: "イベント", href: "#events" },
+      { label: "コラボ案", href: "#about" },
+      { label: "企画", href: "#events" },
       { label: "コミュニティ", href: "#community" },
     ],
   },
@@ -15,7 +15,7 @@ const footerLinks = [
     links: [
       { label: "メンバー登録", href: FORM_URL, external: true },
       { label: "よくある質問", href: "#faq" },
-      { label: "メンバー紹介", href: "#team" },
+      { label: "運営メンバー", href: "#team" },
     ],
   },
 ];

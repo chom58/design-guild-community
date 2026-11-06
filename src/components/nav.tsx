@@ -7,10 +7,10 @@ const FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSe8b_ynVU1_TqQuoV472_eVFScWgj2WWaeRWFZDmKjkIKQi7Q/viewform";
 
 const links = [
-  { href: "#about", label: "はじめに" },
-  { href: "#events", label: "イベント" },
+  { href: "#about", label: "コラボ案" },
+  { href: "#events", label: "企画" },
   { href: "#community", label: "コミュニティ" },
-  { href: "#team", label: "メンバー" },
+  { href: "#team", label: "運営メンバー" },
 ];
 
 export default function Nav() {

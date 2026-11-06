@@ -1,5 +1,6 @@
 import Nav from "@/components/nav";
 import Hero from "@/components/hero";
+import ParticipationPaths from "@/components/participation-paths";
 import Collab from "@/components/collab";
 import Events from "@/components/events";
 import Community from "@/components/community";
@@ -18,6 +19,7 @@ export default function Home() {
       <main className="relative">
         <div className="relative z-10">
           <Hero />
+          <ParticipationPaths />
           <Divider />
           <Collab />
           <Divider />
